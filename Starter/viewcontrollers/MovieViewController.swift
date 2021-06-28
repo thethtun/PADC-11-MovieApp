@@ -46,7 +46,6 @@ class MovieViewController: UIViewController {
         tableViewMovies.registerForCell(identifier: BestActorTableViewCell.identifier)
     }
     
-   
     
     func fetchPopularPeople() {
         networkAgent.getPopularPeople { (data) in
@@ -107,6 +106,11 @@ class MovieViewController: UIViewController {
 }
 
 extension MovieViewController : MovieItemDelegate {
+    
+    func onTapViewMore(data: MovieListResponse) {
+        self.navigateToViewMoreMovieShowCaseViewController(data: data)
+    }
+    
     func onTapMovie(id : Int, type : VideoType) {
         switch type {
         case .movie:

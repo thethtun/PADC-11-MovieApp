@@ -24,12 +24,6 @@
                         <color key="textColor" systemColor="systemGrayColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE SHOWCASES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rNe-Eg-OtN">
-                        <rect key="frame" x="351.5" y="36" width="137.5" height="17.5"/>
-                        <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="14"/>
-                        <color key="textColor" name="color_white"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Z6Z-hY-RIb">
                         <rect key="frame" x="0.0" y="67" width="509" height="220"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -44,12 +38,22 @@
                             <inset key="sectionInset" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3kV-si-U38">
+                        <rect key="frame" x="351" y="29.5" width="138" height="30"/>
+                        <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="14"/>
+                        <state key="normal" title="MORE SHOWCASES">
+                            <color key="titleColor" name="color_white"/>
+                        </state>
+                        <connections>
+                            <action selector="onClickViewMore:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="x72-Tr-Cpo"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" name="color_movie_show_bg"/>
                 <constraints>
                     <constraint firstItem="0SM-ax-qv1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="32" id="2oa-li-Ztl"/>
-                    <constraint firstItem="rNe-Eg-OtN" firstAttribute="centerY" secondItem="0SM-ax-qv1" secondAttribute="centerY" id="38R-qN-ofV"/>
-                    <constraint firstAttribute="trailing" secondItem="rNe-Eg-OtN" secondAttribute="trailing" constant="20" id="SVE-6v-hpW"/>
+                    <constraint firstItem="3kV-si-U38" firstAttribute="centerY" secondItem="0SM-ax-qv1" secondAttribute="centerY" id="3ke-XP-ld2"/>
+                    <constraint firstAttribute="trailing" secondItem="3kV-si-U38" secondAttribute="trailing" constant="20" id="IVD-he-1Qq"/>
                     <constraint firstAttribute="trailing" secondItem="Z6Z-hY-RIb" secondAttribute="trailing" id="dKw-sK-4N1"/>
                     <constraint firstAttribute="bottom" secondItem="Z6Z-hY-RIb" secondAttribute="bottom" id="mrQ-x8-c70"/>
                     <constraint firstItem="Z6Z-hY-RIb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="twb-1N-fnt"/>
@@ -59,9 +63,9 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="buttonMoreShowCases" destination="3kV-si-U38" id="91V-QE-3xU"/>
                 <outlet property="collectionViewShowCases" destination="Z6Z-hY-RIb" id="tRX-0N-gso"/>
                 <outlet property="heightCollectionViewShowCases" destination="vDN-uW-Vbr" id="nri-hb-UiS"/>
-                <outlet property="lblMoreShowCases" destination="rNe-Eg-OtN" id="m8o-RV-hcO"/>
                 <outlet property="lblShowCases" destination="0SM-ax-qv1" id="mxN-Nq-N5c"/>
             </connections>
             <point key="canvasLocation" x="0.7246376811594204" y="-41.852678571428569"/>

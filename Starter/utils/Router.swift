@@ -23,6 +23,12 @@ extension UIStoryboard{
 
 extension UIViewController{
     
+    func navigateToViewMoreMovieShowCaseViewController(data : MovieListResponse) {
+        let vc = ViewMoreMovieShowCaseViewController()
+        vc.initData = data
+        present(vc, animated: true, completion: nil)
+    }
+    
     func navigateToActorDetailViewController(id : Int){
         let vc = ActorDetailViewController()
         vc.modalPresentationStyle = .fullScreen

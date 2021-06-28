@@ -14,4 +14,5 @@ public enum VideoType : String, Codable {
 
 protocol MovieItemDelegate {
     func onTapMovie(id : Int, type : VideoType)
+    func onTapViewMore(data: MovieListResponse)
 }

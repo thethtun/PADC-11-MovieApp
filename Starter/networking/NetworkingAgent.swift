@@ -123,8 +123,8 @@ struct MovieDBNetworkAgent {
         }
     }
     
-    func getTopRatedMovieList(success: @escaping (MovieListResponse) -> Void, failure: @escaping (String) -> Void) {
-        let url = "\(AppConstants.BaseURL)/movie/top_rated?api_key=\(AppConstants.apiKey)"
+    func getTopRatedMovieList(page : Int = 1, success: @escaping (MovieListResponse) -> Void, failure: @escaping (String) -> Void) {
+        let url = "\(AppConstants.BaseURL)/movie/top_rated?page=\(page)&api_key=\(AppConstants.apiKey)"
         AF.request(url).responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):

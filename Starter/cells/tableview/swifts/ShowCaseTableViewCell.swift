@@ -9,7 +9,7 @@ import UIKit
 
 class ShowCaseTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var lblMoreShowCases: UILabel!
+    @IBOutlet weak var buttonMoreShowCases : UIButton!
     @IBOutlet weak var lblShowCases: UILabel!
     @IBOutlet weak var collectionViewShowCases: UICollectionView!
     @IBOutlet weak var heightCollectionViewShowCases : NSLayoutConstraint!
@@ -27,7 +27,7 @@ class ShowCaseTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        lblMoreShowCases.underlineText(text: "MORE SHOWCASES")
+        buttonMoreShowCases.underlineText(text: "More Showcases".uppercased())
         
         collectionViewShowCases.dataSource = self
         collectionViewShowCases.delegate = self
@@ -43,6 +43,13 @@ class ShowCaseTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    
+     @IBAction func onClickViewMore(_ sender : Any) {
+        if let data = data {
+            delegate?.onTapViewMore(data : data)
+        }
+     }
     
 }
 

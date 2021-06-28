@@ -17,6 +17,14 @@ extension UILabel{
     }
 }
 
+extension UIButton {
+    func underlineText(text:String){
+        let attributedString = NSMutableAttributedString.init(string: text)
+        attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range: NSRange(location: 0, length: attributedString.length))
+        self.setAttributedTitle(attributedString, for: .normal)
+    }
+}
+
 extension UITableViewCell{
     static var identifier : String{
         String(describing: self)

@@ -25,6 +25,8 @@
 		51C18629266D14FD0053A2A5 /* YouTubePlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51C18627266D14FD0053A2A5 /* YouTubePlayerViewController.xib */; };
 		51D53314268978AA00F7BCCC /* ActorTVCredits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D53313268978AA00F7BCCC /* ActorTVCredits.swift */; };
 		51D533172689800E00F7BCCC /* ActorProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D533162689800E00F7BCCC /* ActorProfileInfo.swift */; };
+		51D5332226898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D5332026898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.swift */; };
+		51D5332326898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51D5332126898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.xib */; };
 		52A55AF8D0D821CB3F5705F5 /* Pods_Starter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091E644C42633FE2A94675A5 /* Pods_Starter.framework */; };
 		9153065925C1F4E300A0F7BE /* MovieShowTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9153065725C1F4E300A0F7BE /* MovieShowTimeTableViewCell.swift */; };
 		9153065A25C1F4E300A0F7BE /* MovieShowTimeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9153065825C1F4E300A0F7BE /* MovieShowTimeTableViewCell.xib */; };
@@ -93,6 +95,8 @@
 		51C18627266D14FD0053A2A5 /* YouTubePlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YouTubePlayerViewController.xib; sourceTree = "<group>"; };
 		51D53313268978AA00F7BCCC /* ActorTVCredits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorTVCredits.swift; sourceTree = "<group>"; };
 		51D533162689800E00F7BCCC /* ActorProfileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorProfileInfo.swift; sourceTree = "<group>"; };
+		51D5332026898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMoreMovieShowCaseViewController.swift; sourceTree = "<group>"; };
+		51D5332126898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewMoreMovieShowCaseViewController.xib; sourceTree = "<group>"; };
 		8D3DEA65E60A3C8D4FDDBB4B /* Pods-Starter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Starter.release.xcconfig"; path = "Target Support Files/Pods-Starter/Pods-Starter.release.xcconfig"; sourceTree = "<group>"; };
 		9153065725C1F4E300A0F7BE /* MovieShowTimeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieShowTimeTableViewCell.swift; sourceTree = "<group>"; };
 		9153065825C1F4E300A0F7BE /* MovieShowTimeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieShowTimeTableViewCell.xib; sourceTree = "<group>"; };
@@ -207,6 +211,15 @@
 			path = ActorDetail;
 			sourceTree = "<group>";
 		};
+		51D5332526898E2300F7BCCC /* ViewMoreMovieShowCase */ = {
+			isa = PBXGroup;
+			children = (
+				51D5332026898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.swift */,
+				51D5332126898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.xib */,
+			);
+			path = ViewMoreMovieShowCase;
+			sourceTree = "<group>";
+		};
 		9153066C25C2040E00A0F7BE /* vos */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +233,7 @@
 		9179C0E225AF97DC008DB33D /* viewcontrollers */ = {
 			isa = PBXGroup;
 			children = (
+				51D5332526898E2300F7BCCC /* ViewMoreMovieShowCase */,
 				518CE1152689697D00EF1529 /* ActorDetail */,
 				91813549257B48C300567F80 /* ViewController.swift */,
 				9179C0DA25AF9231008DB33D /* MovieViewController.swift */,
@@ -499,6 +513,7 @@
 				9179C0D825AF8F50008DB33D /* Sample2TableViewCell.xib in Resources */,
 				518CE1132689697700EF1529 /* ActorDetailViewController.xib in Resources */,
 				9179C0E025AF9341008DB33D /* SampleCollectionViewCell.xib in Resources */,
+				51D5332326898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.xib in Resources */,
 				9153065A25C1F4E300A0F7BE /* MovieShowTimeTableViewCell.xib in Resources */,
 				9181354D257B48C300567F80 /* Main.storyboard in Resources */,
 				91F49A5B25C3582D000400A5 /* ShowCaseTableViewCell.xib in Resources */,
@@ -561,6 +576,7 @@
 				9179C0F125AFA249008DB33D /* MovieSliderTableViewCell.swift in Sources */,
 				91F49A6025C35A93000400A5 /* ShowCaseCollectionViewCell.swift in Sources */,
 				91DE710025E04FBF00E2B900 /* Router.swift in Sources */,
+				51D5332226898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.swift in Sources */,
 				51429436265A804A0090FD01 /* Constants.swift in Sources */,
 				51497AC8265D23EA00FBE15E /* ProductionCompanyCell.swift in Sources */,
 				9179C0DF25AF9341008DB33D /* SampleCollectionViewCell.swift in Sources */,

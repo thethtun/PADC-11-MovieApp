@@ -9,11 +9,12 @@ import UIKit
 
 class BestActorTableViewCell: UITableViewCell, ActorActionDelegate {
     
-    @IBOutlet weak var lblMoreActors: UILabel!
+    @IBOutlet weak var buttonMoreActors : UIButton!
     @IBOutlet weak var collectionViewActors: UICollectionView!
     @IBOutlet weak var heightCollectionViewActors : NSLayoutConstraint!
     
     var onClickActorView : ((Int)->Void)?
+    var onClickViewMore : ((ActorListResponse) -> Void)?
     
     var data : ActorListResponse? {
         didSet {
@@ -26,7 +27,7 @@ class BestActorTableViewCell: UITableViewCell, ActorActionDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        lblMoreActors.underlineText(text: "MORE ACTORS")
+        buttonMoreActors.underlineText(text: "MORE ACTORS")
         collectionViewActors.delegate = self
         collectionViewActors.dataSource = self
         collectionViewActors.register(UINib(nibName: String(describing: ActorCollectionViewCell
@@ -46,6 +47,12 @@ class BestActorTableViewCell: UITableViewCell, ActorActionDelegate {
     
     func onTapFavorite(isFavorte: Bool) {
         debugPrint("isFavorite => \(isFavorte)")
+    }
+    
+    @IBAction func onClickViewMore(_ sender : Any) {
+        if let data = data {
+            onClickViewMore?(data)
+        }
     }
     
 }

@@ -90,7 +90,7 @@ class MovieViewController: UIViewController {
         } failure: { (error) in
             print(error.description)
         }
-
+        
     }
     
     func fetchPopularTVSerieList() {
@@ -186,6 +186,9 @@ extension MovieViewController : UITableViewDataSource{
             cell.data = popularPeople
             cell.onClickActorView = { actorId in
                 self.navigateToActorDetailViewController(id: actorId)
+            }
+            cell.onClickViewMore = {data in
+                self.navigateToViewMoreActorsViewController(data: data)
             }
             return cell
         default:

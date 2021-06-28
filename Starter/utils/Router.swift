@@ -23,6 +23,12 @@ extension UIStoryboard{
 
 extension UIViewController{
     
+    func navigateToViewMoreActorsViewController(data : ActorListResponse) {
+        let vc = ViewMoreActorsViewController()
+        vc.initData = data
+        present(vc, animated: true, completion: nil)
+    }
+    
     func navigateToViewMoreMovieShowCaseViewController(data : MovieListResponse) {
         let vc = ViewMoreMovieShowCaseViewController()
         vc.initData = data

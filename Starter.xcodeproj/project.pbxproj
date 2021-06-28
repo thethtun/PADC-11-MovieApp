@@ -27,6 +27,8 @@
 		51D533172689800E00F7BCCC /* ActorProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D533162689800E00F7BCCC /* ActorProfileInfo.swift */; };
 		51D5332226898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D5332026898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.swift */; };
 		51D5332326898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51D5332126898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.xib */; };
+		51D533292689AD7300F7BCCC /* ViewMoreActorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D533272689AD7300F7BCCC /* ViewMoreActorsViewController.swift */; };
+		51D5332A2689AD7300F7BCCC /* ViewMoreActorsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51D533282689AD7300F7BCCC /* ViewMoreActorsViewController.xib */; };
 		52A55AF8D0D821CB3F5705F5 /* Pods_Starter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091E644C42633FE2A94675A5 /* Pods_Starter.framework */; };
 		9153065925C1F4E300A0F7BE /* MovieShowTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9153065725C1F4E300A0F7BE /* MovieShowTimeTableViewCell.swift */; };
 		9153065A25C1F4E300A0F7BE /* MovieShowTimeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9153065825C1F4E300A0F7BE /* MovieShowTimeTableViewCell.xib */; };
@@ -97,6 +99,8 @@
 		51D533162689800E00F7BCCC /* ActorProfileInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorProfileInfo.swift; sourceTree = "<group>"; };
 		51D5332026898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMoreMovieShowCaseViewController.swift; sourceTree = "<group>"; };
 		51D5332126898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewMoreMovieShowCaseViewController.xib; sourceTree = "<group>"; };
+		51D533272689AD7300F7BCCC /* ViewMoreActorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewMoreActorsViewController.swift; sourceTree = "<group>"; };
+		51D533282689AD7300F7BCCC /* ViewMoreActorsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewMoreActorsViewController.xib; sourceTree = "<group>"; };
 		8D3DEA65E60A3C8D4FDDBB4B /* Pods-Starter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Starter.release.xcconfig"; path = "Target Support Files/Pods-Starter/Pods-Starter.release.xcconfig"; sourceTree = "<group>"; };
 		9153065725C1F4E300A0F7BE /* MovieShowTimeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieShowTimeTableViewCell.swift; sourceTree = "<group>"; };
 		9153065825C1F4E300A0F7BE /* MovieShowTimeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieShowTimeTableViewCell.xib; sourceTree = "<group>"; };
@@ -220,6 +224,15 @@
 			path = ViewMoreMovieShowCase;
 			sourceTree = "<group>";
 		};
+		51D5332C2689AD7A00F7BCCC /* ViewMoreActorsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				51D533272689AD7300F7BCCC /* ViewMoreActorsViewController.swift */,
+				51D533282689AD7300F7BCCC /* ViewMoreActorsViewController.xib */,
+			);
+			path = ViewMoreActorsViewController;
+			sourceTree = "<group>";
+		};
 		9153066C25C2040E00A0F7BE /* vos */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +246,7 @@
 		9179C0E225AF97DC008DB33D /* viewcontrollers */ = {
 			isa = PBXGroup;
 			children = (
+				51D5332C2689AD7A00F7BCCC /* ViewMoreActorsViewController */,
 				51D5332526898E2300F7BCCC /* ViewMoreMovieShowCase */,
 				518CE1152689697D00EF1529 /* ActorDetail */,
 				91813549257B48C300567F80 /* ViewController.swift */,
@@ -498,6 +512,7 @@
 				9179C0B725AF722A008DB33D /* Authentication.storyboard in Resources */,
 				91813552257B48C400567F80 /* LaunchScreen.storyboard in Resources */,
 				51497AC9265D23EA00FBE15E /* ProductionCompanyCell.xib in Resources */,
+				51D5332A2689AD7300F7BCCC /* ViewMoreActorsViewController.xib in Resources */,
 				9181354F257B48C400567F80 /* Assets.xcassets in Resources */,
 				91F49A6125C35A93000400A5 /* ShowCaseCollectionViewCell.xib in Resources */,
 				9182DF9525C650FF005A9E5C /* BestActorTableViewCell.xib in Resources */,
@@ -587,6 +602,7 @@
 				51C18628266D14FD0053A2A5 /* YouTubePlayerViewController.swift in Sources */,
 				5142943E265A80650090FD01 /* Models.swift in Sources */,
 				9153066E25C2042000A0F7BE /* GenreVO.swift in Sources */,
+				51D533292689AD7300F7BCCC /* ViewMoreActorsViewController.swift in Sources */,
 				9181354A257B48C300567F80 /* ViewController.swift in Sources */,
 				9153066125C1FE6D00A0F7BE /* GenreTableViewCell.swift in Sources */,
 				91B17B7725BC0CD800EC74DD /* PopularFilmCollectionViewCell.swift in Sources */,

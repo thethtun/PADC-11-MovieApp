@@ -23,12 +23,6 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE ACTORS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PCl-Xc-ITc">
-                        <rect key="frame" x="304.5" y="28" width="104.5" height="17.5"/>
-                        <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="14"/>
-                        <color key="textColor" name="color_white"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="cwG-F9-yBL">
                         <rect key="frame" x="0.0" y="69" width="429" height="200"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -42,24 +36,34 @@
                             <inset key="sectionInset" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0R9-sk-BxU">
+                        <rect key="frame" x="304" y="21.5" width="105" height="30"/>
+                        <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="14"/>
+                        <state key="normal" title="MORE ACTORS">
+                            <color key="titleColor" name="color_white"/>
+                        </state>
+                        <connections>
+                            <action selector="onClickViewMore:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Ryd-e3-pgj"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" name="color_primary"/>
                 <constraints>
                     <constraint firstItem="cwG-F9-yBL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Aa8-kk-wNK"/>
                     <constraint firstAttribute="trailing" secondItem="cwG-F9-yBL" secondAttribute="trailing" id="Avg-sQ-Bxq"/>
-                    <constraint firstAttribute="trailing" secondItem="PCl-Xc-ITc" secondAttribute="trailing" constant="20" id="NwH-NW-rhw"/>
                     <constraint firstAttribute="bottomMargin" secondItem="cwG-F9-yBL" secondAttribute="bottom" constant="16" id="Rs2-Ha-vN3"/>
-                    <constraint firstItem="PCl-Xc-ITc" firstAttribute="centerY" secondItem="LSb-Mm-iOh" secondAttribute="centerY" id="YVw-uH-99e"/>
                     <constraint firstItem="LSb-Mm-iOh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Zsf-ga-z3z"/>
                     <constraint firstItem="LSb-Mm-iOh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="cdY-8p-jHo"/>
+                    <constraint firstAttribute="trailing" secondItem="0R9-sk-BxU" secondAttribute="trailing" constant="20" id="owD-YW-w9v"/>
                     <constraint firstItem="cwG-F9-yBL" firstAttribute="top" secondItem="LSb-Mm-iOh" secondAttribute="bottom" constant="16" id="p3s-eF-C8t"/>
+                    <constraint firstItem="0R9-sk-BxU" firstAttribute="centerY" secondItem="LSb-Mm-iOh" secondAttribute="centerY" id="wMZ-Ma-ORW"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="buttonMoreActors" destination="0R9-sk-BxU" id="he7-0c-XzO"/>
                 <outlet property="collectionViewActors" destination="cwG-F9-yBL" id="3ZK-Tm-ZeQ"/>
                 <outlet property="heightCollectionViewActors" destination="CqV-X8-AXS" id="Mip-x7-GpM"/>
-                <outlet property="lblMoreActors" destination="PCl-Xc-ITc" id="pdo-WR-93V"/>
             </connections>
             <point key="canvasLocation" x="273.1884057971015" y="79.6875"/>
         </tableViewCell>

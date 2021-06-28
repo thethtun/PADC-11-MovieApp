@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="GenreCollectionViewCell" customModule="Starter" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="318" height="45"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="318" height="45"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5te-Yz-WBs">
+                        <rect key="frame" x="0.0" y="0.0" width="318" height="45"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ACTION" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jz8-iW-gc9">
+                                <rect key="frame" x="0.0" y="14" width="318" height="17.5"/>
+                                <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="14"/>
+                                <color key="textColor" name="color_white"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BBS-BI-6pI">
+                                <rect key="frame" x="0.0" y="41" width="318" height="4"/>
+                                <color key="backgroundColor" name="color_yellow"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="4" id="FHc-fw-a7o"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" name="color_primary"/>
+                        <constraints>
+                            <constraint firstItem="BBS-BI-6pI" firstAttribute="leading" secondItem="5te-Yz-WBs" secondAttribute="leading" id="FOZ-Uu-gct"/>
+                            <constraint firstItem="jz8-iW-gc9" firstAttribute="centerY" secondItem="5te-Yz-WBs" secondAttribute="centerY" id="Inm-6e-cPe"/>
+                            <constraint firstAttribute="trailing" secondItem="BBS-BI-6pI" secondAttribute="trailing" id="KMH-Yj-4Rl"/>
+                            <constraint firstItem="jz8-iW-gc9" firstAttribute="centerX" secondItem="5te-Yz-WBs" secondAttribute="centerX" id="MlM-Sw-0wz"/>
+                            <constraint firstAttribute="trailing" secondItem="jz8-iW-gc9" secondAttribute="trailing" id="aDh-sA-IZd"/>
+                            <constraint firstItem="jz8-iW-gc9" firstAttribute="leading" secondItem="5te-Yz-WBs" secondAttribute="leading" id="u0w-7V-XwU"/>
+                            <constraint firstAttribute="bottom" secondItem="BBS-BI-6pI" secondAttribute="bottom" id="xjO-Yi-nmZ"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="5te-Yz-WBs" secondAttribute="bottom" id="0aF-xk-cH9"/>
+                <constraint firstItem="5te-Yz-WBs" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="PMK-Jo-yuR"/>
+                <constraint firstItem="5te-Yz-WBs" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="c9c-C4-FwZ"/>
+                <constraint firstAttribute="trailing" secondItem="5te-Yz-WBs" secondAttribute="trailing" id="fEg-O8-fMt"/>
+            </constraints>
+            <size key="customSize" width="318" height="45"/>
+            <connections>
+                <outlet property="containerView" destination="5te-Yz-WBs" id="iQE-kQ-ted"/>
+                <outlet property="lblGenre" destination="jz8-iW-gc9" id="ZtJ-Ta-rfK"/>
+                <outlet property="viewForOverlay" destination="BBS-BI-6pI" id="rXK-Lr-Hgz"/>
+            </connections>
+            <point key="canvasLocation" x="118.84057971014494" y="90.736607142857139"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <namedColor name="color_primary">
+            <color red="0.086000002920627594" green="0.10999999940395355" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="color_white">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="color_yellow">
+            <color red="0.93300002813339233" green="0.76899999380111694" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

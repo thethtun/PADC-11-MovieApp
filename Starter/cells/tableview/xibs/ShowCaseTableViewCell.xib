@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="287" id="KGk-i7-Jjw" customClass="ShowCaseTableViewCell" customModule="Starter" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="509" height="287"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="509" height="287"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SHOWCASES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0SM-ax-qv1">
+                        <rect key="frame" x="20" y="32" width="92" height="25"/>
+                        <fontDescription key="fontDescription" name="GeezaPro-Bold" family="Geeza Pro" pointSize="14"/>
+                        <color key="textColor" systemColor="systemGrayColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MORE SHOWCASES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rNe-Eg-OtN">
+                        <rect key="frame" x="351.5" y="36" width="137.5" height="17.5"/>
+                        <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="14"/>
+                        <color key="textColor" name="color_white"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Z6Z-hY-RIb">
+                        <rect key="frame" x="0.0" y="67" width="509" height="220"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="220" id="vDN-uW-Vbr"/>
+                        </constraints>
+                        <inset key="scrollIndicatorInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="20" minimumInteritemSpacing="20" id="JsK-4F-OBE">
+                            <size key="itemSize" width="128" height="128"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                </subviews>
+                <color key="backgroundColor" name="color_movie_show_bg"/>
+                <constraints>
+                    <constraint firstItem="0SM-ax-qv1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="32" id="2oa-li-Ztl"/>
+                    <constraint firstItem="rNe-Eg-OtN" firstAttribute="centerY" secondItem="0SM-ax-qv1" secondAttribute="centerY" id="38R-qN-ofV"/>
+                    <constraint firstAttribute="trailing" secondItem="rNe-Eg-OtN" secondAttribute="trailing" constant="20" id="SVE-6v-hpW"/>
+                    <constraint firstAttribute="trailing" secondItem="Z6Z-hY-RIb" secondAttribute="trailing" id="dKw-sK-4N1"/>
+                    <constraint firstAttribute="bottom" secondItem="Z6Z-hY-RIb" secondAttribute="bottom" id="mrQ-x8-c70"/>
+                    <constraint firstItem="Z6Z-hY-RIb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="twb-1N-fnt"/>
+                    <constraint firstItem="Z6Z-hY-RIb" firstAttribute="top" secondItem="0SM-ax-qv1" secondAttribute="bottom" constant="10" id="wEk-jx-B2P"/>
+                    <constraint firstItem="0SM-ax-qv1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="woD-AU-HIm"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="collectionViewShowCases" destination="Z6Z-hY-RIb" id="tRX-0N-gso"/>
+                <outlet property="heightCollectionViewShowCases" destination="vDN-uW-Vbr" id="nri-hb-UiS"/>
+                <outlet property="lblMoreShowCases" destination="rNe-Eg-OtN" id="m8o-RV-hcO"/>
+                <outlet property="lblShowCases" destination="0SM-ax-qv1" id="mxN-Nq-N5c"/>
+            </connections>
+            <point key="canvasLocation" x="0.7246376811594204" y="-41.852678571428569"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="color_movie_show_bg">
+            <color red="0.12200000137090683" green="0.14499999582767487" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="color_white">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

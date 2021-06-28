@@ -21,7 +21,12 @@ extension UIStoryboard{
     }
 }
 
-extension UIViewController{
+extension UIViewController {
+    
+    func navigateToSearchContentViewController() {
+        let vc = SearchContentViewController()
+        present(vc, animated: true, completion: nil)
+    }
     
     func navigateToViewMoreActorsViewController(data : ActorListResponse) {
         let vc = ViewMoreActorsViewController()

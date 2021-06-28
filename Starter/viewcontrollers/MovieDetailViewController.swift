@@ -165,7 +165,7 @@ class MovieDetailViewController: UIViewController {
         imageViewMoviePoster.sd_setImage(with: URL(string: posterPath))
         
         let releaseDate = data.releaseDate ?? data.firstAirDate
-        labelReleasedYear.text = String(releaseDate?.split(separator: "-")[0] ?? "")
+        labelReleasedYear.text = String(releaseDate?.split(separator: "-").first ?? "")
         labelMovieTitle.text = data.originalTitle
         labelMovieDescription.text = data.overview
         

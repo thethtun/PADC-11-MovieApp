@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -63,14 +64,20 @@
                                             <constraint firstAttribute="width" constant="32" id="IX5-41-Vg9"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="magnifyingglass" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="DJz-v1-MKS">
-                                        <rect key="frame" x="362" y="10" width="32" height="30"/>
-                                        <color key="tintColor" name="color_white"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U4g-Sd-T4k">
+                                        <rect key="frame" x="356" y="1" width="48" height="48"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="32" id="8ir-N2-gJA"/>
-                                            <constraint firstAttribute="height" constant="32" id="bz6-lV-Y1d"/>
+                                            <constraint firstAttribute="height" constant="48" id="gpF-5Y-96Z"/>
+                                            <constraint firstAttribute="width" constant="48" id="gzw-ba-DMd"/>
                                         </constraints>
-                                    </imageView>
+                                        <color key="tintColor" name="color_white"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="magnifyingglass" catalog="system" symbolScale="large"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onClickSearch:" destination="K1X-oS-dc3" eventType="touchUpInside" id="ffC-eg-zCt"/>
+                                        </connections>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discover" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ipk-uY-OQN">
                                         <rect key="frame" x="172" y="14" width="70.5" height="22.5"/>
                                         <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="18"/>
@@ -80,12 +87,12 @@
                                 </subviews>
                                 <color key="backgroundColor" name="color_primary"/>
                                 <constraints>
-                                    <constraint firstItem="DJz-v1-MKS" firstAttribute="centerY" secondItem="ZI5-da-JhM" secondAttribute="centerY" id="08x-ly-Wky"/>
+                                    <constraint firstAttribute="trailing" secondItem="U4g-Sd-T4k" secondAttribute="trailing" constant="10" id="0WL-aW-rjK"/>
+                                    <constraint firstItem="U4g-Sd-T4k" firstAttribute="centerY" secondItem="ZI5-da-JhM" secondAttribute="centerY" id="Nw5-SH-cYQ"/>
                                     <constraint firstItem="ipk-uY-OQN" firstAttribute="centerX" secondItem="ZI5-da-JhM" secondAttribute="centerX" id="aBV-dN-Haf"/>
                                     <constraint firstItem="ipk-uY-OQN" firstAttribute="centerY" secondItem="ZI5-da-JhM" secondAttribute="centerY" id="fs8-0f-JsV"/>
                                     <constraint firstAttribute="height" constant="50" id="goR-PI-KwC"/>
                                     <constraint firstItem="aIW-WS-yT0" firstAttribute="leading" secondItem="ZI5-da-JhM" secondAttribute="leading" constant="20" id="h5G-Dt-9ts"/>
-                                    <constraint firstAttribute="trailing" secondItem="DJz-v1-MKS" secondAttribute="trailing" constant="20" id="v29-gy-Lgz"/>
                                     <constraint firstItem="aIW-WS-yT0" firstAttribute="centerY" secondItem="ZI5-da-JhM" secondAttribute="centerY" id="vLg-lp-Wo8"/>
                                 </constraints>
                             </view>
@@ -104,7 +111,6 @@
                     </view>
                     <connections>
                         <outlet property="ivMenu" destination="aIW-WS-yT0" id="jnh-6p-0Zf"/>
-                        <outlet property="ivSearch" destination="DJz-v1-MKS" id="4uu-78-Vqi"/>
                         <outlet property="tableViewMovies" destination="nUF-pC-8G7" id="9f4-o9-pJh"/>
                         <outlet property="viewForToolbar" destination="ZI5-da-JhM" id="sdg-1y-tFL"/>
                     </connections>

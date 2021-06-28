@@ -14,6 +14,27 @@ struct MovieDBNetworkAgent {
     
     private init() { }
     
+    func searchMovieByKeyword(query: String, page: String, success: @escaping (MovieListResponse) -> Void, failure: @escaping (String) -> Void) {
+        let url = "\(AppConstants.BaseURL)/search/movie"
+        
+        let parameters = [
+            "page" : page,
+            "query" : query,
+            "api_key" : AppConstants.apiKey
+        ]
+        
+        AF.request(url, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default)
+            .responseDecodable(of: MovieListResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    success(data)
+                case .failure(let error):
+                    failure(error.errorDescription!)
+                }
+            }
+    }
+
+    
     func getActorGallery(id : Int, success: @escaping (ActorProfileInfo) -> Void, failure: @escaping (String) -> Void) {
         let url = "\(AppConstants.BaseURL)/person/\(id)/images?api_key=\(AppConstants.apiKey)"
         AF.request(url).responseDecodable(of: ActorProfileInfo.self) { response in

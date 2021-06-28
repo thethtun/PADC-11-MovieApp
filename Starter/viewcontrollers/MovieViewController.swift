@@ -46,6 +46,10 @@ class MovieViewController: UIViewController {
         tableViewMovies.registerForCell(identifier: BestActorTableViewCell.identifier)
     }
     
+    @IBAction func onClickSearch(_ sender : Any) {
+        self.navigateToSearchContentViewController()
+    }
+    
     
     func fetchPopularPeople() {
         networkAgent.getPopularPeople { (data) in
@@ -101,6 +105,7 @@ class MovieViewController: UIViewController {
             print(error.description)
         }
     }
+    
     
     
 }

@@ -28,6 +28,9 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var collectionProductionCompanies : UICollectionView!
     @IBOutlet weak var collectionViewSimilarContent: UICollectionView!
     @IBOutlet weak var buttonPlayTrailer : UIButton!
+    @IBOutlet weak var containerCastList : UIView!
+    @IBOutlet weak var containerSimilarContentList : UIView!
+    @IBOutlet weak var containerProductionCompanyList : UIView!
     
     let networkAgent = MovieDBNetworkAgent.shared
     
@@ -57,6 +60,8 @@ class MovieDetailViewController: UIViewController {
         btnRateMovie.layer.cornerRadius = 20
         
         self.buttonPlayTrailer.isHidden = true
+        
+        
     }
     
     private func registerCollectionViewCells(){
@@ -120,6 +125,7 @@ class MovieDetailViewController: UIViewController {
     private func fetchSimilarMovies(id : Int) {
         networkAgent.getSimilarMovies(id: id) { (data) in
             self.similarMovies = data.results ?? [MovieResult]()
+            self.containerSimilarContentList.isHidden = self.similarMovies.isEmpty
             self.collectionViewSimilarContent.reloadData()
         } failure: { (error) in
             print(error)
@@ -131,6 +137,7 @@ class MovieDetailViewController: UIViewController {
         networkAgent.getMovieCreditById(id: id) { (data) in
             //MovieCreditResponse
             self.casts = data.cast ?? [MovieCast]()
+            self.containerCastList.isHidden = self.casts.isEmpty
             self.collectionViewActors.reloadData()
         } failure: { (error) in
             print(error)
@@ -157,7 +164,9 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func bindData(data: MovieDetailResponse) {
+        
         productionCompanies = data.productionCompanies ?? [ProductionCompany]()
+        containerProductionCompanyList.isHidden = productionCompanies.isEmpty
         
         collectionProductionCompanies.reloadData()
         
@@ -167,6 +176,7 @@ class MovieDetailViewController: UIViewController {
         let releaseDate = data.releaseDate ?? data.firstAirDate
         labelReleasedYear.text = String(releaseDate?.split(separator: "-").first ?? "")
         labelMovieTitle.text = data.originalTitle
+        navigationItem.title = data.originalTitle
         labelMovieDescription.text = data.overview
         
         let runTimeHour = Int((data.runtime ?? 0) / 60)
@@ -206,6 +216,7 @@ class MovieDetailViewController: UIViewController {
     
     @objc func onTapBack(){
         self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -241,7 +252,7 @@ extension MovieDetailViewController : UICollectionViewDataSource , UICollectionV
             
             let item : MovieCast = casts[indexPath.row]
             cell.data = item.convertToActorInfoResponse()
-            
+            cell.delegate = self
             return cell
         }
         else if collectionView == collectionViewSimilarContent {
@@ -281,5 +292,16 @@ extension MovieDetailViewController : UICollectionViewDataSource , UICollectionV
     }
     
     
+    
+}
+
+extension MovieDetailViewController : ActorActionDelegate {
+    func onTapFavorite(isFavorte: Bool) {
+        //DO NOTHING
+    }
+    
+    func onTapItem(data: ActorInfoResponse) {
+        self.navigateToActorDetailViewController(id: data.id ?? 1)
+    }
     
 }

@@ -25,19 +25,22 @@ extension UIViewController {
     
     func navigateToSearchContentViewController() {
         let vc = SearchContentViewController()
-        present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
+//        present(vc, animated: true, completion: nil)
     }
     
     func navigateToViewMoreActorsViewController(data : ActorListResponse) {
         let vc = ViewMoreActorsViewController()
         vc.initData = data
-        present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
+//        present(vc, animated: true, completion: nil)
     }
     
     func navigateToViewMoreMovieShowCaseViewController(data : MovieListResponse) {
         let vc = ViewMoreMovieShowCaseViewController()
         vc.initData = data
-        present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
+//        present(vc, animated: true, completion: nil)
     }
     
     func navigateToActorDetailViewController(id : Int){
@@ -45,7 +48,8 @@ extension UIViewController {
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .flipHorizontal
         vc.itemId = id
-        present(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
+//        present(vc, animated: true)
     }
     
     func navigateToMovieDetailViewController(movieId : Int){
@@ -54,7 +58,8 @@ extension UIViewController {
         vc.modalTransitionStyle = .flipHorizontal
         vc.itemId = movieId
         vc.contentType = .movie
-        present(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
+//        present(vc, animated: true)
     }
     
     func navigateToSerieDetailViewController(id : Int){
@@ -63,7 +68,8 @@ extension UIViewController {
         vc.modalTransitionStyle = .flipHorizontal
         vc.itemId = id
         vc.contentType = .serie
-        present(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
+//        present(vc, animated: true)
     }
     
 }

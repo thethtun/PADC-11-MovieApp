@@ -55,7 +55,6 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
         }
         
         collectionViewResult.register(UINib(nibName: String(describing: PopularFilmCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: PopularFilmCollectionViewCell.self))
-        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -101,6 +100,9 @@ extension SearchContentViewController:UICollectionViewDelegate,UICollectionViewD
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PopularFilmCollectionViewCell.self), for: indexPath) as? PopularFilmCollectionViewCell else { return UICollectionViewCell() }
         cell.data = searchedResult[indexPath.row]
+        cell.onTapItem = { id in
+            self.navigateToMovieDetailViewController(movieId: id)
+        }
         return cell
         
     }

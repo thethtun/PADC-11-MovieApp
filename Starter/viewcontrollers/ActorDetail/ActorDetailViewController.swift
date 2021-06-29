@@ -159,6 +159,9 @@ extension ActorDetailViewController : UICollectionViewDataSource , UICollectionV
             }
             
             cell.data = tvCredits[indexPath.row]
+            cell.onTapItem = { id in
+                self.navigateToSerieDetailViewController(id: id)
+            }
             return cell
         }
         else if collectionView == collectionViewOtherImages {

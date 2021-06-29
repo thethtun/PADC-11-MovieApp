@@ -132,8 +132,8 @@ struct MovieDBNetworkAgent {
         }
     }
     
-    func getPopularPeople(success: @escaping (ActorListResponse) -> Void, failure: @escaping (String) -> Void) {
-        let url = "\(AppConstants.BaseURL)/person/popular?api_key=\(AppConstants.apiKey)"
+    func getPopularPeople(page : Int = 1, success: @escaping (ActorListResponse) -> Void, failure: @escaping (String) -> Void) {
+        let url = "\(AppConstants.BaseURL)/person/popular?page=\(page)&api_key=\(AppConstants.apiKey)"
         AF.request(url).responseDecodable(of: ActorListResponse.self) { response in
             switch response.result {
             case .success(let data):

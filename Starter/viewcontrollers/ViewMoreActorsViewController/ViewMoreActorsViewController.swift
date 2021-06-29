@@ -15,9 +15,12 @@ class ViewMoreActorsViewController: UIViewController {
 
     private var data : [ActorInfoResponse] = []
     
+    private let networkAgent = MovieDBNetworkAgent.shared
+    
     private let itemSpacing : CGFloat = 10
     private let numberOfItemsPerRow = 3
-    
+    private var totalPages : Int = 1
+    private var currentPage : Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +35,21 @@ class ViewMoreActorsViewController: UIViewController {
     }
     
     private func initState() {
+        currentPage = initData?.page ?? 1
+        totalPages = initData?.totalPages ?? 1
+        
         data.append(contentsOf: initData?.results ?? [ActorInfoResponse]())
         collectionViewActors.reloadData()
+    }
+    
+    private func fetchData(page : Int) {
+        networkAgent.getPopularPeople(page : page) { (data) in
+            self.data.append(contentsOf: data.results ?? [ActorInfoResponse]())
+            self.collectionViewActors.reloadData()
+        } failure: { (error) in
+            print(error)
+        }
+
     }
 
     func setupCollectionView() {
@@ -70,6 +86,15 @@ extension ViewMoreActorsViewController:UICollectionViewDelegate,UICollectionView
         
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let isAtLastRow = indexPath.row == (data.count - 1)
+        let hasMorePage = currentPage < totalPages
+        if isAtLastRow && hasMorePage {
+            currentPage = currentPage + 1
+            fetchData(page: currentPage)
+        }
+    }
+    
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
@@ -85,6 +110,7 @@ extension ViewMoreActorsViewController:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return itemSpacing
     }
+   
     
 }
 

@@ -250,6 +250,9 @@ extension MovieDetailViewController : UICollectionViewDataSource , UICollectionV
             }
             
             cell.data = similarMovies[indexPath.row]
+            cell.onTapItem = { id in
+                self.navigateToMovieDetailViewController(movieId: id)
+            }
             return cell
         }
         return UICollectionViewCell()

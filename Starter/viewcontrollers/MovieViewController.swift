@@ -24,6 +24,8 @@ class MovieViewController: UIViewController {
         super.viewDidLoad()
         registerTableViewCells()
         
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "")
+        
         fetchUpcomingMovieList()
         fetchPopularMovieList()
         fetchPopularTVSerieList()

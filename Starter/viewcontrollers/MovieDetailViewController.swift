@@ -191,6 +191,7 @@ class MovieDetailViewController: UIViewController {
         let releaseDate = data.releaseDate ?? data.firstAirDate
         labelReleasedYear.text = String(releaseDate?.split(separator: "-").first ?? "")
         labelMovieTitle.text = data.originalTitle
+        navigationItem.title = data.originalTitle
         labelMovieDescription.text = data.overview
         
         let runTimeHour = Int((data.runtime ?? 0) / 60)

@@ -25,9 +25,7 @@ extension UIViewController {
     
     func navigateToSearchContentViewController() {
         let vc = SearchContentViewController()
-        let item = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem = item
-
+        
         self.navigationController?.pushViewController(vc, animated: true)
 //        present(vc, animated: true, completion: nil)
     }

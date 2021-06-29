@@ -42,6 +42,14 @@ class ActorCollectionViewCell: UICollectionViewCell {
         let tapGestForUnFavorite = UITapGestureRecognizer(target: self, action: #selector(onTapUnFavorite))
         ivHeart.isUserInteractionEnabled = true
         ivHeart.addGestureRecognizer(tapGestForUnFavorite)
+        
+        let tapGestForItem = UITapGestureRecognizer(target: self, action: #selector(onTapItem))
+        self.contentView.isUserInteractionEnabled = true
+        self.contentView.addGestureRecognizer(tapGestForItem)
+    }
+    
+    @objc func onTapItem() {
+        delegate?.onTapItem(data: data!)
     }
     
     @objc func onTapFavorite(){

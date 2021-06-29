@@ -9,9 +9,6 @@ import UIKit
 
 class MovieViewController: UIViewController {
     
-    @IBOutlet weak var ivSearch: UIImageView!
-    @IBOutlet weak var ivMenu: UIImageView!
-    @IBOutlet weak var viewForToolbar: UIView!
     @IBOutlet weak var tableViewMovies: UITableView!
     
     private let networkAgent = MovieDBNetworkAgent.shared

@@ -3,7 +3,6 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -13,7 +12,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchContentViewController" customModule="Starter" customModuleProvider="target">
             <connections>
                 <outlet property="collectionViewResult" destination="KSu-7F-dfy" id="c3L-eA-aOs"/>
-                <outlet property="textFieldSearch" destination="XR4-rE-9gZ" id="rK3-z5-atl"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -25,35 +23,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cys-1V-g0k">
                     <rect key="frame" x="0.0" y="44" width="414" height="852"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Juy-mX-Hfb">
-                            <rect key="frame" x="8" y="8" width="398" height="44"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fxf-DJ-g9T">
-                                    <rect key="frame" x="0.0" y="7" width="30" height="30"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="Csn-6p-6oQ"/>
-                                        <constraint firstAttribute="width" constant="30" id="wsg-Gv-ZyA"/>
-                                    </constraints>
-                                    <color key="tintColor" name="color_white"/>
-                                    <state key="normal">
-                                        <imageReference key="image" image="arrow.backward" catalog="system" symbolScale="large"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="onClickDismiss:" destination="-1" eventType="touchUpInside" id="arD-M3-15y"/>
-                                    </connections>
-                                </button>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search...." textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="XR4-rE-9gZ">
-                                    <rect key="frame" x="46" y="0.0" width="352" height="44"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="NYI-tI-MiY"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
-                                </textField>
-                            </subviews>
-                        </stackView>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="KSu-7F-dfy">
-                            <rect key="frame" x="0.0" y="60" width="414" height="792"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="852"/>
                             <color key="backgroundColor" name="color_primary"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="7wH-Pe-Hi4">
                                 <size key="itemSize" width="128" height="128"/>
@@ -65,13 +36,10 @@
                     </subviews>
                     <color key="backgroundColor" name="color_primary"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="Juy-mX-Hfb" secondAttribute="trailing" constant="8" id="GT7-sz-URa"/>
                         <constraint firstAttribute="bottom" secondItem="KSu-7F-dfy" secondAttribute="bottom" id="N9Y-OB-3f8"/>
-                        <constraint firstItem="KSu-7F-dfy" firstAttribute="top" secondItem="Juy-mX-Hfb" secondAttribute="bottom" constant="8" id="TQ3-by-fhQ"/>
                         <constraint firstItem="KSu-7F-dfy" firstAttribute="leading" secondItem="cys-1V-g0k" secondAttribute="leading" id="bKT-oy-k0L"/>
                         <constraint firstAttribute="trailing" secondItem="KSu-7F-dfy" secondAttribute="trailing" id="jlZ-uU-pMh"/>
-                        <constraint firstItem="Juy-mX-Hfb" firstAttribute="leading" secondItem="cys-1V-g0k" secondAttribute="leading" constant="8" id="kyI-qs-vLT"/>
-                        <constraint firstItem="Juy-mX-Hfb" firstAttribute="top" secondItem="cys-1V-g0k" secondAttribute="top" constant="8" id="vkI-Zr-cAk"/>
+                        <constraint firstItem="KSu-7F-dfy" firstAttribute="top" secondItem="cys-1V-g0k" secondAttribute="top" id="yL4-6B-LW3"/>
                     </constraints>
                 </view>
             </subviews>
@@ -87,12 +55,8 @@
         </view>
     </objects>
     <resources>
-        <image name="arrow.backward" catalog="system" width="128" height="98"/>
         <namedColor name="color_primary">
             <color red="0.086000002920627594" green="0.10999999940395355" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="color_white">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

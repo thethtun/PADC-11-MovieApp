@@ -49,6 +49,10 @@ class BestActorTableViewCell: UITableViewCell, ActorActionDelegate {
         debugPrint("isFavorite => \(isFavorte)")
     }
     
+    func onTapItem(data: ActorInfoResponse) {
+        onClickActorView?(data.id ?? 1)
+    }
+    
     @IBAction func onClickViewMore(_ sender : Any) {
         if let data = data {
             onClickViewMore?(data)
@@ -78,12 +82,12 @@ extension BestActorTableViewCell : UICollectionViewDataSource,UICollectionViewDe
         return CGSize(width: itemWidth, height: itemHeight)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let id = data?.results?[indexPath.row].id {
-            onClickActorView?(id)
-        } else {
-            print("Invalid Actor ID!")
-        }
-    }
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        if let id = data?.results?[indexPath.row].id {
+//            onClickActorView?(id)
+//        } else {
+//            print("Invalid Actor ID!")
+//        }
+//    }
     
 }

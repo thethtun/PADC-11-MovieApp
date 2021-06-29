@@ -10,9 +10,9 @@ import UIKit
 class SearchContentViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var collectionViewResult : UICollectionView!
-    @IBOutlet weak var textFieldSearch : UITextField!
     
     private var searchedResult : [MovieResult] = []
+    private let searchBar = UISearchBar()
     
     private let itemSpacing : CGFloat = 10
     private let numberOfItemsPerRow = 3
@@ -21,6 +21,7 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
     
     private let networkAgent = MovieDBNetworkAgent.shared
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,18 +30,24 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func initView() {
-//        textFieldSearch.backgroundColor = UIColor(named: "color_primary")
-        textFieldSearch.attributedPlaceholder = NSAttributedString.init(
-            string: "Search...",
-            attributes: [
-                NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16)
-            ])
-
-        textFieldSearch.font = UIFont.systemFont(ofSize: 16)
-        
-        textFieldSearch.delegate = self
-        
         setupCollectionView()
+        
+        setupSearchBar()
+    }
+    
+    private func setupSearchBar() {
+        searchBar.delegate = self
+        searchBar.placeholder = "Search..."
+
+//        searchBar.searchTextField.attributedText = NSAttributedString.init(
+//            string: "",
+//            attributes: [
+//                NSAttributedString.Key.foregroundColor: UIColor.white,
+//            ]
+//        )
+        searchBar.searchTextField.textColor = UIColor.white
+        
+        navigationItem.titleView = searchBar
     }
     
     
@@ -101,6 +108,9 @@ extension SearchContentViewController:UICollectionViewDelegate,UICollectionViewD
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PopularFilmCollectionViewCell.self), for: indexPath) as? PopularFilmCollectionViewCell else { return UICollectionViewCell() }
         cell.data = searchedResult[indexPath.row]
+        cell.onTapItem = { id in
+            self.navigateToMovieDetailViewController(movieId: id)
+        }
         return cell
         
     }
@@ -130,8 +140,39 @@ extension SearchContentViewController:UICollectionViewDelegateFlowLayout {
         let hasMorePages = self.currentPage < self.totalPage
         if (isAtLastRow && hasMorePages){
             currentPage = currentPage + 1
-            searchContent(keyword: textFieldSearch.text ?? "", page: currentPage)
+            searchContent(keyword: searchBar.text ?? "", page: currentPage)
         }
     }
     
+}
+
+extension SearchContentViewController : UISearchBarDelegate {
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("searchBarTextDidEndEditing")
+        self.view.endEditing(true)
+//        if let data = searchBar.text {
+//            self.currentPage = 1
+//            self.totalPage = 1
+//            self.searchedResult.removeAll()
+//            searchContent(keyword: data, page: currentPage)
+//        }
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("searchBarTextDidBeginEditing")
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("textDidChange")
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        if let data = searchBar.text {
+            self.currentPage = 1
+            self.totalPage = 1
+            self.searchedResult.removeAll()
+            searchContent(keyword: data, page: currentPage)
+        }
+    }
 }

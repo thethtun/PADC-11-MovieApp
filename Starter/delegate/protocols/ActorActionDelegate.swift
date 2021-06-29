@@ -10,4 +10,5 @@ import Foundation
 protocol ActorActionDelegate {
     
     func onTapFavorite(isFavorte:Bool)
+    func onTapItem(data : ActorInfoResponse)
 }

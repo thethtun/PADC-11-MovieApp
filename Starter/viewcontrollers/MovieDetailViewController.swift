@@ -48,7 +48,31 @@ class MovieDetailViewController: UIViewController {
         fetchContentDetail(id : itemId)
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Make the navigation bar background clear
+//        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        navigationController?.navigationBar.shadowImage = UIImage()
+//        navigationController?.navigationBar.isTranslucent = true
+//        navigationController?.navigationBar.barTintColor = .clear
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Restore the navigation bar to default
+//        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+//        navigationController?.navigationBar.shadowImage = nil
+//        navigationController?.navigationBar.isTranslucent = false
+//        navigationController?.navigationBar.barTintColor = UIColor(named: "color_primary")
+        
+        
+    }
+    
     private func initView() {
+
+        
         registerCollectionViewCells()
         initGestureRecognizers()
         
@@ -241,7 +265,7 @@ extension MovieDetailViewController : UICollectionViewDataSource , UICollectionV
             
             let item : MovieCast = casts[indexPath.row]
             cell.data = item.convertToActorInfoResponse()
-            
+            cell.delegate = self
             return cell
         }
         else if collectionView == collectionViewSimilarContent {
@@ -280,6 +304,18 @@ extension MovieDetailViewController : UICollectionViewDataSource , UICollectionV
         }
     }
     
+    
+    
+}
+
+extension MovieDetailViewController : ActorActionDelegate {
+    func onTapFavorite(isFavorte: Bool) {
+        //Do Nothing
+    }
+    
+    func onTapItem(data: ActorInfoResponse) {
+        navigateToActorDetailViewController(id: data.id ?? 1)
+    }
     
     
 }

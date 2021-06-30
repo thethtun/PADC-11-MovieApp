@@ -29,7 +29,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fantastic Beasts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlc-0Z-Fnq">
-                        <rect key="frame" x="16" y="218.5" width="192" height="29.5"/>
+                        <rect key="frame" x="16" y="218.5" width="380" height="29.5"/>
                         <fontDescription key="fontDescription" name="GeezaPro-Bold" family="Geeza Pro" pointSize="24"/>
                         <color key="textColor" name="color_white"/>
                         <nil key="highlightedColor"/>
@@ -41,6 +41,7 @@
                 <constraint firstItem="wjQ-o2-XHL" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="0r2-95-nMg"/>
                 <constraint firstItem="dlc-0Z-Fnq" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="4bI-xX-ojq"/>
                 <constraint firstItem="l8I-7c-FeU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Fe6-Iy-hPu"/>
+                <constraint firstAttribute="trailing" secondItem="dlc-0Z-Fnq" secondAttribute="trailing" constant="16" id="Jbm-ME-Nhc"/>
                 <constraint firstAttribute="bottom" secondItem="dlc-0Z-Fnq" secondAttribute="bottom" constant="16" id="Stx-oD-cP6"/>
                 <constraint firstItem="wjQ-o2-XHL" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="dWN-4F-yQt"/>
                 <constraint firstAttribute="bottom" secondItem="l8I-7c-FeU" secondAttribute="bottom" id="jwe-ND-VjJ"/>

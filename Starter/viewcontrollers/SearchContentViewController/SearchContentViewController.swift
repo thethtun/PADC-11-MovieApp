@@ -10,7 +10,8 @@ import UIKit
 class SearchContentViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var collectionViewResult : UICollectionView!
-    @IBOutlet weak var textFieldSearch : UITextField!
+//    @IBOutlet weak var textFieldSearch : UITextField!
+    private let searchBar = UISearchBar()
     
     private var searchedResult : [MovieResult] = []
     
@@ -21,6 +22,8 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
     
     private let networkAgent = MovieDBNetworkAgent.shared
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,15 +33,21 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
     
     private func initView() {
 //        textFieldSearch.backgroundColor = UIColor(named: "color_primary")
-        textFieldSearch.attributedPlaceholder = NSAttributedString.init(
-            string: "Search...",
-            attributes: [
-                NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16)
-            ])
-
-        textFieldSearch.font = UIFont.systemFont(ofSize: 16)
+//        textFieldSearch.attributedPlaceholder = NSAttributedString.init(
+//            string: "Search...",
+//            attributes: [
+//                NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16)
+//            ])
+//
+//        textFieldSearch.font = UIFont.systemFont(ofSize: 16)
+//
+//        textFieldSearch.delegate = self
+    
+        searchBar.placeholder = "Search..."
+        searchBar.delegate = self
+        searchBar.searchTextField.textColor = .white
         
-        textFieldSearch.delegate = self
+        navigationItem.titleView = searchBar
         
         setupCollectionView()
     }
@@ -132,8 +141,20 @@ extension SearchContentViewController:UICollectionViewDelegateFlowLayout {
         let hasMorePages = self.currentPage < self.totalPage
         if (isAtLastRow && hasMorePages){
             currentPage = currentPage + 1
-            searchContent(keyword: textFieldSearch.text ?? "", page: currentPage)
+            searchContent(keyword: searchBar.text ?? "", page: currentPage)
         }
     }
     
+}
+
+extension SearchContentViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        if let data = searchBar.text {
+            self.currentPage = 1
+            self.totalPage = 1
+            self.searchedResult.removeAll()
+            searchContent(keyword: data, page: currentPage)
+        }
+    }
 }

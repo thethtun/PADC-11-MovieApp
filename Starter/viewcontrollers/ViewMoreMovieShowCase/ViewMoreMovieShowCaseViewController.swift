@@ -29,6 +29,8 @@ class ViewMoreMovieShowCaseViewController: UIViewController {
     
     private func initView() {
         setupCollectionView()
+        
+        self.navigationItem.title = "Showcases"
     }
     
     private func setupData() {
@@ -67,6 +69,11 @@ class ViewMoreMovieShowCaseViewController: UIViewController {
 //MARK: - UICollectionViewDelegate,UICollectionViewDataSource
 extension ViewMoreMovieShowCaseViewController:UICollectionViewDelegate,UICollectionViewDataSource {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = data[indexPath.row]
+        navigateToMovieDetailViewController(movieId: item.id ?? 1)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return data.count
     }
@@ -74,6 +81,7 @@ extension ViewMoreMovieShowCaseViewController:UICollectionViewDelegate,UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ShowCaseCollectionViewCell.self), for: indexPath) as? ShowCaseCollectionViewCell else { return UICollectionViewCell() }
         cell.data = data[indexPath.row]
+        
         return cell
     }
     

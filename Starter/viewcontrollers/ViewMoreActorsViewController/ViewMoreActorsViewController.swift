@@ -32,6 +32,8 @@ class ViewMoreActorsViewController: UIViewController {
     
     private func initView() {
         setupCollectionView()
+        
+        self.navigationItem.title = "Popular Actors"
     }
     
     private func initState() {
@@ -81,6 +83,7 @@ extension ViewMoreActorsViewController:UICollectionViewDelegate,UICollectionView
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ActorCollectionViewCell.self), for: indexPath) as? ActorCollectionViewCell else { return UICollectionViewCell() }
         
         cell.data = data[indexPath.row]
+        cell.delegate = self
         
         return cell
         
@@ -114,3 +117,13 @@ extension ViewMoreActorsViewController:UICollectionViewDelegateFlowLayout {
     
 }
 
+
+extension ViewMoreActorsViewController : ActorActionDelegate {
+    func onTapFavorite(isFavorte: Bool) {
+        
+    }
+    
+    func onTapItem(data: ActorInfoResponse) {
+        navigateToActorDetailViewController(id: data.id ?? 1)
+    }
+}

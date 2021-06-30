@@ -192,17 +192,22 @@ struct MovieDBNetworkAgent {
         }
     }
     
-    func getUpcomingMovieList(success: @escaping (MovieListResponse) -> Void, failure: @escaping (String) -> Void) {
+    func getUpcomingMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
         let url = "\(AppConstants.BaseURL)/movie/upcoming?api_key=\(AppConstants.apiKey)"
         AF.request(url).responseDecodable(of: MovieListResponse.self) { response in
-            //AFDataResponse<UpcomingMovieList>
             switch response.result {
             case .success(let upcomingMovieList):
-                success(upcomingMovieList)
+                completion(.success(upcomingMovieList))
             case .failure(let error):
-                failure(error.errorDescription!)
+                completion(.failure(error.errorDescription!))
             }
         }
     }
     
+}
+
+
+enum MDBResult<T> {
+    case success(T)
+    case failure(String)
 }

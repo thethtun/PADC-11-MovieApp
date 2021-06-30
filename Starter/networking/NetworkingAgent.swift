@@ -21,7 +21,7 @@ struct MovieDBNetworkAgent {
                 case .success(let data):
                     success(data)
                 case .failure(let error):
-                    failure(error.errorDescription!)
+                    failure(handleError(response, error, MDBCommonResponseError.self))
                 }
             }
     }
@@ -34,7 +34,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -46,7 +46,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -58,7 +58,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -70,7 +70,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -82,7 +82,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -94,7 +94,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -107,7 +107,7 @@ struct MovieDBNetworkAgent {
                 success(data)
             case .failure(let error):
                
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -119,7 +119,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -131,7 +131,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -143,7 +143,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -171,7 +171,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -183,7 +183,7 @@ struct MovieDBNetworkAgent {
             case .success(let data):
                 success(data)
             case .failure(let error):
-                failure(error.errorDescription!)
+                failure(handleError(response, error, MDBCommonResponseError.self))
             }
         }
     }
@@ -195,7 +195,7 @@ struct MovieDBNetworkAgent {
                 case .success(let upcomingMovieList):
                     completion(.success(upcomingMovieList))
                 case .failure(let error):
-                    completion(.failure(error.errorDescription!))
+                    completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
                 }
             }
     }

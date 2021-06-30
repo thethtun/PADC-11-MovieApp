@@ -82,12 +82,15 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
     }
     
     func searchContent(keyword : String, page : Int) {
-        networkAgent.searchMovieByKeyword(query: keyword, page: "\(page)") { (data) in
-            self.totalPage = data.totalPages ?? 1
-            self.searchedResult.append(contentsOf: data.results ?? [MovieResult]())
-            self.collectionViewResult.reloadData()
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.searchMovieByKeyword(query: keyword, page: "\(page)") { (result) in
+            switch result {
+            case .success(let data):
+                self.totalPage = data.totalPages ?? 1
+                self.searchedResult.append(contentsOf: data.results ?? [MovieResult]())
+                self.collectionViewResult.reloadData()
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
     }
     

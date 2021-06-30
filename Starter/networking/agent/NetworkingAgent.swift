@@ -8,182 +8,200 @@
 import Foundation
 import Alamofire
 
-struct MovieDBNetworkAgent {
+protocol MovieDBNetworkAgentProtocol {
+    func searchMovieByKeyword(query: String, page: String, completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+    func getActorGallery(id : Int, completion: @escaping (MDBResult<ActorProfileInfo>) -> Void)
+    func getTVCredits(id : Int, completion: @escaping (MDBResult<ActorTVCredits>) -> Void)
+    func getActorDetails(id : Int, completion: @escaping (MDBResult<ActorDetailInfo>) -> Void)
+    func getMovieTrailers(id : Int, completion: @escaping (MDBResult<MovieTrailerResponse>) -> Void)
+    func getSimilarMovies(id : Int, completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+    func getMovieCreditById(id: Int, completion: @escaping (MDBResult<MovieCreditResponse>) -> Void)
+    func getSerieDetailById(id : Int, completion: @escaping (MDBResult<MovieDetailResponse>) -> Void)
+    func getMovieDetailById(id : Int, completion: @escaping (MDBResult<MovieDetailResponse>) -> Void)
+    func getPopularPeople(page : Int, completion: @escaping (MDBResult<ActorListResponse>) -> Void)
+    func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+    func getGenreList(completion: @escaping (MDBResult<MovieGenreList>) -> Void)
+    func getPopularSeriesList(completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+    func getPopularMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+    func getUpcomingMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+}
+
+struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     static let shared = MovieDBNetworkAgent()
     
     private init() { }
     
-    func searchMovieByKeyword(query: String, page: String, success: @escaping (MovieListResponse) -> Void, failure: @escaping (String) -> Void) {
+    func searchMovieByKeyword(query: String, page: String, completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.searchMovie(page, query))
             .responseDecodable(of: MovieListResponse.self) { response in
                 switch response.result {
                 case .success(let data):
-                    success(data)
+                    completion(.success(data))
                 case .failure(let error):
-                    failure(handleError(response, error, MDBCommonResponseError.self))
+                    completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
                 }
             }
     }
 
     
-    func getActorGallery(id : Int, success: @escaping (ActorProfileInfo) -> Void, failure: @escaping (String) -> Void) {
+    func getActorGallery(id : Int, completion : @escaping (MDBResult<ActorProfileInfo>) -> Void) {
         AF.request(MDBEndpoint.actorImages(id))
             .responseDecodable(of: ActorProfileInfo.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getTVCredits(id : Int, success: @escaping (ActorTVCredits) -> Void, failure: @escaping (String) -> Void) {
+    func getTVCredits(id : Int, completion : @escaping (MDBResult<ActorTVCredits>) -> Void) {
         AF.request(MDBEndpoint.actorTVCredits(id))
             .responseDecodable(of: ActorTVCredits.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getActorDetails(id : Int, success: @escaping (ActorDetailInfo) -> Void, failure: @escaping (String) -> Void) {
+    func getActorDetails(id : Int, completion : @escaping (MDBResult<ActorDetailInfo>) -> Void) {
         AF.request(MDBEndpoint.actorDetail(id))
             .responseDecodable(of: ActorDetailInfo.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getMovieTrailers(id : Int, success: @escaping (MovieTrailerResponse) -> Void, failure: @escaping (String) -> Void) {
+    func getMovieTrailers(id : Int, completion : @escaping (MDBResult<MovieTrailerResponse>) -> Void) {
         AF.request(MDBEndpoint.trailerVideo(id))
             .responseDecodable(of: MovieTrailerResponse.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getSimilarMovies(id : Int, success: @escaping (MovieListResponse) -> Void, failure: @escaping (String) -> Void) {
+    func getSimilarMovies(id : Int, completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.similarMovie(id))
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getMovieCreditById(id: Int, success: @escaping (MovieCreditResponse) -> Void, failure: @escaping (String) -> Void) {
+    func getMovieCreditById(id: Int, completion : @escaping (MDBResult<MovieCreditResponse>) -> Void) {
         AF.request(MDBEndpoint.movieActors(id))
             .responseDecodable(of: MovieCreditResponse.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getSerieDetailById(id : Int, success: @escaping (MovieDetailResponse) -> Void, failure: @escaping (String) -> Void) {
+    func getSerieDetailById(id : Int, completion : @escaping (MDBResult<MovieDetailResponse>) -> Void) {
         AF.request(MDBEndpoint.seriesDetails(id))
             .responseDecodable(of: MovieDetailResponse.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
                
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getMovieDetailById(id : Int, success: @escaping (MovieDetailResponse) -> Void, failure: @escaping (String) -> Void) {
+    func getMovieDetailById(id : Int, completion : @escaping (MDBResult<MovieDetailResponse>) -> Void) {
         AF.request(MDBEndpoint.movieDetails(id))
             .responseDecodable(of: MovieDetailResponse.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getPopularPeople(page : Int = 1, success: @escaping (ActorListResponse) -> Void, failure: @escaping (String) -> Void) {
+    func getPopularPeople(page : Int = 1, completion : @escaping (MDBResult<ActorListResponse>) -> Void) {
         AF.request(MDBEndpoint.popularActors(page))
             .responseDecodable(of: ActorListResponse.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getTopRatedMovieList(page : Int = 1, success: @escaping (MovieListResponse) -> Void, failure: @escaping (String) -> Void) {
+    func getTopRatedMovieList(page : Int = 1, completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.topRatedMovies(page))
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
     
     
-    func getGenreList(success: @escaping (MovieGenreList) -> Void, failure: @escaping (String) -> Void) {
+    func getGenreList(completion : @escaping (MDBResult<MovieGenreList>) -> Void) {
 //        AF.request("https://getstatuscode.com/500")
         AF.request(MDBEndpoint.movieGenres)
 //        AF.request("\(AppConstants.BaseURL)/genre/movie/list?api_key=\(AppConstants.apiKey)")
             .responseDecodable(of: MovieGenreList.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getPopularSeriesList(success: @escaping (MovieListResponse) -> Void, failure: @escaping (String) -> Void) {
+    func getPopularSeriesList(completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.popularTVSeries)
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
     
-    func getPopularMovieList(success: @escaping (MovieListResponse) -> Void, failure: @escaping (String) -> Void) {
+    func getPopularMovieList(completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.popularMovie(1))
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
-                success(data)
+                completion(.success(data))
             case .failure(let error):
-                failure(handleError(response, error, MDBCommonResponseError.self))
+                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }

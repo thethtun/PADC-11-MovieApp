@@ -11,7 +11,7 @@ class MovieViewController: UIViewController {
     
     @IBOutlet weak var tableViewMovies: UITableView!
     
-    private let networkAgent = MovieDBNetworkAgent.shared
+    private let networkAgent : MovieDBNetworkAgentProtocol = MovieDBNetworkAgent.shared
     
     private var upcomingMovieList : MovieListResponse?
     private var popularMovieList : MovieListResponse?
@@ -51,29 +51,38 @@ class MovieViewController: UIViewController {
     
     
     func fetchPopularPeople() {
-        networkAgent.getPopularPeople { (data) in
-            self.popularPeople = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_BEST_ACTOR.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getPopularPeople(page: 1) { (result) in
+            switch result {
+            case .success(let data):
+                self.popularPeople = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_BEST_ACTOR.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message)
+            }
         }
     }
     
     func fetchTopRatedMovieList() {
-        networkAgent.getTopRatedMovieList { (data) in
-            self.topRatedMovieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_SHOWCASE.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getTopRatedMovieList(page: 1) { (result) in
+            switch result {
+            case .success(let data):
+                self.topRatedMovieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_SHOWCASE.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message)
+            }
         }
     }
     
     func fetchMovieGenreList() {
-        networkAgent.getGenreList { (data) in
-            self.genresMovieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_GENRE.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getGenreList { (result) in
+            switch result {
+            case .success(let data):
+                self.genresMovieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_GENRE.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message)
+            }
         }
     }
     
@@ -90,21 +99,27 @@ class MovieViewController: UIViewController {
     }
     
     func fetchPopularMovieList() {
-        networkAgent.getPopularMovieList { (data) in
-            self.popularMovieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getPopularMovieList { (result) in
+            switch result {
+            case .success(let data):
+                self.popularMovieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
         
     }
     
     func fetchPopularTVSerieList() {
-        networkAgent.getPopularSeriesList { (data) in
-            self.popularSerieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.SERIE_POPULAR.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getPopularSeriesList { (result) in
+            switch result {
+            case .success(let data):
+                self.popularSerieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.SERIE_POPULAR.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
     }
     

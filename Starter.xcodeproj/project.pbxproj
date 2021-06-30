@@ -196,10 +196,18 @@
 			path = SearchContentViewController;
 			sourceTree = "<group>";
 		};
-		51429430265A7FC70090FD01 /* networking */ = {
+		512FB776268CF97900DA3429 /* agent */ = {
 			isa = PBXGroup;
 			children = (
 				51429431265A7FD70090FD01 /* NetworkingAgent.swift */,
+			);
+			path = agent;
+			sourceTree = "<group>";
+		};
+		51429430265A7FC70090FD01 /* networking */ = {
+			isa = PBXGroup;
+			children = (
+				512FB776268CF97900DA3429 /* agent */,
 				512FB76E268CD53B00DA3429 /* MDBEndpoint.swift */,
 			);
 			path = networking;

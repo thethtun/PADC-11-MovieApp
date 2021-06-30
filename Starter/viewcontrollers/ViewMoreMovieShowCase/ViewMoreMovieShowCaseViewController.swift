@@ -52,11 +52,14 @@ class ViewMoreMovieShowCaseViewController: UIViewController {
     }
     
     private func fetchData(page : Int) {
-        networkAgent.getTopRatedMovieList(page: page) { (data) in
-            self.data.append(contentsOf: data.results ?? [MovieResult]())
-            self.collectionViewMovies.reloadData()
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getTopRatedMovieList(page: page) { (result) in
+            switch result {
+            case .success(let data):
+                self.data.append(contentsOf: data.results ?? [MovieResult]())
+                self.collectionViewMovies.reloadData()
+            case .failure(let message):
+                print(message.debugDescription)
+            }  
         }
 
     }

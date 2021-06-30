@@ -123,51 +123,65 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchMovieDetails(id : Int) {
-        networkAgent.getMovieDetailById(id: id) { (data) in
-            self.bindData(data: data)
-        } failure: { (error) in
-            print(error)
+        networkAgent.getMovieDetailById(id: id) { (result) in
+            switch result {
+            case .success(let data):
+                self.bindData(data: data)
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
-        
     }
     
     private func fetchSerieDetails(id : Int) {
-        networkAgent.getSerieDetailById(id: id) { (data) in
-            //bind data
-            self.bindData(data: data)
-        } failure: { (error) in
-            print(error)
+        networkAgent.getSerieDetailById(id: id) { (result) in
+            switch result {
+            case .success(let data):
+                self.bindData(data: data)
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
         
     }
     
     private func fetchSimilarMovies(id : Int) {
-        networkAgent.getSimilarMovies(id: id) { (data) in
-            self.similarMovies = data.results ?? [MovieResult]()
-            self.collectionViewSimilarContent.reloadData()
-        } failure: { (error) in
-            print(error)
+        networkAgent.getSimilarMovies(id: id) { (result) in
+            switch result {
+            case .success(let data):
+                self.similarMovies = data.results ?? [MovieResult]()
+                self.collectionViewSimilarContent.reloadData()
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
         
     }
     
     private func getMovieCreditsById(id : Int) {
-        networkAgent.getMovieCreditById(id: id) { (data) in
+        networkAgent.getMovieCreditById(id: id) { (result) in
             //MovieCreditResponse
-            self.casts = data.cast ?? [MovieCast]()
-            self.collectionViewActors.reloadData()
-        } failure: { (error) in
-            print(error)
+            switch result {
+            case .success(let data):
+                self.casts = data.cast ?? [MovieCast]()
+                self.collectionViewActors.reloadData()
+            case .failure(let message):
+                print(message.debugDescription)
+            }
+            
         }
         
     }
     
     private func fetchMovieTrailer(id : Int) {
-        networkAgent.getMovieTrailers(id: id) { (data) in
-            self.movieTrailers = data.results ?? [MovieTrailer]()
-            self.buttonPlayTrailer.isHidden = self.movieTrailers.isEmpty
-        } failure: { (error) in
-            print(error)
+        networkAgent.getMovieTrailers(id: id) { (result) in
+            switch result {
+            case .success(let data):
+                self.movieTrailers = data.results ?? [MovieTrailer]()
+                self.buttonPlayTrailer.isHidden = self.movieTrailers.isEmpty
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
         
     }

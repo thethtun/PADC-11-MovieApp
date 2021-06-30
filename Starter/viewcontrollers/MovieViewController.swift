@@ -78,11 +78,14 @@ class MovieViewController: UIViewController {
     }
     
     func fetchUpcomingMovieList() {
-        networkAgent.getUpcomingMovieList { (data) in
-            self.upcomingMovieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getUpcomingMovieList { (result) in
+            switch result {
+            case .success(let data):
+                self.upcomingMovieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
     }
     

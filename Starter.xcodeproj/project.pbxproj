@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		510CEF3E2689B7EA007B81D2 /* SearchContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510CEF3C2689B7E9007B81D2 /* SearchContentViewController.swift */; };
 		510CEF3F2689B7EB007B81D2 /* SearchContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 510CEF3D2689B7E9007B81D2 /* SearchContentViewController.xib */; };
+		512FB76F268CD53B00DA3429 /* MDBEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512FB76E268CD53B00DA3429 /* MDBEndpoint.swift */; };
 		51429432265A7FD70090FD01 /* NetworkingAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51429431265A7FD70090FD01 /* NetworkingAgent.swift */; };
 		51429436265A804A0090FD01 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51429435265A804A0090FD01 /* Constants.swift */; };
 		5142943C265A80650090FD01 /* SearchSeriesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51429439265A80650090FD01 /* SearchSeriesResponse.swift */; };
@@ -83,6 +84,7 @@
 		091E644C42633FE2A94675A5 /* Pods_Starter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Starter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		510CEF3C2689B7E9007B81D2 /* SearchContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentViewController.swift; sourceTree = "<group>"; };
 		510CEF3D2689B7E9007B81D2 /* SearchContentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchContentViewController.xib; sourceTree = "<group>"; };
+		512FB76E268CD53B00DA3429 /* MDBEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDBEndpoint.swift; sourceTree = "<group>"; };
 		51429431265A7FD70090FD01 /* NetworkingAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingAgent.swift; sourceTree = "<group>"; };
 		51429435265A804A0090FD01 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		51429439265A80650090FD01 /* SearchSeriesResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchSeriesResponse.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				51429431265A7FD70090FD01 /* NetworkingAgent.swift */,
+				512FB76E268CD53B00DA3429 /* MDBEndpoint.swift */,
 			);
 			path = networking;
 			sourceTree = "<group>";
@@ -615,6 +618,7 @@
 				9182DFFF25C671A9005A9E5C /* MovieType.swift in Sources */,
 				9179C0FF25AFB228008DB33D /* RatingControl.swift in Sources */,
 				51C18628266D14FD0053A2A5 /* YouTubePlayerViewController.swift in Sources */,
+				512FB76F268CD53B00DA3429 /* MDBEndpoint.swift in Sources */,
 				5142943E265A80650090FD01 /* Models.swift in Sources */,
 				9153066E25C2042000A0F7BE /* GenreVO.swift in Sources */,
 				51D533292689AD7300F7BCCC /* ViewMoreActorsViewController.swift in Sources */,

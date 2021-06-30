@@ -34,6 +34,8 @@ class MovieDetailViewController: UIViewController {
     var itemId : Int = -1
     var contentType : VideoType = .movie
     
+    private var objects = Array.init(repeating: "Hello", count: 10000000)
+    
     private var productionCompanies : [ProductionCompany] = []
     private var casts : [MovieCast] = []
     private var similarMovies: [MovieResult] = []
@@ -48,27 +50,6 @@ class MovieDetailViewController: UIViewController {
         fetchContentDetail(id : itemId)
     }
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // Make the navigation bar background clear
-//        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//        navigationController?.navigationBar.shadowImage = UIImage()
-//        navigationController?.navigationBar.isTranslucent = true
-//        navigationController?.navigationBar.barTintColor = .clear
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Restore the navigation bar to default
-//        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-//        navigationController?.navigationBar.shadowImage = nil
-//        navigationController?.navigationBar.isTranslucent = false
-//        navigationController?.navigationBar.barTintColor = UIColor(named: "color_primary")
-        
-        
-    }
     
     private func initView() {
 

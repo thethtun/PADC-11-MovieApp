@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ActorActionDelegate {
+protocol ActorActionDelegate  {
     
     func onTapFavorite(isFavorte:Bool)
     func onTapItem(data : ActorInfoResponse)

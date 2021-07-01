@@ -34,7 +34,7 @@ class MovieDetailViewController: UIViewController {
     var itemId : Int = -1
     var contentType : VideoType = .movie
     
-    private var objects = Array.init(repeating: "Hello", count: 10000000)
+//    private var objects = Array.init(repeating: "Hello", count: 10000000)
     
     private var productionCompanies : [ProductionCompany] = []
     private var casts : [MovieCast] = []

@@ -11,7 +11,7 @@ class MovieViewController: UIViewController {
     
     @IBOutlet weak var tableViewMovies: UITableView!
     
-    private let networkAgent : MovieDBNetworkAgentProtocol = MovieDBNetworkAgent.shared
+    private let networkAgent = MovieDBNetworkAgent.shared
     
     private var upcomingMovieList : MovieListResponse?
     private var popularMovieList : MovieListResponse?
@@ -75,14 +75,11 @@ class MovieViewController: UIViewController {
     }
     
     func fetchMovieGenreList() {
-        networkAgent.getGenreList { (result) in
-            switch result {
-            case .success(let data):
-                self.genresMovieList = data
-                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_GENRE.rawValue), with: .automatic)
-            case .failure(let message):
-                print(message)
-            }
+        networkAgent.getGenreList { (data) in
+            self.genresMovieList = data
+            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_GENRE.rawValue), with: .automatic)
+        } failure: { (error) in
+            print(error)
         }
     }
     

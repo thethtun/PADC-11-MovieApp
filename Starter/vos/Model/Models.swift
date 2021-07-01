@@ -65,7 +65,7 @@ public struct MovieGenre : Codable {
     
     enum CodingKeys : String, CodingKey {
         case id
-        case name = "name"
+        case name 
     }
     
     func convertToGenreVO() -> GenreVO {

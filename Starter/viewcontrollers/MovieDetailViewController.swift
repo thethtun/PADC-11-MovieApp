@@ -52,8 +52,6 @@ class MovieDetailViewController: UIViewController {
     
     
     private func initView() {
-
-        
         registerCollectionViewCells()
         initGestureRecognizers()
         
@@ -104,7 +102,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchMovieDetails(id : Int) {
-        networkAgent.getMovieDetailById(id: id) { (result) in
+        networkAgent.getMovieDetailById(id: id) { [weak self](result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.bindData(data: data)
@@ -115,7 +114,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSerieDetails(id : Int) {
-        networkAgent.getSerieDetailById(id: id) { (result) in
+        networkAgent.getSerieDetailById(id: id) { [weak self](result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.bindData(data: data)
@@ -127,7 +127,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSimilarMovies(id : Int) {
-        networkAgent.getSimilarMovies(id: id) { (result) in
+        networkAgent.getSimilarMovies(id: id) { [weak self](result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.similarMovies = data.results ?? [MovieResult]()
@@ -140,7 +141,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func getMovieCreditsById(id : Int) {
-        networkAgent.getMovieCreditById(id: id) { (result) in
+        networkAgent.getMovieCreditById(id: id) { [weak self](result) in
+            guard let self = self else { return }
             //MovieCreditResponse
             switch result {
             case .success(let data):
@@ -155,7 +157,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchMovieTrailer(id : Int) {
-        networkAgent.getMovieTrailers(id: id) { (result) in
+        networkAgent.getMovieTrailers(id: id) { [weak self](result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.movieTrailers = data.results ?? [MovieTrailer]()
@@ -270,7 +273,8 @@ extension MovieDetailViewController : UICollectionViewDataSource , UICollectionV
             }
             
             cell.data = similarMovies[indexPath.row]
-            cell.onTapItem = { id in
+            cell.onTapItem = { [weak self] id in
+                guard let self = self else { return }
                 self.navigateToMovieDetailViewController(movieId: id)
             }
             return cell

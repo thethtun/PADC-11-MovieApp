@@ -9,8 +9,10 @@ import UIKit
 
 class MovieViewController: UIViewController {
     
+    //MARK: - IBOutlet
     @IBOutlet weak var tableViewMovies: UITableView!
     
+    //MARK: - Property
     private let networkAgent = MovieDBNetworkAgent.shared
     
     private var upcomingMovieList : MovieListResponse?
@@ -20,6 +22,8 @@ class MovieViewController: UIViewController {
     private var genresMovieList : MovieGenreList?
     private var popularPeople : ActorListResponse?
     
+    
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableViewCells()
@@ -34,6 +38,7 @@ class MovieViewController: UIViewController {
         fetchPopularPeople()
     }
     
+    //MARK: - InitView
     private func registerTableViewCells(){
         tableViewMovies.dataSource = self
         
@@ -50,8 +55,10 @@ class MovieViewController: UIViewController {
     }
     
     
+    //MARK: - API Methods
     func fetchPopularPeople() {
-        networkAgent.getPopularPeople(page: 1) { (result) in
+        networkAgent.getPopularPeople(page: 1) { [weak self](result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.popularPeople = data
@@ -63,7 +70,8 @@ class MovieViewController: UIViewController {
     }
     
     func fetchTopRatedMovieList() {
-        networkAgent.getTopRatedMovieList(page: 1) { (result) in
+        networkAgent.getTopRatedMovieList(page: 1) { [weak self](result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.topRatedMovieList = data
@@ -75,16 +83,21 @@ class MovieViewController: UIViewController {
     }
     
     func fetchMovieGenreList() {
-        networkAgent.getGenreList { (data) in
-            self.genresMovieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_GENRE.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error)
+        networkAgent.getGenreList { [weak self](result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.genresMovieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_GENRE.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message)
+            }
         }
     }
     
     func fetchUpcomingMovieList() {
-        networkAgent.getUpcomingMovieList { (result) in
+        networkAgent.getUpcomingMovieList { [weak self](result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.upcomingMovieList = data
@@ -96,7 +109,8 @@ class MovieViewController: UIViewController {
     }
     
     func fetchPopularMovieList() {
-        networkAgent.getPopularMovieList { (result) in
+        networkAgent.getPopularMovieList { [weak self](result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.popularMovieList = data
@@ -109,7 +123,8 @@ class MovieViewController: UIViewController {
     }
     
     func fetchPopularTVSerieList() {
-        networkAgent.getPopularSeriesList { (result) in
+        networkAgent.getPopularSeriesList { [weak self](result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 self.popularSerieList = data
@@ -124,6 +139,7 @@ class MovieViewController: UIViewController {
     
 }
 
+//MARK: - MovieItemDelegate
 extension MovieViewController : MovieItemDelegate {
     
     func onTapViewMore(data: MovieListResponse) {
@@ -141,6 +157,7 @@ extension MovieViewController : MovieItemDelegate {
     }
 }
 
+//MARK: - UITableViewDataSource
 extension MovieViewController : UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {

@@ -37,6 +37,8 @@ class MovieDetailViewController: UIViewController {
     var itemId : Int = -1
     var contentType : VideoType = .movie
     
+//    private var objects = Array.init(repeating: "Hello", count: 10000000)
+    
     private var productionCompanies : [ProductionCompany] = []
     private var casts : [MovieCast] = []
     private var similarMovies: [MovieResult] = []
@@ -50,6 +52,7 @@ class MovieDetailViewController: UIViewController {
         
         fetchContentDetail(id : itemId)
     }
+    
     
     private func initView() {
         registerCollectionViewCells()
@@ -104,20 +107,26 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchMovieDetails(id : Int) {
-        networkAgent.getMovieDetailById(id: id) { (data) in
-            self.bindData(data: data)
-        } failure: { (error) in
-            print(error)
+        networkAgent.getMovieDetailById(id: id) { [weak self](result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.bindData(data: data)
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
-        
     }
     
     private func fetchSerieDetails(id : Int) {
-        networkAgent.getSerieDetailById(id: id) { (data) in
-            //bind data
-            self.bindData(data: data)
-        } failure: { (error) in
-            print(error)
+        networkAgent.getSerieDetailById(id: id) { [weak self](result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.bindData(data: data)
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
         
     }
@@ -134,7 +143,8 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func getMovieCreditsById(id : Int) {
-        networkAgent.getMovieCreditById(id: id) { (data) in
+        networkAgent.getMovieCreditById(id: id) { [weak self](result) in
+            guard let self = self else { return }
             //MovieCreditResponse
             self.casts = data.cast ?? [MovieCast]()
             self.containerCastList.isHidden = self.casts.isEmpty
@@ -146,11 +156,15 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchMovieTrailer(id : Int) {
-        networkAgent.getMovieTrailers(id: id) { (data) in
-            self.movieTrailers = data.results ?? [MovieTrailer]()
-            self.buttonPlayTrailer.isHidden = self.movieTrailers.isEmpty
-        } failure: { (error) in
-            print(error)
+        networkAgent.getMovieTrailers(id: id) { [weak self](result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.movieTrailers = data.results ?? [MovieTrailer]()
+                self.buttonPlayTrailer.isHidden = self.movieTrailers.isEmpty
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
         
     }
@@ -261,7 +275,8 @@ extension MovieDetailViewController : UICollectionViewDataSource , UICollectionV
             }
             
             cell.data = similarMovies[indexPath.row]
-            cell.onTapItem = { id in
+            cell.onTapItem = { [weak self] id in
+                guard let self = self else { return }
                 self.navigateToMovieDetailViewController(movieId: id)
             }
             return cell

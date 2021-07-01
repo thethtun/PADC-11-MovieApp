@@ -9,9 +9,9 @@ import UIKit
 
 class MovieViewController: UIViewController {
     
-
     @IBOutlet weak var tableViewMovies: UITableView!
     
+    //MARK: - Property
     private let networkAgent = MovieDBNetworkAgent.shared
     
     private var upcomingMovieList : MovieListResponse?
@@ -21,6 +21,8 @@ class MovieViewController: UIViewController {
     private var genresMovieList : MovieGenreList?
     private var popularPeople : ActorListResponse?
     
+    
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableViewCells()
@@ -35,6 +37,7 @@ class MovieViewController: UIViewController {
         fetchPopularPeople()
     }
     
+    //MARK: - InitView
     private func registerTableViewCells(){
         tableViewMovies.dataSource = self
         
@@ -51,58 +54,83 @@ class MovieViewController: UIViewController {
     }
     
     
+    //MARK: - API Methods
     func fetchPopularPeople() {
-        networkAgent.getPopularPeople { (data) in
-            self.popularPeople = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_BEST_ACTOR.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getPopularPeople(page: 1) { [weak self](result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.popularPeople = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_BEST_ACTOR.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message)
+            }
         }
     }
     
     func fetchTopRatedMovieList() {
-        networkAgent.getTopRatedMovieList { (data) in
-            self.topRatedMovieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_SHOWCASE.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getTopRatedMovieList(page: 1) { [weak self](result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.topRatedMovieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_SHOWCASE.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message)
+            }
         }
     }
     
     func fetchMovieGenreList() {
-        networkAgent.getGenreList { (data) in
-            self.genresMovieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_GENRE.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getGenreList { [weak self](result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.genresMovieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_GENRE.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message)
+            }
         }
     }
     
     func fetchUpcomingMovieList() {
-        networkAgent.getUpcomingMovieList { (data) in
-            self.upcomingMovieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getUpcomingMovieList { [weak self](result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.upcomingMovieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
     }
     
     func fetchPopularMovieList() {
-        networkAgent.getPopularMovieList { (data) in
-            self.popularMovieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getPopularMovieList { [weak self](result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.popularMovieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
         
     }
     
     func fetchPopularTVSerieList() {
-        networkAgent.getPopularSeriesList { (data) in
-            self.popularSerieList = data
-            self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.SERIE_POPULAR.rawValue), with: .automatic)
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getPopularSeriesList { [weak self](result) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.popularSerieList = data
+                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.SERIE_POPULAR.rawValue), with: .automatic)
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
     }
     
@@ -110,6 +138,7 @@ class MovieViewController: UIViewController {
     
 }
 
+//MARK: - MovieItemDelegate
 extension MovieViewController : MovieItemDelegate {
     
     func onTapViewMore(data: MovieListResponse) {
@@ -127,6 +156,7 @@ extension MovieViewController : MovieItemDelegate {
     }
 }
 
+//MARK: - UITableViewDataSource
 extension MovieViewController : UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {

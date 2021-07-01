@@ -85,26 +85,35 @@ class ActorDetailViewController: UIViewController {
     }
     
     private func fetchActorDetails(_ id: Int) {
-        networkAgent.getActorDetails(id: id) { (data) in
-            self.actionInfo = data
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.getActorDetails(id: id) { (result) in
+            switch result {
+            case .success(let data):
+                self.actionInfo = data
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
     }
     
     private func fetchTVCredits(_ id : Int) {
-        networkAgent.getTVCredits(id: id) { (data) in
-            self.tvCredits = data.cast ?? [MovieResult]()
-        } failure: { (error) in
-            print(error)
+        networkAgent.getTVCredits(id: id) { (result) in
+            switch result {
+            case .success(let data):
+                self.tvCredits = data.cast ?? [MovieResult]()
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
     }
     
     private func fetchOtherImages(_ id : Int) {
-        networkAgent.getActorGallery(id: id) { (data) in
-            self.actorImages = data.profiles ?? [ActorImageDetails]()
-        } failure: { (error) in
-            print(error)
+        networkAgent.getActorGallery(id: id) { (result) in
+            switch result {
+            case .success(let data):
+                self.actorImages = data.profiles ?? [ActorImageDetails]()
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
     }
     

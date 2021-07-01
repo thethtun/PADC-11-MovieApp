@@ -45,11 +45,14 @@ class ViewMoreActorsViewController: UIViewController {
     }
     
     private func fetchData(page : Int) {
-        networkAgent.getPopularPeople(page : page) { (data) in
-            self.data.append(contentsOf: data.results ?? [ActorInfoResponse]())
-            self.collectionViewActors.reloadData()
-        } failure: { (error) in
-            print(error)
+        networkAgent.getPopularPeople(page : page) { (result) in
+            switch result {
+            case .success(let data):
+                self.data.append(contentsOf: data.results ?? [ActorInfoResponse]())
+                self.collectionViewActors.reloadData()
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
 
     }

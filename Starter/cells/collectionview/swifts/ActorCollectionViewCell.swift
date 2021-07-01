@@ -15,7 +15,7 @@ class ActorCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var labelActorName : UILabel!
     @IBOutlet weak var labelKnownForDepartment : UILabel!
     
-    var delegate : ActorActionDelegate? = nil
+    weak var delegate : ActorActionDelegate? = nil
     
     var data : ActorInfoResponse? {
         didSet {

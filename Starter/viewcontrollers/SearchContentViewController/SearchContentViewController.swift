@@ -14,6 +14,7 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
     private let searchBar = UISearchBar()
     
     private var searchedResult : [MovieResult] = []
+    private let searchBar = UISearchBar()
     
     private let itemSpacing : CGFloat = 10
     private let numberOfItemsPerRow = 3
@@ -49,7 +50,7 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
         
         navigationItem.titleView = searchBar
         
-        setupCollectionView()
+        navigationItem.titleView = searchBar
     }
     
     
@@ -83,12 +84,15 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
     }
     
     func searchContent(keyword : String, page : Int) {
-        networkAgent.searchMovieByKeyword(query: keyword, page: "\(page)") { (data) in
-            self.totalPage = data.totalPages ?? 1
-            self.searchedResult.append(contentsOf: data.results ?? [MovieResult]())
-            self.collectionViewResult.reloadData()
-        } failure: { (error) in
-            print(error.description)
+        networkAgent.searchMovieByKeyword(query: keyword, page: "\(page)") { (result) in
+            switch result {
+            case .success(let data):
+                self.totalPage = data.totalPages ?? 1
+                self.searchedResult.append(contentsOf: data.results ?? [MovieResult]())
+                self.collectionViewResult.reloadData()
+            case .failure(let message):
+                print(message.debugDescription)
+            }
         }
     }
     

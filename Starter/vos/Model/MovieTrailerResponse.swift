@@ -19,12 +19,12 @@ public struct MovieTrailerResponse: Codable {
 // MARK: - MovieTrailer
 public struct MovieTrailer: Codable {
     public let id: String?
-    public let iso639_1: ISO639_1?
-    public let iso3166_1: ISO3166_1?
+    public let iso639_1: String?
+    public let iso3166_1: String?
     public let key, name: String?
     public let site: Site?
     public let size: Int?
-    public let type: TypeEnum?
+    public let type: TrailerType?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -33,7 +33,7 @@ public struct MovieTrailer: Codable {
         case key, name, site, size, type
     }
 
-    public init(id: String?, iso639_1: ISO639_1?, iso3166_1: ISO3166_1?, key: String?, name: String?, site: Site?, size: Int?, type: TypeEnum?) {
+    public init(id: String?, iso639_1: String?, iso3166_1: String?, key: String?, name: String?, site: Site?, size: Int?, type: TrailerType?) {
         self.id = id
         self.iso639_1 = iso639_1
         self.iso3166_1 = iso3166_1
@@ -57,9 +57,10 @@ public enum Site: String, Codable {
     case youTube = "YouTube"
 }
 
-public enum TypeEnum: String, Codable {
+public enum TrailerType: String, Codable {
     case clip = "Clip"
     case featurette = "Featurette"
     case teaser = "Teaser"
     case trailer = "Trailer"
+    case behindTheScene = "Behind the Scenes"
 }

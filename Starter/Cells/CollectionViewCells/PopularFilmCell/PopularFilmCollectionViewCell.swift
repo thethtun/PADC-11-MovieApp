@@ -16,7 +16,7 @@ class PopularFilmCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var containerView : UIView!
     @IBOutlet weak var labelTitleHint : UILabel!
     
-    var onTapItem : ((Int)->Void)?
+    var onTapItem : ((Int, VideoType)->Void)?
     
     var data : MovieResult? {
         didSet {
@@ -44,7 +44,7 @@ class PopularFilmCollectionViewCell: UICollectionViewCell {
     }
 
     @objc func didTapItem(){
-        onTapItem?(data?.id ?? 0)
+        onTapItem?(data?.id ?? 0, data?.getVideoType() ?? .movie)
     }
 
 }

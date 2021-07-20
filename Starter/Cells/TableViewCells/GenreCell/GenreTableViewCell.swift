@@ -12,7 +12,7 @@ class GenreTableViewCell: UITableViewCell {
     @IBOutlet weak var collectionViewGenre: UICollectionView!
     @IBOutlet weak var collectionViewMovie: UICollectionView!
     
-    var onTapGenreMovie : ((Int)->Void)?
+    var onTapGenreMovie : ((Int, VideoType)->Void)?
     //    let genreList = [GenreVO(name: "ACTION", isSelected: true),GenreVO(name: "DRAMA", isSelected: false),GenreVO(name: "COMEDY", isSelected: false),GenreVO(name: "ADVENTURE", isSelected: false),GenreVO(name: "BIOGRAPHY", isSelected: false)]
     var genreList : [GenreVO]? {
         didSet {
@@ -112,7 +112,7 @@ extension GenreTableViewCell : UICollectionViewDataSource,UICollectionViewDelega
             
             return cell
             
-        } else{
+        } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GenreCollectionViewCell.self), for: indexPath) as? GenreCollectionViewCell else {
                 return UICollectionViewCell()
             }

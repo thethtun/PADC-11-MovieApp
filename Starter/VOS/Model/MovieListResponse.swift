@@ -84,6 +84,17 @@ public struct MovieResult: Codable, Hashable {
         self.voteAverage = voteAverage
         self.voteCount = voteCount
     }
+    
+    func getVideoType() -> VideoType {
+        /*
+         Both movie list & series list return same object schema.
+         API doesn't specify types. But there are a few differences
+         
+         if series data, title is in original_name
+         if movie data, title is in origintal_title
+         */
+        return self.originalName != nil ? .serie : .movie
+    }
 }
 
 public enum OriginalLanguage: String, Codable {

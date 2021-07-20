@@ -205,9 +205,9 @@ extension MovieViewController : UITableViewDataSource{
             cell.genreList = resultData
             
             
-            cell.onTapGenreMovie = { [weak self] movieId in
+            cell.onTapGenreMovie = { [weak self] movieId, videoType in
                 guard let self = self else { return }
-                self.onTapMovie(id: movieId, type: .movie)
+                self.onTapMovie(id: movieId, type: videoType)
             }
             
             return cell

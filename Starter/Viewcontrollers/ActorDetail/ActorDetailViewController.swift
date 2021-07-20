@@ -9,6 +9,7 @@ import UIKit
 
 class ActorDetailViewController: UIViewController {
     
+    //MARK: - IBOutlet
     @IBOutlet weak var ivBack: UIImageView!
     @IBOutlet weak var labelActorName : UILabel!
     @IBOutlet weak var labelAboutActorBiography : UILabel!
@@ -20,6 +21,7 @@ class ActorDetailViewController: UIViewController {
     @IBOutlet weak var stackViewButtonsActorInfo : UIStackView!
     @IBOutlet weak var buttonReadMore : UIButton!
     
+    //MARK: - Properties
     let networkAgent = MovieDBNetworkAgent.shared
     
     var itemId : Int = -1
@@ -44,6 +46,7 @@ class ActorDetailViewController: UIViewController {
         }
     }
     
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +55,7 @@ class ActorDetailViewController: UIViewController {
         fetchData(id: itemId)
     }
     
+    //MARK: - Setup View
     private func initView() {
         registerCollectionViewCells()
         initGestureRecognizers()
@@ -78,6 +82,8 @@ class ActorDetailViewController: UIViewController {
         ivBack.addGestureRecognizer(tapGestureForBack)
     }
     
+    
+    //MARK: - Network Call
     private func fetchData(id : Int) {
         fetchActorDetails(id)
         fetchTVCredits(id)
@@ -118,6 +124,7 @@ class ActorDetailViewController: UIViewController {
     }
     
     
+    //MARK: - UI Logic
     @IBAction func onClickReadMore(_ sender : UIButton) {
         if let externalLink = actionInfo?.homepage {
             UIApplication.shared.open(URL(string: externalLink)!, options: [:], completionHandler: nil)
@@ -131,6 +138,8 @@ class ActorDetailViewController: UIViewController {
         labelPopularity.text = "\(data.popularity ?? 0)"
         labelPopularity.isHidden = true //Hide for now -
         
+        self.navigationItem.title = data.name
+        
         let posterPath = "\(AppConstants.baseImageUrl)/\(data.profilePath ?? "")"
         imageViewActorPoster.sd_setImage(with: URL(string: posterPath))
         
@@ -143,7 +152,8 @@ class ActorDetailViewController: UIViewController {
     }
 }
 
-extension ActorDetailViewController : UICollectionViewDataSource , UICollectionViewDelegateFlowLayout{
+//MARK: - UICollectionViewDataSource , UICollectionViewDelegateFlowLayout
+extension ActorDetailViewController : UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //        if collectionView == collectionProductionCompanies {
@@ -168,7 +178,7 @@ extension ActorDetailViewController : UICollectionViewDataSource , UICollectionV
             }
             
             cell.data = tvCredits[indexPath.row]
-            cell.onTapItem = { id in
+            cell.onTapItem = { id, _ in
                 self.navigateToSerieDetailViewController(id: id)
             }
             return cell

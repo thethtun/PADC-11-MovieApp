@@ -51,6 +51,8 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
         navigationItem.titleView = searchBar
         
         navigationItem.titleView = searchBar
+        
+        setupCollectionView()
     }
     
     
@@ -113,7 +115,7 @@ extension SearchContentViewController:UICollectionViewDelegate,UICollectionViewD
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PopularFilmCollectionViewCell.self), for: indexPath) as? PopularFilmCollectionViewCell else { return UICollectionViewCell() }
         cell.data = searchedResult[indexPath.row]
-        cell.onTapItem = { id in
+        cell.onTapItem = { id, _ in
             self.navigateToMovieDetailViewController(movieId: id)
         }
         return cell

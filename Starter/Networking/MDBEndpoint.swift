@@ -37,7 +37,7 @@ enum MDBEndpoint : URLConvertible {
     
     /// 3 - construct URL & append query items
     var url : URL {
-        let urlComponents = NSURLComponents(string: baseURL.appending(apiPath))
+        let urlComponents = NSURLComponents(string: baseURL.appending(apiPath).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
         
         if (urlComponents?.queryItems == nil) {
             urlComponents!.queryItems = []

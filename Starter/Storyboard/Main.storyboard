@@ -95,7 +95,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="5Ee-Xu-AtQ">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="1984"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bi7-8H-vmO">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bi7-8H-vmO" userLabel="MovieInfo">
                                                         <rect key="frame" x="0.0" y="0.0" width="414" height="233"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q8P-9c-PGi">
@@ -573,7 +573,7 @@
                                                             <constraint firstAttribute="bottom" secondItem="qGX-1O-kfl" secondAttribute="bottom" constant="32" id="jGk-Va-DO7"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v7V-Pb-6dw">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v7V-Pb-6dw" userLabel="SimilarContent">
                                                         <rect key="frame" x="0.0" y="1664" width="414" height="320"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Similar Content" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V5V-U8-Oz8">
@@ -651,6 +651,9 @@
                         <outlet property="collectionProductionCompanies" destination="qGX-1O-kfl" id="iSs-9k-Cdw"/>
                         <outlet property="collectionViewActors" destination="TrF-6Q-TmU" id="1wE-Ai-e3c"/>
                         <outlet property="collectionViewSimilarContent" destination="4J5-ab-YK9" id="se6-2M-VlX"/>
+                        <outlet property="containerCastList" destination="sEm-LF-WHg" id="t8B-hJ-QAg"/>
+                        <outlet property="containerProductionCompanyList" destination="ETo-V3-5hg" id="Wli-j4-4QO"/>
+                        <outlet property="containerSimilarContentList" destination="v7V-Pb-6dw" id="cj4-NZ-cGO"/>
                         <outlet property="imageViewMoviePoster" destination="Q8P-9c-PGi" id="gNh-om-ZUv"/>
                         <outlet property="ivBack" destination="jFQ-22-x5C" id="Z6c-IE-oKP"/>
                         <outlet property="labelAboutMovieDescription" destination="g7k-x4-Tyt" id="qdc-oe-z61"/>
@@ -712,13 +715,13 @@
             <color red="0.12200000137090683" green="0.14499999582767487" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="color_primary">
-            <color red="0.086000002920627594" green="0.10999999940395355" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.082352941176470587" green="0.10980392156862745" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="color_white">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="color_yellow">
-            <color red="0.93300002813339233" green="0.76899999380111694" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.92941176470588238" green="0.7686274509803922" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

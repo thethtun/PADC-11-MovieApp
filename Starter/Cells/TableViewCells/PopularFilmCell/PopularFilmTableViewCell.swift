@@ -51,9 +51,9 @@ extension PopularFilmTableViewCell : UICollectionViewDataSource,UICollectionView
         }
         
         cell.data = data?.results?[indexPath.row]
-        cell.onTapItem = { [weak self] id in
+        cell.onTapItem = { [weak self] id, type in
             guard let self = self else { return }
-            self.delegate?.onTapMovie(id: id, type: self.videoType)
+            self.delegate?.onTapMovie(id: id, type: type)
         }
         return cell
     }

@@ -9,21 +9,25 @@ import Foundation
 import Alamofire
 
 protocol MovieDBNetworkAgentProtocol {
-    func searchMovieByKeyword(query: String, page: String, completion: @escaping (MDBResult<MovieListResponse>) -> Void)
-    func getActorGallery(id : Int, completion: @escaping (MDBResult<ActorProfileInfo>) -> Void)
-    func getTVCredits(id : Int, completion: @escaping (MDBResult<ActorTVCredits>) -> Void)
-    func getActorDetails(id : Int, completion: @escaping (MDBResult<ActorDetailInfo>) -> Void)
     func getMovieTrailers(id : Int, completion: @escaping (MDBResult<MovieTrailerResponse>) -> Void)
     func getSimilarMovies(id : Int, completion: @escaping (MDBResult<MovieListResponse>) -> Void)
     func getMovieCreditById(id: Int, completion: @escaping (MDBResult<MovieCreditResponse>) -> Void)
-    func getSerieDetailById(id : Int, completion: @escaping (MDBResult<MovieDetailResponse>) -> Void)
     func getMovieDetailById(id : Int, completion: @escaping (MDBResult<MovieDetailResponse>) -> Void)
-    func getPopularPeople(page : Int, completion: @escaping (MDBResult<ActorListResponse>) -> Void)
+    
     func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<MovieListResponse>) -> Void)
-    func getGenreList(completion: @escaping (MDBResult<MovieGenreList>) -> Void)
-    func getPopularSeriesList(completion: @escaping (MDBResult<MovieListResponse>) -> Void)
     func getPopularMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void)
     func getUpcomingMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+    func getGenreList(completion: @escaping (MDBResult<MovieGenreList>) -> Void)
+    func getPopularPeople(page : Int, completion: @escaping (MDBResult<ActorListResponse>) -> Void)
+    
+    func searchMovieByKeyword(query: String, page: String, completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+    
+    func getPopularSeriesList(completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+    func getSerieDetailById(id : Int, completion: @escaping (MDBResult<MovieDetailResponse>) -> Void)
+
+    func getActorGallery(id : Int, completion: @escaping (MDBResult<ActorProfileInfo>) -> Void)
+    func getActorDetails(id : Int, completion: @escaping (MDBResult<ActorDetailInfo>) -> Void)
+    func getTVCredits(id : Int, completion: @escaping (MDBResult<ActorTVCredits>) -> Void)
 }
 
 struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {

@@ -12,7 +12,7 @@ class MovieViewController: UIViewController {
     @IBOutlet weak var tableViewMovies: UITableView!
     
     //MARK: - Property
-    private let networkAgent = MovieDBNetworkAgent.shared
+    private let movieModel : MovieModel = MovieModelImpl.shared
     
     private var upcomingMovieList : MovieListResponse?
     private var popularMovieList : MovieListResponse?
@@ -56,7 +56,7 @@ class MovieViewController: UIViewController {
     
     //MARK: - API Methods
     func fetchPopularPeople() {
-        networkAgent.getPopularPeople(page: 1) { [weak self](result) in
+        movieModel.getPopularPeople(page: 1) { [weak self](result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
@@ -69,7 +69,7 @@ class MovieViewController: UIViewController {
     }
     
     func fetchTopRatedMovieList() {
-        networkAgent.getTopRatedMovieList(page: 1) { [weak self](result) in
+        movieModel.getTopRatedMovieList(page: 1) { [weak self](result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
@@ -82,7 +82,7 @@ class MovieViewController: UIViewController {
     }
     
     func fetchMovieGenreList() {
-        networkAgent.getGenreList { [weak self](result) in
+        movieModel.getGenreList { [weak self](result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
@@ -95,7 +95,7 @@ class MovieViewController: UIViewController {
     }
     
     func fetchUpcomingMovieList() {
-        networkAgent.getUpcomingMovieList { [weak self](result) in
+        movieModel.getUpcomingMovieList { [weak self](result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
@@ -108,7 +108,7 @@ class MovieViewController: UIViewController {
     }
     
     func fetchPopularMovieList() {
-        networkAgent.getPopularMovieList { [weak self](result) in
+        movieModel.getPopularMovieList { [weak self](result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
@@ -122,7 +122,7 @@ class MovieViewController: UIViewController {
     }
     
     func fetchPopularTVSerieList() {
-        networkAgent.getPopularSeriesList { [weak self](result) in
+        movieModel.getPopularSeriesList { [weak self](result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
@@ -222,7 +222,7 @@ extension MovieViewController : UITableViewDataSource{
             cell.onClickActorView = { actorId in
                 self.navigateToActorDetailViewController(id: actorId)
             }
-            cell.onClickViewMore = {data in
+            cell.onClickViewMore = { data in
                 self.navigateToViewMoreActorsViewController(data: data)
             }
             return cell

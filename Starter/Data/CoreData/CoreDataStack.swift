@@ -16,6 +16,7 @@ class CoreDataStack {
     
     var context : NSManagedObjectContext {
         get {
+            persistentContainer.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
             return persistentContainer.viewContext
         }
     }
@@ -26,6 +27,18 @@ class CoreDataStack {
         persistentContainer.loadPersistentStores { (description, error) in
             if let error = error {
                 fatalError("Core Data store failed to load with error: \(error)")
+            }
+        }
+    }
+    
+    func saveContext() {
+        let context = self.context
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let error = error as NSError
+                fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }
     }

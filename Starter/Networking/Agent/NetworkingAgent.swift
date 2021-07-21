@@ -38,6 +38,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func searchMovieByKeyword(query: String, page: String, completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.searchMovie(page, query))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieListResponse.self) { response in
                 switch response.result {
                 case .success(let data):
@@ -51,6 +52,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getActorGallery(id : Int, completion : @escaping (MDBResult<ActorProfileInfo>) -> Void) {
         AF.request(MDBEndpoint.actorImages(id))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: ActorProfileInfo.self) { response in
             switch response.result {
             case .success(let data):
@@ -63,6 +65,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getTVCredits(id : Int, completion : @escaping (MDBResult<ActorTVCredits>) -> Void) {
         AF.request(MDBEndpoint.actorTVCredits(id))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: ActorTVCredits.self) { response in
             switch response.result {
             case .success(let data):
@@ -75,6 +78,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getActorDetails(id : Int, completion : @escaping (MDBResult<ActorDetailInfo>) -> Void) {
         AF.request(MDBEndpoint.actorDetail(id))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: ActorDetailInfo.self) { response in
             switch response.result {
             case .success(let data):
@@ -87,6 +91,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getMovieTrailers(id : Int, completion : @escaping (MDBResult<MovieTrailerResponse>) -> Void) {
         AF.request(MDBEndpoint.trailerVideo(id))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieTrailerResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -99,6 +104,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getSimilarMovies(id : Int, completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.similarMovie(id))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -111,6 +117,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getMovieCreditById(id: Int, completion : @escaping (MDBResult<MovieCreditResponse>) -> Void) {
         AF.request(MDBEndpoint.movieActors(id))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieCreditResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -123,6 +130,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getSerieDetailById(id : Int, completion : @escaping (MDBResult<MovieDetailResponse>) -> Void) {
         AF.request(MDBEndpoint.seriesDetails(id))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieDetailResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -136,6 +144,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getMovieDetailById(id : Int, completion : @escaping (MDBResult<MovieDetailResponse>) -> Void) {
         AF.request(MDBEndpoint.movieDetails(id))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieDetailResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -148,6 +157,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getPopularPeople(page : Int = 1, completion : @escaping (MDBResult<ActorListResponse>) -> Void) {
         AF.request(MDBEndpoint.popularActors(page))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: ActorListResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -160,6 +170,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getTopRatedMovieList(page : Int = 1, completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.topRatedMovies(page))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -174,7 +185,9 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     
     func getPopularSeriesList(completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
+        
         AF.request(MDBEndpoint.popularTVSeries)
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -187,6 +200,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getPopularMovieList(completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.popularMovie(1))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -199,6 +213,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     
     func getUpcomingMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.upcomingMovie(1))
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieListResponse.self) { response in
                 switch response.result {
                 case .success(let upcomingMovieList):
@@ -214,6 +229,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
     func getGenreList(completion : @escaping (MDBResult<MovieGenreList>) -> Void) {
 //        let url = "\(AppConstants.BaseURL)/genre/movie/list?api_key=\(AppConstants.apiKey)"
         AF.request(MDBEndpoint.movieGenres)
+            .cacheResponse(using: ResponseCacher(behavior: .doNotCache))
             .responseDecodable(of: MovieGenreList.self) { response in
             switch response.result {
             case .success(let data):

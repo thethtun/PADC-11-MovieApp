@@ -24,6 +24,8 @@ class MovieModelImpl: BaseModel, MovieModel {
     
     private override init() { }
     
+    private let movieRepository : MovieRepository = MovieRepositoryImpl.shared
+    
     func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
         networkAgent.getTopRatedMovieList(page: page, completion: completion)
     }
@@ -32,10 +34,14 @@ class MovieModelImpl: BaseModel, MovieModel {
         networkAgent.getPopularMovieList { (result) in
             switch result {
             case .success(let data):
-                
-                break
+                self.movieRepository.save(type: .popular, data: data)
             case .failure(let error):
-                break
+                print(error)
+            }
+            
+            self.movieRepository.get(type: .popular) {
+                let vos = $0.map { MovieEntity.toMovieResult(entity: $0) }
+                completion(.success(MovieListResponse(dates: nil, page: nil, results: vos, totalPages: nil, totalResults: nil)))
             }
         }
     }

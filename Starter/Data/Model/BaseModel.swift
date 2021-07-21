@@ -10,6 +10,5 @@ import Foundation
 open class BaseModel: NSObject {
     
     var networkAgent : MovieDBNetworkAgentProtocol = MovieDBNetworkAgent.shared
-    var coreData = CoreDataStack.shared
     
 }

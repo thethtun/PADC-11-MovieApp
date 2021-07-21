@@ -49,8 +49,9 @@
         <attribute name="budget" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="firstAirDate" optional="YES" attributeType="String"/>
         <attribute name="genreIDs" optional="YES" attributeType="String"/>
+        <attribute name="groupStr" optional="YES" attributeType="String"/>
         <attribute name="homePage" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="imdbID" optional="YES" attributeType="String"/>
         <attribute name="lastAirDate" optional="YES" attributeType="String"/>
         <attribute name="originalLanguage" optional="YES" attributeType="String"/>
@@ -58,7 +59,7 @@
         <attribute name="originalTitle" optional="YES" attributeType="String"/>
         <attribute name="overview" optional="YES" attributeType="String"/>
         <attribute name="popularity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="posterPath" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="posterPath" optional="YES" attributeType="String"/>
         <attribute name="releaseDate" optional="YES" attributeType="String"/>
         <attribute name="revenu" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="runTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -112,7 +113,7 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="MovieEntity" positionX="-523.0601196289062" positionY="-13.6136474609375" width="122.6492919921875" height="508"/>
+        <element name="MovieEntity" positionX="-523.0601196289062" positionY="-13.6136474609375" width="122.6492919921875" height="28"/>
         <element name="GenreEntity" positionX="-746.200927734375" positionY="457.4105682373047" width="128" height="88"/>
         <element name="BelongsToCollectionEntity" positionX="-354.7196655273438" positionY="132.45556640625" width="128" height="103"/>
         <element name="ProductionCompanyEntity" positionX="-185.6002807617188" positionY="198.5765380859375" width="128" height="103"/>

@@ -97,7 +97,26 @@ public struct MovieResult: Codable, Hashable {
         return self.originalName != nil ? .serie : .movie
     }
     
-   
+    func toMovieEntity(context : NSManagedObjectContext, groupType : MovieGroupType) -> MovieEntity {
+        let entity = MovieEntity(context: context)
+        entity.id = Int32(id!)
+        entity.adult = adult ?? false
+        entity.backdropPath = backdropPath
+        entity.genreIDs = genreIDS?.map { String($0) }.joined(separator: ",")
+        entity.originalLanguage = originalLanguage
+        entity.originalName = originalName
+        entity.originalTitle = originalTitle
+        entity.overview = overview
+        entity.popularity = popularity ?? 0
+        entity.posterPath = posterPath
+        entity.releaseDate = releaseDate
+        entity.title = title
+        entity.video = video ?? false
+        entity.voteAverage = voteAverage ?? 0
+        entity.voteCount = Int64(voteCount ?? 0)
+        entity.groupStr = groupType.rawValue
+        return entity
+    }
 }
 
 public enum OriginalLanguage: String, Codable {

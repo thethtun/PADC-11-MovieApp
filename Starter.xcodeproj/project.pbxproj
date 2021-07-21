@@ -18,6 +18,8 @@
 		510D6FFA26A83EB9005ED9AC /* ProductionCountryEntityExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D6FF926A83EB9005ED9AC /* ProductionCountryEntityExtension.swift */; };
 		510D6FFD26A83EDD005ED9AC /* BelongsToCollectionEntityExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D6FFC26A83EDD005ED9AC /* BelongsToCollectionEntityExtension.swift */; };
 		510D700026A83EED005ED9AC /* SpokenLanguageEntityExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D6FFF26A83EED005ED9AC /* SpokenLanguageEntityExtension.swift */; };
+		510D700426A84754005ED9AC /* BaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D700326A84754005ED9AC /* BaseRepository.swift */; };
+		510D700826A8475D005ED9AC /* MovieRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D700726A8475D005ED9AC /* MovieRepository.swift */; };
 		512FB76F268CD53B00DA3429 /* MDBEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512FB76E268CD53B00DA3429 /* MDBEndpoint.swift */; };
 		51429432265A7FD70090FD01 /* NetworkingAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51429431265A7FD70090FD01 /* NetworkingAgent.swift */; };
 		51429436265A804A0090FD01 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51429435265A804A0090FD01 /* Constants.swift */; };
@@ -108,6 +110,8 @@
 		510D6FF926A83EB9005ED9AC /* ProductionCountryEntityExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionCountryEntityExtension.swift; sourceTree = "<group>"; };
 		510D6FFC26A83EDD005ED9AC /* BelongsToCollectionEntityExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BelongsToCollectionEntityExtension.swift; sourceTree = "<group>"; };
 		510D6FFF26A83EED005ED9AC /* SpokenLanguageEntityExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpokenLanguageEntityExtension.swift; sourceTree = "<group>"; };
+		510D700326A84754005ED9AC /* BaseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRepository.swift; sourceTree = "<group>"; };
+		510D700726A8475D005ED9AC /* MovieRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRepository.swift; sourceTree = "<group>"; };
 		512FB76E268CD53B00DA3429 /* MDBEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDBEndpoint.swift; sourceTree = "<group>"; };
 		51429431265A7FD70090FD01 /* NetworkingAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingAgent.swift; sourceTree = "<group>"; };
 		51429435265A804A0090FD01 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -250,6 +254,15 @@
 			path = ModelExtensions;
 			sourceTree = "<group>";
 		};
+		510D700226A84747005ED9AC /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				510D700326A84754005ED9AC /* BaseRepository.swift */,
+				510D700726A8475D005ED9AC /* MovieRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
 		512FB776268CF97900DA3429 /* Agent */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,6 +284,7 @@
 		515A3F6326A7F59D002DE83E /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				510D700226A84747005ED9AC /* Repository */,
 				510D6FDB26A83732005ED9AC /* CoreData */,
 				515A3F6526A7F5B9002DE83E /* Model */,
 				9182DFFD25C67191005A9E5C /* Enums */,
@@ -778,6 +792,7 @@
 				515A3F6B26A7F6A5002DE83E /* BaseModel.swift in Sources */,
 				510D6FED26A83D81005ED9AC /* MovieEntityExtensions.swift in Sources */,
 				91DE710025E04FBF00E2B900 /* Router.swift in Sources */,
+				510D700826A8475D005ED9AC /* MovieRepository.swift in Sources */,
 				51D5332226898E1B00F7BCCC /* ViewMoreMovieShowCaseViewController.swift in Sources */,
 				515A3F7126A7F74C002DE83E /* ActorModel.swift in Sources */,
 				510D6FE226A83776005ED9AC /* MovieDB.xcdatamodeld in Sources */,
@@ -807,6 +822,7 @@
 				51D53314268978AA00F7BCCC /* ActorTVCredits.swift in Sources */,
 				510CEF3E2689B7EA007B81D2 /* SearchContentViewController.swift in Sources */,
 				9179C0DB25AF9231008DB33D /* MovieViewController.swift in Sources */,
+				510D700426A84754005ED9AC /* BaseRepository.swift in Sources */,
 				9179C0D725AF8F50008DB33D /* Sample2TableViewCell.swift in Sources */,
 				510D6FF026A83E61005ED9AC /* ActorEntityExtensions.swift in Sources */,
 				515A3F7726A7F845002DE83E /* MovieDetailModel.swift in Sources */,

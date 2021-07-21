@@ -29,7 +29,15 @@ class MovieModelImpl: BaseModel, MovieModel {
     }
     
     func getPopularMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
-        networkAgent.getPopularMovieList(completion: completion)
+        networkAgent.getPopularMovieList { (result) in
+            switch result {
+            case .success(let data):
+                
+                break
+            case .failure(let error):
+                break
+            }
+        }
     }
     
     func getUpcomingMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void) {

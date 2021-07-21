@@ -4,6 +4,7 @@
 //   let upcomingMovieList = try? newJSONDecoder().decode(UpcomingMovieList.self, from: jsonData)
 
 import Foundation
+import CoreData
 
 // MARK: - UpcomingMovieList
 public struct MovieListResponse: Codable {
@@ -95,6 +96,8 @@ public struct MovieResult: Codable, Hashable {
          */
         return self.originalName != nil ? .serie : .movie
     }
+    
+   
 }
 
 public enum OriginalLanguage: String, Codable {

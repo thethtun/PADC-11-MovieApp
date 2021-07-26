@@ -37,6 +37,7 @@
 		5166F66926A7628A008B334A /* Authentication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5166F66626A7628A008B334A /* Authentication.storyboard */; };
 		5166F66A26A7628A008B334A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5166F66726A7628A008B334A /* LaunchScreen.storyboard */; };
 		5166F66B26A7628A008B334A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5166F66826A7628A008B334A /* Main.storyboard */; };
+		517A61E026AED7C8007E700E /* ContentTypeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517A61DF26AED7C8007E700E /* ContentTypeRepository.swift */; };
 		517F302A268D757B006914DC /* MovieDBNetworkAgentWithURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517F3029268D757B006914DC /* MovieDBNetworkAgentWithURLSession.swift */; };
 		518CE1122689697700EF1529 /* ActorDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518CE1102689697700EF1529 /* ActorDetailViewController.swift */; };
 		518CE1132689697700EF1529 /* ActorDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 518CE1112689697700EF1529 /* ActorDetailViewController.xib */; };
@@ -129,6 +130,7 @@
 		5166F66626A7628A008B334A /* Authentication.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Authentication.storyboard; sourceTree = "<group>"; };
 		5166F66726A7628A008B334A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5166F66826A7628A008B334A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		517A61DF26AED7C8007E700E /* ContentTypeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTypeRepository.swift; sourceTree = "<group>"; };
 		517F3029268D757B006914DC /* MovieDBNetworkAgentWithURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBNetworkAgentWithURLSession.swift; sourceTree = "<group>"; };
 		518CE1102689697700EF1529 /* ActorDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorDetailViewController.swift; sourceTree = "<group>"; };
 		518CE1112689697700EF1529 /* ActorDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActorDetailViewController.xib; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 			children = (
 				510D700326A84754005ED9AC /* BaseRepository.swift */,
 				510D700726A8475D005ED9AC /* MovieRepository.swift */,
+				517A61DF26AED7C8007E700E /* ContentTypeRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -832,6 +835,7 @@
 				5142943C265A80650090FD01 /* SearchSeriesResponse.swift in Sources */,
 				9182DF9425C650FF005A9E5C /* BestActorTableViewCell.swift in Sources */,
 				5142943D265A80650090FD01 /* MovieListResponse.swift in Sources */,
+				517A61E026AED7C8007E700E /* ContentTypeRepository.swift in Sources */,
 				91B17B6925BBFD7300EC74DD /* PopularFilmTableViewCell.swift in Sources */,
 				91DE70FD25E04C9800E2B900 /* MovieItemDelegate.swift in Sources */,
 				518CE1182689715D00EF1529 /* ActorDetailInfo.swift in Sources */,

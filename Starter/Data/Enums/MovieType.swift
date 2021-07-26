@@ -17,8 +17,11 @@ enum MovieType : Int{
     case MOVIE_BEST_ACTOR = 6
 }
 
-enum MovieGroupType : String {
-    case upcoming
-    case popular
-    case topRated
+enum MovieSerieGroupType : String, CaseIterable {
+    case upcomingMovies = "Upcoming Movies"
+    case popularMovies = "Popular Movies"
+    case topRatedMovies = "Top Rated Movies"
+    case popularSeries = "Popular Series"
+    case upcomingSeries = "Upcoming Series"
 }
+

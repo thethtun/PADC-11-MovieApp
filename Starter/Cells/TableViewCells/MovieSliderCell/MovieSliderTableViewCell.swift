@@ -17,7 +17,7 @@ class MovieSliderTableViewCell: UITableViewCell {
     var data : [MovieResult]? {
         didSet {
             if let data = data {
-                pageControl.numberOfPages = data.count ?? 0
+                pageControl.numberOfPages = data.count 
                 collectionViewMovie.reloadData()
             }
         }

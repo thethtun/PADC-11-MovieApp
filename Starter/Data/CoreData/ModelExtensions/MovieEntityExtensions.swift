@@ -9,13 +9,13 @@ import Foundation
 import CoreData
 
 extension MovieEntity {
-    static func get(type : MovieGroupType, context: NSManagedObjectContext) -> NSFetchRequest<MovieEntity> {
+    static func get(type : MovieSerieGroupType, context: NSManagedObjectContext) -> NSFetchRequest<MovieEntity> {
         let fetchRequest : NSFetchRequest<MovieEntity> = MovieEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "%K = %@", "groupStr", type.rawValue)
-        fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "releaseDate", ascending: false),
-            NSSortDescriptor(key: "voteCount", ascending: false),
-        ]
+//        fetchRequest.predicate = NSPredicate(format: "%K = %@", "groupStr", type.rawValue)
+//        fetchRequest.sortDescriptors = [
+//            NSSortDescriptor(key: "releaseDate", ascending: false),
+//            NSSortDescriptor(key: "voteCount", ascending: false),
+//        ]
         return fetchRequest
     }
     

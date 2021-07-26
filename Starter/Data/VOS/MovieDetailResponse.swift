@@ -162,10 +162,10 @@ public class JSONNull: Codable, Hashable {
         return true
     }
 
-    public var hashValue: Int {
-        return 0
+    public func hash(into hasher: inout Hasher) {
+        
     }
-
+    
     public init() {}
 
     public required init(from decoder: Decoder) throws {

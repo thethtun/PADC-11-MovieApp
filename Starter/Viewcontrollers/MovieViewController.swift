@@ -10,6 +10,11 @@ import UIKit
 class MovieViewController: UIViewController {
     
     @IBOutlet weak var tableViewMovies: UITableView!
+    private var refreshControl : UIRefreshControl = {
+        let ui = UIRefreshControl()
+        ui.tintColor = UIColor(named: "AccentColor")
+        return ui
+    }()
     
     //MARK: - Property
     private let movieModel : MovieModel = MovieModelImpl.shared
@@ -21,25 +26,23 @@ class MovieViewController: UIViewController {
     private var genresMovieList : MovieGenreList?
     private var popularPeople : ActorListResponse?
     
+    private let apiDispatchGroup = DispatchGroup()
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         registerTableViewCells()
+         
+        fetchData()
         
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "")
-        
-        fetchUpcomingMovieList()
-        fetchPopularMovieList()
-        fetchPopularTVSerieList()
-        fetchMovieGenreList()
-        fetchTopRatedMovieList()
-        fetchPopularPeople()
+        refreshControl.addTarget(self, action: #selector(handlePullToRefresh), for: .valueChanged)
+        refreshControl.tintColor = UIColor.yellow
     }
     
     //MARK: - InitView
     private func registerTableViewCells(){
         tableViewMovies.dataSource = self
+        tableViewMovies.refreshControl = refreshControl
         
         tableViewMovies.registerForCell(identifier: MovieSliderTableViewCell.identifier)
         tableViewMovies.registerForCell(identifier: PopularFilmTableViewCell.identifier)
@@ -49,15 +52,51 @@ class MovieViewController: UIViewController {
         tableViewMovies.registerForCell(identifier: BestActorTableViewCell.identifier)
     }
     
+    private func setupNavigationItem() {
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "")
+    }
+    
     @IBAction func onClickSearch(_ sender : Any) {
         self.navigateToSearchContentViewController()
     }
     
+    private func listenDispatchGroupEvents() {
+        apiDispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            guard let self = self else { return }
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
+    // Shorten Pull Distance on UIRefreshControl
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y < -80 { //change 80 to whatever you want
+            if  !self.refreshControl.isRefreshing {
+                handlePullToRefresh()
+            }
+        }
+    }
+    
+    @objc func handlePullToRefresh() {
+        fetchData()
+    }
     
     //MARK: - API Methods
+    func fetchData() {
+        fetchUpcomingMovieList()
+        fetchPopularMovieList()
+        fetchPopularTVSerieList()
+        fetchMovieGenreList()
+        fetchTopRatedMovieList()
+        fetchPopularPeople()
+        
+        listenDispatchGroupEvents()
+    }
+    
     func fetchPopularPeople() {
-        movieModel.getPopularPeople(page: 1) { [weak self](result) in
+        apiDispatchGroup.enter()
+        movieModel.getPopularPeople(page: 1) { [weak self] (result) in
             guard let self = self else { return }
+            defer { self.apiDispatchGroup.leave() }
             switch result {
             case .success(let data):
                 self.popularPeople = data
@@ -69,8 +108,10 @@ class MovieViewController: UIViewController {
     }
     
     func fetchTopRatedMovieList() {
+        apiDispatchGroup.enter()
         movieModel.getTopRatedMovieList(page: 1) { [weak self](result) in
             guard let self = self else { return }
+            defer { self.apiDispatchGroup.leave() }
             switch result {
             case .success(let data):
                 self.topRatedMovieList = data
@@ -82,8 +123,10 @@ class MovieViewController: UIViewController {
     }
     
     func fetchMovieGenreList() {
+        apiDispatchGroup.enter()
         movieModel.getGenreList { [weak self](result) in
             guard let self = self else { return }
+            defer { self.apiDispatchGroup.leave() }
             switch result {
             case .success(let data):
                 self.genresMovieList = data
@@ -95,8 +138,10 @@ class MovieViewController: UIViewController {
     }
     
     func fetchUpcomingMovieList() {
+        apiDispatchGroup.enter()
         movieModel.getUpcomingMovieList { [weak self](result) in
             guard let self = self else { return }
+            defer { self.apiDispatchGroup.leave() }
             switch result {
             case .success(let data):
                 self.upcomingMovieList = data
@@ -108,8 +153,10 @@ class MovieViewController: UIViewController {
     }
     
     func fetchPopularMovieList() {
+        apiDispatchGroup.enter()
         movieModel.getPopularMovieList { [weak self](result) in
             guard let self = self else { return }
+            defer { self.apiDispatchGroup.leave() }
             switch result {
             case .success(let data):
                 self.popularMovieList = data
@@ -122,8 +169,10 @@ class MovieViewController: UIViewController {
     }
     
     func fetchPopularTVSerieList() {
+        apiDispatchGroup.enter()
         movieModel.getPopularSeriesList { [weak self](result) in
             guard let self = self else { return }
+            defer { self.apiDispatchGroup.leave() }
             switch result {
             case .success(let data):
                 self.popularSerieList = data

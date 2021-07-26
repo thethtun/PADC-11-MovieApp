@@ -11,8 +11,7 @@ class ViewMoreMovieShowCaseViewController: UIViewController {
 
     @IBOutlet weak var collectionViewMovies : UICollectionView!
     
-    var initData : MovieListResponse?
-    
+    //MARK: - Property
     private var data : [MovieResult] = []
     private var currentPage : Int = 1
     private var totalPage : Int = 1
@@ -24,21 +23,14 @@ class ViewMoreMovieShowCaseViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         initView()
-        setupData()
+        fetchData(page: currentPage)
     }
     
+    //MARK: - View Setup
     private func initView() {
         setupCollectionView()
         
         self.navigationItem.title = "Showcases"
-    }
-    
-    private func setupData() {
-        data = initData?.results ?? [MovieResult]()
-        currentPage = initData?.page ?? 1
-        totalPage = initData?.totalPages ?? 1
-        
-        collectionViewMovies.reloadData()
     }
 
     func setupCollectionView() {
@@ -53,10 +45,13 @@ class ViewMoreMovieShowCaseViewController: UIViewController {
         collectionViewMovies.register(UINib(nibName: String(describing: ShowCaseCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: ShowCaseCollectionViewCell.self))
     }
     
+    //MARK: - API Methods
     private func fetchData(page : Int) {
         networkAgent.getTopRatedMovieList(page: page) { (result) in
             switch result {
             case .success(let data):
+                self.currentPage = data.page ?? 1
+                self.totalPage = data.totalPages ?? 1
                 self.data.append(contentsOf: data.results ?? [MovieResult]())
                 self.collectionViewMovies.reloadData()
             case .failure(let message):

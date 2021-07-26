@@ -24,6 +24,10 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
     
     func get(type: MovieSerieGroupType, completion: @escaping ([MovieEntity]) -> Void) {
         let fetchRequest = MovieEntity.get(type: type, context: self.coreData.context)
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "releaseDate", ascending: false),
+            NSSortDescriptor(key: "voteAverage", ascending: false),
+        ]
         
         do {
             let dataSource = try self.coreData.context.fetch(fetchRequest)

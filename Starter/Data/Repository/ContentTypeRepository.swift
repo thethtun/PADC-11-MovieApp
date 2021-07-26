@@ -56,7 +56,15 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
         if let entity = contentTypeMap[type.rawValue],
            let movies = entity.movies,
            let itemSet = movies as? Set<MovieEntity>{
-            completion(Array(itemSet))
+            completion(Array(itemSet.sorted(by: { (first, second) -> Bool in
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let firstDate = dateFormatter.date(from: first.releaseDate ?? "") ?? Date()
+                let secondDate = dateFormatter.date(from: second.releaseDate ?? "") ?? Date()
+
+                return firstDate.compare(secondDate) == .orderedDescending
+
+            })))
         } else {
             completion([MovieEntity]())
         }

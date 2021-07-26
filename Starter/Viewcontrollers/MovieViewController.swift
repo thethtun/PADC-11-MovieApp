@@ -14,10 +14,10 @@ class MovieViewController: UIViewController {
     //MARK: - Property
     private let movieModel : MovieModel = MovieModelImpl.shared
     
-    private var upcomingMovieList : MovieListResponse?
-    private var popularMovieList : MovieListResponse?
-    private var popularSerieList : MovieListResponse?
-    private var topRatedMovieList : MovieListResponse?
+    private var upcomingMovieList = [MovieResult]()
+    private var popularMovieList = [MovieResult]()
+    private var popularSerieList = [MovieResult]()
+    private var topRatedMovieList = [MovieResult]()
     private var genresMovieList : MovieGenreList?
     private var popularPeople : ActorListResponse?
     
@@ -141,8 +141,8 @@ class MovieViewController: UIViewController {
 //MARK: - MovieItemDelegate
 extension MovieViewController : MovieItemDelegate {
     
-    func onTapViewMore(data: MovieListResponse) {
-        self.navigateToViewMoreMovieShowCaseViewController(data: data)
+    func onTapViewMore() {
+        self.navigateToViewMoreMovieShowCaseViewController()
     }
     
     func onTapMovie(id : Int, type : VideoType) {
@@ -193,9 +193,9 @@ extension MovieViewController : UITableViewDataSource{
         case MovieType.MOVIE_GENRE.rawValue:
             let cell = tableView.dequeueCell(identifier: GenreTableViewCell.identifier, indexPath: indexPath) as GenreTableViewCell
             var movieList : [MovieResult] = []
-            movieList.append(contentsOf: upcomingMovieList?.results ?? [MovieResult]())
-            movieList.append(contentsOf: popularSerieList?.results ?? [MovieResult]())
-            movieList.append(contentsOf: popularMovieList?.results ?? [MovieResult]())
+            movieList.append(contentsOf: upcomingMovieList)
+            movieList.append(contentsOf: popularSerieList)
+            movieList.append(contentsOf: popularMovieList)
             cell.allMoviesAndSeries = movieList
             
             let resultData : [GenreVO]? = genresMovieList?.genres.map { movieGenre -> GenreVO in

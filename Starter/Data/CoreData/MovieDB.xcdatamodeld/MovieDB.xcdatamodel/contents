@@ -113,12 +113,12 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="MovieEntity" positionX="-523.0601196289062" positionY="-13.6136474609375" width="122.6492919921875" height="28"/>
-        <element name="GenreEntity" positionX="-746.200927734375" positionY="457.4105682373047" width="128" height="88"/>
+        <element name="ActorEntity" positionX="-827.1766662597656" positionY="150.9551086425781" width="128" height="268"/>
         <element name="BelongsToCollectionEntity" positionX="-354.7196655273438" positionY="132.45556640625" width="128" height="103"/>
+        <element name="GenreEntity" positionX="-746.200927734375" positionY="457.4105682373047" width="128" height="88"/>
+        <element name="MovieEntity" positionX="-523.0601196289062" positionY="-13.6136474609375" width="122.6492919921875" height="523"/>
         <element name="ProductionCompanyEntity" positionX="-185.6002807617188" positionY="198.5765380859375" width="128" height="103"/>
         <element name="ProductionCountryEntity" positionX="-120.4094848632812" positionY="354.1179809570312" width="128" height="73"/>
         <element name="SpokenLanguageEntity" positionX="-217.003173828125" positionY="454.6313323974609" width="128" height="88"/>
-        <element name="ActorEntity" positionX="-827.1766662597656" positionY="150.9551086425781" width="128" height="268"/>
     </elements>
 </model>

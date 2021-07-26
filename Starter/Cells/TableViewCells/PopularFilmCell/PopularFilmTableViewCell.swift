@@ -14,7 +14,7 @@ class PopularFilmTableViewCell: UITableViewCell {
     
     var delegate:MovieItemDelegate?=nil
     
-    var data : MovieListResponse? {
+    var data : [MovieResult]? {
         didSet {
             if let _ = data {
                 collectionViewMovies.reloadData()
@@ -42,7 +42,7 @@ class PopularFilmTableViewCell: UITableViewCell {
 extension PopularFilmTableViewCell : UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data?.results?.count ?? 0
+        return data?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -50,7 +50,7 @@ extension PopularFilmTableViewCell : UICollectionViewDataSource,UICollectionView
             return UICollectionViewCell()
         }
         
-        cell.data = data?.results?[indexPath.row]
+        cell.data = data?[indexPath.row]
         cell.onTapItem = { [weak self] id, type in
             guard let self = self else { return }
             self.delegate?.onTapMovie(id: id, type: type)

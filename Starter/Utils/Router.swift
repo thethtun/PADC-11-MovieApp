@@ -36,9 +36,8 @@ extension UIViewController {
 //        present(vc, animated: true, completion: nil)
     }
     
-    func navigateToViewMoreMovieShowCaseViewController(data : MovieListResponse) {
+    func navigateToViewMoreMovieShowCaseViewController() {
         let vc = ViewMoreMovieShowCaseViewController()
-        vc.initData = data
         self.navigationController?.pushViewController(vc, animated: true)
 //        present(vc, animated: true, completion: nil)
     }

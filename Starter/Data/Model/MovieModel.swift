@@ -8,13 +8,13 @@
 import Foundation
 
 protocol MovieModel {
-    func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<MovieListResponse>) -> Void)
-    func getPopularMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void)
-    func getUpcomingMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+    func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<[MovieResult]>) -> Void)
+    func getPopularMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void)
+    func getUpcomingMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void)
     func getGenreList(completion: @escaping (MDBResult<MovieGenreList>) -> Void)
     func getPopularPeople(page : Int, completion: @escaping (MDBResult<ActorListResponse>) -> Void)
     
-    func getPopularSeriesList(completion: @escaping (MDBResult<MovieListResponse>) -> Void)
+    func getPopularSeriesList(completion: @escaping (MDBResult<[MovieResult]>) -> Void)
     func getSerieDetailById(id : Int, completion: @escaping (MDBResult<MovieDetailResponse>) -> Void)
 }
 
@@ -26,11 +26,11 @@ class MovieModelImpl: BaseModel, MovieModel {
     
     private let movieRepository : MovieRepository = MovieRepositoryImpl.shared
     
-    func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
-        networkAgent.getTopRatedMovieList(page: page, completion: completion)
+    func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
+//        networkAgent.getTopRatedMovieList(page: page, completion: completion)
     }
     
-    func getPopularMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
+    func getPopularMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
         networkAgent.getPopularMovieList { (result) in
             switch result {
             case .success(let data):
@@ -41,13 +41,13 @@ class MovieModelImpl: BaseModel, MovieModel {
             
             self.movieRepository.get(type: .popular) {
                 let vos = $0.map { MovieEntity.toMovieResult(entity: $0) }
-                completion(.success(MovieListResponse(dates: nil, page: nil, results: vos, totalPages: nil, totalResults: nil)))
+                completion(.success(vos))
             }
         }
     }
     
-    func getUpcomingMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
-        networkAgent.getUpcomingMovieList(completion: completion)
+    func getUpcomingMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
+//        networkAgent.getUpcomingMovieList(completion: completion)
     }
     
     func getGenreList(completion: @escaping (MDBResult<MovieGenreList>) -> Void) {
@@ -58,8 +58,8 @@ class MovieModelImpl: BaseModel, MovieModel {
         networkAgent.getPopularPeople(page: page, completion: completion)
     }
     
-    func getPopularSeriesList(completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
-        networkAgent.getPopularSeriesList(completion: completion)
+    func getPopularSeriesList(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
+//        networkAgent.getPopularSeriesList(completion: completion)
     }
     
     func getSerieDetailById(id : Int, completion: @escaping (MDBResult<MovieDetailResponse>) -> Void) {

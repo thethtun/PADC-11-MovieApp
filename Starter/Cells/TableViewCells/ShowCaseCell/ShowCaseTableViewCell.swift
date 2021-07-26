@@ -14,7 +14,7 @@ class ShowCaseTableViewCell: UITableViewCell {
     @IBOutlet weak var collectionViewShowCases: UICollectionView!
     @IBOutlet weak var heightCollectionViewShowCases : NSLayoutConstraint!
     
-    var data : MovieListResponse? {
+    var data : [MovieResult]? {
         didSet {
             if let _ = data {
                 collectionViewShowCases.reloadData()
@@ -46,9 +46,7 @@ class ShowCaseTableViewCell: UITableViewCell {
     
     
      @IBAction func onClickViewMore(_ sender : Any) {
-        if let data = data {
-            delegate?.onTapViewMore(data : data)
-        }
+        delegate?.onTapViewMore()
      }
     
 }
@@ -56,15 +54,14 @@ class ShowCaseTableViewCell: UITableViewCell {
 extension ShowCaseTableViewCell : UICollectionViewDataSource , UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return data?.results?.count ?? 0
+        return data?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ShowCaseCollectionViewCell.self), for: indexPath) as? ShowCaseCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.data = data?.results?[indexPath.row]
+        cell.data = data?[indexPath.row]
         return cell
     }
     
@@ -80,7 +77,7 @@ extension ShowCaseTableViewCell : UICollectionViewDataSource , UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = data?.results?[indexPath.row]
+        let item = data?[indexPath.row]
         delegate?.onTapMovie(id: item?.id ?? -1, type: .movie) //This could be serie
     }
     

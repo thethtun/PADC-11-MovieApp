@@ -34,7 +34,8 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var containerProductionCompanyList : UIView!
     
     //MARK: - Properties
-    let networkAgent = MovieDBNetworkAgent.shared
+    
+    private let movieDetailModel : MovieDetailModel = MovieDetailModelImpl.shared
     
     var itemId : Int = -1
     var contentType : VideoType = .movie
@@ -111,7 +112,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchMovieDetails(id : Int) {
-        networkAgent.getMovieDetailById(id: id) { [weak self](result) in
+        movieDetailModel.getMovieDetailById(id: id) { [weak self](result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
@@ -123,7 +124,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSerieDetails(id : Int) {
-        networkAgent.getSerieDetailById(id: id) { [weak self](result) in
+        movieDetailModel.getSerieDetailById(id: id) { [weak self](result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
@@ -136,11 +137,11 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchSimilarMovies(id : Int) {
-        networkAgent.getSimilarMovies(id: id) { [weak self] (result) in
+        movieDetailModel.getSimilarMovies(id: id) { [weak self] (result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
-                self.similarMovies = data.results ?? [MovieResult]()
+                self.similarMovies = data
                 self.containerSimilarContentList.isHidden = self.similarMovies.isEmpty
                 self.collectionViewSimilarContent.reloadData()
             case .failure(let message):
@@ -151,11 +152,11 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func getMovieCreditsById(id : Int) {
-        networkAgent.getMovieCreditById(id: id) { [weak self] (result) in
+        movieDetailModel.getMovieCreditById(id: id) { [weak self] (result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
-                self.casts = data.cast ?? [MovieCast]()
+                self.casts = data
                 self.containerCastList.isHidden = self.casts.isEmpty
                 self.collectionViewActors.reloadData()
             case .failure(let message):
@@ -165,7 +166,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func fetchMovieTrailer(id : Int) {
-        networkAgent.getMovieTrailers(id: id) { [weak self](result) in
+        movieDetailModel.getMovieTrailers(id: id) { [weak self](result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
@@ -190,19 +191,21 @@ class MovieDetailViewController: UIViewController {
     
     private func bindData(data: MovieDetailResponse) {
         
-        productionCompanies = data.productionCompanies ?? [ProductionCompany]()
-        containerProductionCompanyList.isHidden = productionCompanies.isEmpty
+        bindDataGeneralInfo(data)
         
-        collectionProductionCompanies.reloadData()
+        bindDataAppendixInfo(data)
         
+        /// Navigation Title
+        self.navigationItem.title = data.originalTitle ?? data.title ?? data.name ?? ""
+    }
+    
+    private func bindDataGeneralInfo(_ data: MovieDetailResponse) {
         let posterPath = "\(AppConstants.baseImageUrl)/\(data.backdropPath ?? "")"
         imageViewMoviePoster.sd_setImage(with: URL(string: posterPath))
         
         let releaseDate = data.releaseDate ?? data.firstAirDate
         labelReleasedYear.text = String(releaseDate?.split(separator: "-").first ?? "")
         labelMovieTitle.text = data.originalTitle ?? data.title ?? data.name ?? ""
-        
-        self.navigationItem.title = data.originalTitle ?? data.title ?? data.name ?? ""
         
         labelMovieDescription.text = data.overview
         
@@ -213,32 +216,19 @@ class MovieDetailViewController: UIViewController {
         viewRatingCount.rating = Int((data.voteAverage ?? 0.0) * 0.5)
         labelVoteCount.text = "\(data.voteCount ?? 0) votes"
         labelAboutMovieTitle.text = data.originalTitle ?? data.name
-        
-        var genreListStr = ""
-        data.genres?.forEach({ (item) in
-            genreListStr += "\(item.name), "
-        })
-        if genreListStr.count > 2 {
-            genreListStr.removeLast()
-            genreListStr.removeLast()
-        }
+    }
     
-        
-        labelGenreCollectionString.text = genreListStr
-        
-        var countryListStr = ""
-        data.productionCountries?.forEach({ (item) in
-            countryListStr += "\(item.name ?? ""), "
-        })
-        if countryListStr.count > 2 {
-            countryListStr.removeLast()
-            countryListStr.removeLast()
-        }
-        
-        labelProductionCountriesString.text = countryListStr
+    private func bindDataAppendixInfo(_ data: MovieDetailResponse) {
+        labelGenreCollectionString.text = data.genres?.map { $0.name }.joined(separator: ",")
+        labelProductionCountriesString.text = data.productionCountries?.map { $0.name ?? "" }.joined(separator: ",")
         
         labelAboutMovieDescription.text = data.overview
         labelReleaseDate.text = data.releaseDate
+        
+        productionCompanies = data.productionCompanies ?? [ProductionCompany]()
+        containerProductionCompanyList.isHidden = productionCompanies.isEmpty
+        
+        collectionProductionCompanies.reloadData()
     }
     
     @objc func onTapBack(){

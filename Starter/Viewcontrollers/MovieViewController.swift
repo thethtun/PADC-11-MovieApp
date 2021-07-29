@@ -18,13 +18,14 @@ class MovieViewController: UIViewController {
     
     //MARK: - Property
     private let movieModel : MovieModel = MovieModelImpl.shared
+    private let actorModel : ActorModel = ActorModelImpl.shared
     
     private var upcomingMovieList = [MovieResult]()
     private var popularMovieList = [MovieResult]()
     private var popularSerieList = [MovieResult]()
     private var topRatedMovieList = [MovieResult]()
     private var genresMovieList = [MovieGenre]()
-    private var popularPeople : ActorListResponse?
+    private var popularPeople : [ActorInfoResponse]?
     
     private let apiDispatchGroup = DispatchGroup()
     
@@ -94,7 +95,7 @@ class MovieViewController: UIViewController {
     
     func fetchPopularPeople() {
         apiDispatchGroup.enter()
-        movieModel.getPopularPeople(page: 1) { [weak self] (result) in
+        actorModel.getPopularPeople(page: 1) { [weak self] (result) in
             guard let self = self else { return }
             defer { self.apiDispatchGroup.leave() }
             switch result {
@@ -248,7 +249,7 @@ extension MovieViewController : UITableViewDataSource{
             cell.allMoviesAndSeries = movieList
             
             let resultData : [GenreVO] = genresMovieList.map { movieGenre -> GenreVO in
-                return movieGenre.convertToGenreVO()
+                return movieGenre.toGenreVO()
             }
             resultData.first?.isSelected = true
             cell.genreList = resultData
@@ -271,8 +272,8 @@ extension MovieViewController : UITableViewDataSource{
             cell.onClickActorView = { actorId in
                 self.navigateToActorDetailViewController(id: actorId)
             }
-            cell.onClickViewMore = { data in
-                self.navigateToViewMoreActorsViewController(data: data)
+            cell.onClickViewMore = {
+                self.navigateToViewMoreActorsViewController()
             }
             return cell
         default:

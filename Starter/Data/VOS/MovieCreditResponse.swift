@@ -41,23 +41,6 @@ public struct MovieCast: Codable {
         case creditID = "credit_id"
         case order, department, job
     }
-
-    public init(adult: Bool?, gender: Int?, id: Int?, knownForDepartment: String?, name: String?, originalName: String?, popularity: Double?, profilePath: String?, castID: Int?, character: String?, creditID: String?, order: Int?, department: String?, job: String?) {
-        self.adult = adult
-        self.gender = gender
-        self.id = id
-        self.knownForDepartment = knownForDepartment
-        self.name = name
-        self.originalName = originalName
-        self.popularity = popularity
-        self.profilePath = profilePath
-        self.castID = castID
-        self.character = character
-        self.creditID = creditID
-        self.order = order
-        self.department = department
-        self.job = job
-    }
     
     func convertToActorInfoResponse() -> ActorInfoResponse {
         return ActorInfoResponse(

@@ -47,6 +47,36 @@ extension UITableView{
 }
 
 extension UIViewController{
+    func startLoading(yConstraint: Int = 0) {
+        let loaderColor = UIColor.white
+        let activityIndicator : UIActivityIndicatorView = {
+            let ui = UIActivityIndicatorView()
+            ui.translatesAutoresizingMaskIntoConstraints = false
+            ui.style = UIActivityIndicatorView.Style.large
+            ui.color = loaderColor
+            ui.startAnimating()
+            return ui
+        }()
+        
+        let viewcontroller = self
+        
+        viewcontroller.view.addSubview(activityIndicator)
+        activityIndicator.centerXAnchor.constraint(equalTo: viewcontroller.view.centerXAnchor, constant: 0).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: viewcontroller.view.centerYAnchor, constant: CGFloat(yConstraint)).isActive = true
+        activityIndicator.startAnimating()
+    }
+    
+    func stopLoading() {
+        let viewcontroller = self
+        
+        if let activityIndicator = viewcontroller.view.subviews.last,
+           ((activityIndicator as? UIActivityIndicatorView) != nil){
+            activityIndicator.removeFromSuperview()
+        } else {
+            print("Failed to stop loading")
+        }
+    }
+    
     static var identifier : String{
         String(describing: self)
     }

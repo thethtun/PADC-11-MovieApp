@@ -22,7 +22,8 @@ class ActorDetailViewController: UIViewController {
     @IBOutlet weak var buttonReadMore : UIButton!
     
     //MARK: - Properties
-    let networkAgent = MovieDBNetworkAgent.shared
+    
+    private let actorModel : ActorModel = ActorModelImpl.shared
     
     var itemId : Int = -1
     
@@ -91,7 +92,7 @@ class ActorDetailViewController: UIViewController {
     }
     
     private func fetchActorDetails(_ id: Int) {
-        networkAgent.getActorDetails(id: id) { (result) in
+        actorModel.getActorDetails(id: id) { (result) in
             switch result {
             case .success(let data):
                 self.actionInfo = data
@@ -102,7 +103,7 @@ class ActorDetailViewController: UIViewController {
     }
     
     private func fetchTVCredits(_ id : Int) {
-        networkAgent.getTVCredits(id: id) { (result) in
+        actorModel.getTVCredits(id: id) { (result) in
             switch result {
             case .success(let data):
                 self.tvCredits = data.cast ?? [MovieResult]()
@@ -113,7 +114,7 @@ class ActorDetailViewController: UIViewController {
     }
     
     private func fetchOtherImages(_ id : Int) {
-        networkAgent.getActorGallery(id: id) { (result) in
+        actorModel.getActorGallery(id: id) { (result) in
             switch result {
             case .success(let data):
                 self.actorImages = data.profiles ?? [ActorImageDetails]()
@@ -139,6 +140,9 @@ class ActorDetailViewController: UIViewController {
         labelPopularity.isHidden = true //Hide for now -
         
         self.navigationItem.title = data.name
+        
+        tvCredits = data.knownFor ?? [MovieResult]()
+        collectionViewTVCredits.reloadData()
         
         let posterPath = "\(AppConstants.baseImageUrl)/\(data.profilePath ?? "")"
         imageViewActorPoster.sd_setImage(with: URL(string: posterPath))

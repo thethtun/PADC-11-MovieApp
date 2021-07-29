@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 struct LoginSuccess : Codable {
     let success : Bool?
@@ -68,9 +69,16 @@ public struct MovieGenre : Codable {
         case name 
     }
     
-    func convertToGenreVO() -> GenreVO {
+    func toGenreVO() -> GenreVO {
         let vo = GenreVO(id: id, name: name, isSelected: false)
         return vo
+    }
+    
+    func toGenreEntity(context: NSManagedObjectContext) -> GenreEntity {
+        let entity = GenreEntity(context: context)
+        entity.id = String(self.id)
+        entity.name = self.name
+        return entity
     }
 }
 

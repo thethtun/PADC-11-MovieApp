@@ -29,8 +29,9 @@
                         <rect key="frame" x="111" y="11.5" width="24" height="21.5"/>
                         <color key="tintColor" name="color_white"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You like 18 Movies." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xGx-yN-ak0">
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You like 18 Movies." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xGx-yN-ak0">
                         <rect key="frame" x="10" y="174.5" width="125" height="17.5"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="14"/>
                         <color key="textColor" systemColor="secondarySystemBackgroundColor"/>
                         <nil key="highlightedColor"/>
@@ -44,7 +45,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Eddie Red" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVR-RG-hbg">
-                        <rect key="frame" x="10" y="144.5" width="125" height="20"/>
+                        <rect key="frame" x="10" y="172" width="125" height="20"/>
                         <fontDescription key="fontDescription" name="GeezaPro" family="Geeza Pro" pointSize="16"/>
                         <color key="textColor" name="color_white"/>
                         <nil key="highlightedColor"/>
@@ -57,21 +58,18 @@
                 <constraint firstItem="yQE-cg-eeb" firstAttribute="bottom" secondItem="TOs-8d-oK3" secondAttribute="bottom" id="0t9-Xt-i1P"/>
                 <constraint firstItem="yQE-cg-eeb" firstAttribute="trailing" secondItem="TOs-8d-oK3" secondAttribute="trailing" id="1Uh-bz-tPg"/>
                 <constraint firstItem="dVR-RG-hbg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="3KK-JQ-ep6"/>
+                <constraint firstAttribute="bottom" secondItem="dVR-RG-hbg" secondAttribute="bottom" constant="10" id="57E-ks-0Tv"/>
                 <constraint firstAttribute="trailing" secondItem="TOs-8d-oK3" secondAttribute="trailing" constant="10" id="7N6-rL-GgB"/>
                 <constraint firstItem="7VY-F4-7US" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="9mO-dH-Zg7"/>
-                <constraint firstItem="xGx-yN-ak0" firstAttribute="top" secondItem="dVR-RG-hbg" secondAttribute="bottom" constant="10" id="BcV-5b-ADJ"/>
                 <constraint firstAttribute="bottom" secondItem="7VY-F4-7US" secondAttribute="bottom" id="C55-Qh-FRs"/>
                 <constraint firstItem="oCz-XZ-bUn" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Ggz-on-dwc"/>
                 <constraint firstItem="oCz-XZ-bUn" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Kzg-ND-qoO"/>
                 <constraint firstAttribute="bottom" secondItem="oCz-XZ-bUn" secondAttribute="bottom" id="Lgn-41-9ti"/>
                 <constraint firstAttribute="trailing" secondItem="oCz-XZ-bUn" secondAttribute="trailing" id="M1k-vi-B2i"/>
-                <constraint firstAttribute="trailing" secondItem="xGx-yN-ak0" secondAttribute="trailing" constant="10" id="Q5n-dh-FUa"/>
                 <constraint firstItem="yQE-cg-eeb" firstAttribute="leading" secondItem="TOs-8d-oK3" secondAttribute="leading" id="TDm-kE-y7T"/>
                 <constraint firstAttribute="trailing" secondItem="dVR-RG-hbg" secondAttribute="trailing" constant="10" id="W8E-I0-yK9"/>
                 <constraint firstItem="7VY-F4-7US" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="XSJ-Zf-Vv3"/>
                 <constraint firstAttribute="trailing" secondItem="7VY-F4-7US" secondAttribute="trailing" id="fRt-Sz-AVk"/>
-                <constraint firstItem="xGx-yN-ak0" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="fkv-Y3-YGG"/>
-                <constraint firstAttribute="bottom" secondItem="xGx-yN-ak0" secondAttribute="bottom" constant="10" id="tqS-EL-uSg"/>
                 <constraint firstItem="TOs-8d-oK3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="wyZ-hy-Ttb"/>
             </constraints>
             <size key="customSize" width="145" height="202"/>
@@ -93,7 +91,7 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="color_yellow">
-            <color red="0.93300002813339233" green="0.76899999380111694" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.92941176470588238" green="0.7686274509803922" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

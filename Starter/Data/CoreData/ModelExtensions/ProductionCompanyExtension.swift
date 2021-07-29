@@ -9,4 +9,11 @@ import Foundation
 
 extension ProductionCompanyEntity {
     
+    static func toProductionCompany(entity: ProductionCompanyEntity?) -> ProductionCompany {
+        ProductionCompany(
+            id: Int(entity?.id ?? 0),
+            logoPath: entity?.logoPath,
+            name: entity?.name,
+            originCountry: entity?.originCountry)
+    }
 }

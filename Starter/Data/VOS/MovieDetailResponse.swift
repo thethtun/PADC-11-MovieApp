@@ -5,6 +5,7 @@
 //   let movieDetailResponse = try? newJSONDecoder().decode(MovieDetailResponse.self, from: jsonData)
 
 import Foundation
+import CoreData
 
 // MARK: - MovieDetailResponse
 public struct MovieDetailResponse: Codable {
@@ -54,35 +55,53 @@ public struct MovieDetailResponse: Codable {
         case firstAirDate = "first_air_date"
     }
 
-    public init(adult: Bool?, backdropPath: String?, belongsToCollection: BelongsToCollection?, budget: Int?, genres: [MovieGenre]?, homepage: String?, id: Int?, imdbID: String?, originalLanguage: String?, originalTitle: String?, overview: String?, popularity: Double?, posterPath: String?, productionCompanies: [ProductionCompany]?, productionCountries: [ProductionCountry]?, releaseDate: String?, revenue: Int?, runtime: Int?, spokenLanguages: [SpokenLanguage]?, status: String?, tagline: String?, title: String?, video: Bool?, voteAverage: Double?, voteCount: Int?, name : String?, lastAirDate: String?, firstAirDate : String?) {
-        self.adult = adult
-        self.backdropPath = backdropPath
-        self.belongsToCollection = belongsToCollection
-        self.budget = budget
-        self.genres = genres
-        self.homepage = homepage
-        self.id = id
-        self.imdbID = imdbID
-        self.originalLanguage = originalLanguage
-        self.originalTitle = originalTitle
-        self.overview = overview
-        self.popularity = popularity
-        self.posterPath = posterPath
-        self.productionCompanies = productionCompanies
-        self.productionCountries = productionCountries
-        self.releaseDate = releaseDate
-        self.revenue = revenue
-        self.runtime = runtime
-        self.spokenLanguages = spokenLanguages
-        self.status = status
-        self.tagline = tagline
-        self.title = title
-        self.video = video
-        self.voteAverage = voteAverage
-        self.voteCount = voteCount
-        self.name = name
-        self.lastAirDate = lastAirDate
-        self.firstAirDate = firstAirDate
+    func toMovieEntity(context: NSManagedObjectContext) -> MovieEntity {
+        let entity = MovieEntity(context: context)
+        entity.adult = self.adult ?? false
+        entity.backdropPath = self.backdropPath
+        
+        entity.belongsToCollection = self.belongsToCollection?.toBelongsToCollectionEntity(context: context)
+        
+        entity.budget = Int64(self.budget ?? 0)
+
+        self.genres?.forEach {
+            entity.addToGenres($0.toGenreEntity(context: context))
+        }
+        entity.homePage = self.homepage
+        entity.id = Int32(self.id ?? 0)
+        entity.imdbID = self.imdbID
+        entity.originalLanguage = self.originalLanguage
+        entity.originalTitle = self.originalTitle
+        entity.overview = self.overview
+        entity.popularity = self.popularity ?? 0
+        entity.posterPath = self.posterPath
+        self.productionCompanies?.forEach {
+            entity.addToProductionCompanies($0.toProductionCompanyEntity(context: context))
+        }
+
+        self.productionCountries?.forEach {
+            entity.addToProductionCountries($0.toProductionCountryEntity(context: context))
+        }
+
+        entity.releaseDate = self.releaseDate
+        entity.revenu = Int64(self.revenue ?? 0)
+        entity.runTime = Int64(self.runtime ?? 0)
+        
+        self.spokenLanguages?.forEach {
+            entity.addToSpokenLanguage($0.toSpokenLanguageEntity(context: context))
+        }
+
+        entity.status = self.status
+        entity.tagline = self.tagline
+        entity.title = self.title
+        entity.video = self.video ?? false
+        entity.voteAverage = self.voteAverage ?? 0
+        entity.voteCount = Int64(self.voteCount ?? 0)
+        entity.originalName = self.name
+        entity.lastAirDate = self.lastAirDate
+        entity.firstAirDate = self.firstAirDate
+        
+        return entity
     }
 }
 
@@ -99,6 +118,15 @@ public struct BelongsToCollection : Codable {
         case posterPath = "poster_path"
         case backdropPath = "backdrop_path"
     }
+    
+    func toBelongsToCollectionEntity(context: NSManagedObjectContext) -> BelongsToCollectionEntity {
+        let entity = BelongsToCollectionEntity(context: context)
+        entity.backdropPath = self.backdropPath
+        entity.id = Int32(self.id!)
+        entity.name = self.name
+        entity.posterPath = self.posterPath
+        return entity
+    }
 }
 
 // MARK: - ProductionCompany
@@ -114,11 +142,13 @@ public struct ProductionCompany: Codable {
         case originCountry = "origin_country"
     }
 
-    public init(id: Int?, logoPath: String?, name: String?, originCountry: String?) {
-        self.id = id
-        self.logoPath = logoPath
-        self.name = name
-        self.originCountry = originCountry
+    func toProductionCompanyEntity(context: NSManagedObjectContext) -> ProductionCompanyEntity {
+        let entity = ProductionCompanyEntity(context: context)
+        entity.id = Int32(self.id!)
+        entity.logoPath = self.logoPath
+        entity.name = self.name
+        entity.originCountry = self.originCountry
+        return entity
     }
 }
 
@@ -130,11 +160,14 @@ public struct ProductionCountry: Codable {
         case iso3166_1 = "iso_3166_1"
         case name
     }
-
-    public init(iso3166_1: String?, name: String?) {
-        self.iso3166_1 = iso3166_1
-        self.name = name
+    
+    func toProductionCountryEntity(context: NSManagedObjectContext) -> ProductionCountryEntity {
+        let entity = ProductionCountryEntity(context: context)
+        entity.iso3166_1 = self.iso3166_1
+        entity.name = self.name
+        return entity
     }
+    
 }
 
 // MARK: - SpokenLanguage
@@ -147,10 +180,12 @@ public struct SpokenLanguage: Codable {
         case name
     }
 
-    public init(englishName: String?, iso639_1: String?, name: String?) {
-        self.englishName = englishName
-        self.iso639_1 = iso639_1
-        self.name = name
+    func toSpokenLanguageEntity(context: NSManagedObjectContext) -> SpokenLanguageEntity {
+        let entity = SpokenLanguageEntity(context: context)
+        entity.englishName = self.englishName
+        entity.iso639_1 = self.iso639_1
+        entity.name = self.name
+        return entity
     }
 }
 

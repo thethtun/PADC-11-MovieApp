@@ -41,7 +41,7 @@
     <entity name="GenreEntity" representedClassName="GenreEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="movies" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovieEntity" inverseName="genres" inverseEntity="MovieEntity"/>
+        <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovieEntity" inverseName="genres" inverseEntity="MovieEntity"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
@@ -75,7 +75,7 @@
         <attribute name="voteCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="belongsToCollection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BelongsToCollectionEntity" inverseName="movies" inverseEntity="BelongsToCollectionEntity"/>
         <relationship name="belongsToType" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BelongsToTypeEntity" inverseName="movies" inverseEntity="BelongsToTypeEntity"/>
-        <relationship name="casts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActorEntity" inverseName="credits" inverseEntity="ActorEntity"/>
+        <relationship name="casts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActorEntity" inverseName="credits" inverseEntity="ActorEntity"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GenreEntity" inverseName="movies" inverseEntity="GenreEntity"/>
         <relationship name="productionCompanies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCompanyEntity" inverseName="movies" inverseEntity="ProductionCompanyEntity"/>
         <relationship name="productionCountries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductionCountryEntity" inverseName="movies" inverseEntity="ProductionCountryEntity"/>
@@ -121,9 +121,9 @@
         </uniquenessConstraints>
     </entity>
     <elements>
-        <element name="ActorEntity" positionX="-827.1766662597656" positionY="150.9551086425781" width="128" height="268"/>
+        <element name="ActorEntity" positionX="-907.4237976074219" positionY="153.3442077636718" width="128" height="268"/>
         <element name="BelongsToCollectionEntity" positionX="-354.7196655273438" positionY="132.45556640625" width="128" height="118"/>
-        <element name="BelongsToTypeEntity" positionX="-690.6256713867188" positionY="229.49853515625" width="128" height="73"/>
+        <element name="BelongsToTypeEntity" positionX="-763.6422119140625" positionY="288.8788146972656" width="128" height="73"/>
         <element name="GenreEntity" positionX="-746.200927734375" positionY="457.4105682373047" width="128" height="88"/>
         <element name="MovieEntity" positionX="-540.17333984375" positionY="-9.34332275390625" width="122.6492919921875" height="523"/>
         <element name="ProductionCompanyEntity" positionX="-185.6002807617188" positionY="198.5765380859375" width="128" height="118"/>

@@ -11,23 +11,22 @@ class ViewMoreActorsViewController: UIViewController {
 
     @IBOutlet weak var collectionViewActors : UICollectionView!
     
-    var initData : ActorListResponse?
-
     private var data : [ActorInfoResponse] = []
     
     private let networkAgent = MovieDBNetworkAgent.shared
+    private let actorModel : ActorModel = ActorModelImpl.shared
     
     private let itemSpacing : CGFloat = 10
     private let numberOfItemsPerRow = 3
-    private var totalPages : Int = 1
     private var currentPage : Int = 1
+    private var totalPage : Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         initView()
-        initState()
+        fetchData(page: currentPage)
     }
     
     private func initView() {
@@ -36,19 +35,15 @@ class ViewMoreActorsViewController: UIViewController {
         self.navigationItem.title = "Popular Actors"
     }
     
-    private func initState() {
-        currentPage = initData?.page ?? 1
-        totalPages = initData?.totalPages ?? 1
-        
-        data.append(contentsOf: initData?.results ?? [ActorInfoResponse]())
-        collectionViewActors.reloadData()
-    }
-    
     private func fetchData(page : Int) {
-        networkAgent.getPopularPeople(page : page) { (result) in
+        self.startLoading()
+        actorModel.getPopularPeople(page : page) { [weak self] (result) in
+            guard let self = self else { return }
+            self.stopLoading()
             switch result {
             case .success(let data):
-                self.data.append(contentsOf: data.results ?? [ActorInfoResponse]())
+                self.data.append(contentsOf: data)
+                self.totalPage = self.actorModel.totalPageActorList
                 self.collectionViewActors.reloadData()
             case .failure(let message):
                 print(message.debugDescription)
@@ -94,8 +89,8 @@ extension ViewMoreActorsViewController:UICollectionViewDelegate,UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let isAtLastRow = indexPath.row == (data.count - 1)
-        let hasMorePage = currentPage < totalPages
-        if isAtLastRow && hasMorePage {
+        let hasMorePages = self.currentPage < self.totalPage
+        if isAtLastRow && hasMorePages {
             currentPage = currentPage + 1
             fetchData(page: currentPage)
         }

@@ -28,7 +28,7 @@ class GenreRepositoryImpl: BaseRepository, GenreRepository {
         do {
             let results : [GenreEntity] = try coreData.context.fetch(fetchRequest)
             let items = results.map {
-                $0.toMovieGenre(entity: $0)
+                GenreEntity.toMovieGenre(entity: $0)
             }
             completion(items)
         } catch {

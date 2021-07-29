@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 public struct ActorListResponse : Codable {
     public let dates: Dates?
@@ -40,5 +41,25 @@ public struct ActorInfoResponse : Codable {
         case name
         case popularity
         case profilePath = "profile_path"
+    }
+    
+    func toActorEntity(context : NSManagedObjectContext, contentTypeRepo : ContentTypeRepository) -> ActorEntity {
+        let entity = ActorEntity(context: context)
+        entity.adult = self.adult ?? false
+        entity.gender = Int32(self.gender ?? 0)
+        entity.id = Int32(self.id!)
+        
+        knownFor?.forEach {
+            let movie = $0.toMovieEntity(
+                context: context,
+                groupType: contentTypeRepo.getBelongsToTypeEntity(type: .actorCredits)
+            )
+            entity.addToCredits(movie)
+        }
+        
+        entity.name = self.name
+        entity.popularity = self.popularity ?? 0
+        entity.profilePath = self.profilePath
+        return entity
     }
 }

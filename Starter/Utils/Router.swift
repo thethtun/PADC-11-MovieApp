@@ -29,9 +29,8 @@ extension UIViewController {
 //        present(vc, animated: true, completion: nil)
     }
     
-    func navigateToViewMoreActorsViewController(data : ActorListResponse) {
+    func navigateToViewMoreActorsViewController() {
         let vc = ViewMoreActorsViewController()
-        vc.initData = data
         self.navigationController?.pushViewController(vc, animated: true)
 //        present(vc, animated: true, completion: nil)
     }

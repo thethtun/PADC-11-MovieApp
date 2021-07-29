@@ -14,9 +14,9 @@ class BestActorTableViewCell: UITableViewCell, ActorActionDelegate {
     @IBOutlet weak var heightCollectionViewActors : NSLayoutConstraint!
     
     var onClickActorView : ((Int)->Void)?
-    var onClickViewMore : ((ActorListResponse) -> Void)?
+    var onClickViewMore : (() -> Void)?
     
-    var data : ActorListResponse? {
+    var data : [ActorInfoResponse]? {
         didSet {
             if let _ = data {
                 collectionViewActors.reloadData()
@@ -54,9 +54,7 @@ class BestActorTableViewCell: UITableViewCell, ActorActionDelegate {
     }
     
     @IBAction func onClickViewMore(_ sender : Any) {
-        if let data = data {
-            onClickViewMore?(data)
-        }
+        onClickViewMore?()
     }
     
 }
@@ -64,7 +62,7 @@ class BestActorTableViewCell: UITableViewCell, ActorActionDelegate {
 extension BestActorTableViewCell : UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data?.results?.count ?? 0
+        return data?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -72,7 +70,7 @@ extension BestActorTableViewCell : UICollectionViewDataSource,UICollectionViewDe
             return UICollectionViewCell()
         }
         cell.delegate = self
-        cell.data = data?.results?[indexPath.row]
+        cell.data = data?[indexPath.row]
         return cell
     }
     

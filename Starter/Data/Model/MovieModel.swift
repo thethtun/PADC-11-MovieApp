@@ -11,7 +11,7 @@ protocol MovieModel {
     func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<[MovieResult]>) -> Void)
     func getPopularMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void)
     func getUpcomingMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void)
-    func getGenreList(completion: @escaping (MDBResult<MovieGenreList>) -> Void)
+    func getGenreList(completion: @escaping (MDBResult<[MovieGenre]>) -> Void)
     func getPopularPeople(page : Int, completion: @escaping (MDBResult<ActorListResponse>) -> Void)
     
     func getPopularSeriesList(completion: @escaping (MDBResult<[MovieResult]>) -> Void)
@@ -26,6 +26,7 @@ class MovieModelImpl: BaseModel, MovieModel {
     
     private let movieRepository : MovieRepository = MovieRepositoryImpl.shared
     private let contentTypeRepository : ContentTypeRepository = ContentTypeRepositoryImpl.shared
+    private let genreRepository : GenreRepository = GenreRepositoryImpl.shared
     
     func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
         networkAgent.getTopRatedMovieList(page: page) { (result) in
@@ -37,8 +38,7 @@ class MovieModelImpl: BaseModel, MovieModel {
             }
             
             self.contentTypeRepository.getMoviesOrSeries(type: .topRatedMovies) {
-                let vos = $0.map { MovieEntity.toMovieResult(entity: $0) }
-                completion(.success(vos))
+                completion(.success($0))
             }
         }
     }
@@ -51,10 +51,9 @@ class MovieModelImpl: BaseModel, MovieModel {
             case .failure(let error):
                 print(error)
             }
-                        
+              
             self.contentTypeRepository.getMoviesOrSeries(type: .popularMovies) {
-                let vos = $0.map { MovieEntity.toMovieResult(entity: $0) }
-                completion(.success(vos))
+                completion(.success($0))
             }
         }
     }
@@ -69,14 +68,22 @@ class MovieModelImpl: BaseModel, MovieModel {
             }
             
             self.contentTypeRepository.getMoviesOrSeries(type: .upcomingMovies) {
-                let vos = $0.map { MovieEntity.toMovieResult(entity: $0) }
-                completion(.success(vos))
+                completion(.success($0))
             }
         }
     }
     
-    func getGenreList(completion: @escaping (MDBResult<MovieGenreList>) -> Void) {
-        networkAgent.getGenreList(completion: completion)
+    func getGenreList(completion: @escaping (MDBResult<[MovieGenre]>) -> Void) {
+        networkAgent.getGenreList { (result) in
+            switch result {
+            case .success(let data):
+                self.genreRepository.save(data: data)
+            case .failure(let error):
+                print("\(#function) \(error)")
+            }
+            
+            self.genreRepository.get { completion(.success($0)) }
+        }
     }
     
     func getPopularPeople(page : Int, completion: @escaping (MDBResult<ActorListResponse>) -> Void) {
@@ -93,8 +100,7 @@ class MovieModelImpl: BaseModel, MovieModel {
             }
             
             self.contentTypeRepository.getMoviesOrSeries(type: .upcomingSeries) {
-                let vos = $0.map { MovieEntity.toMovieResult(entity: $0) }
-                completion(.success(vos))
+                completion(.success($0))
             }
         }
     }

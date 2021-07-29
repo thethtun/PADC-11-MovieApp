@@ -23,7 +23,7 @@ class MovieViewController: UIViewController {
     private var popularMovieList = [MovieResult]()
     private var popularSerieList = [MovieResult]()
     private var topRatedMovieList = [MovieResult]()
-    private var genresMovieList : MovieGenreList?
+    private var genresMovieList = [MovieGenre]()
     private var popularPeople : ActorListResponse?
     
     private let apiDispatchGroup = DispatchGroup()
@@ -247,10 +247,10 @@ extension MovieViewController : UITableViewDataSource{
             movieList.append(contentsOf: popularMovieList)
             cell.allMoviesAndSeries = movieList
             
-            let resultData : [GenreVO]? = genresMovieList?.genres.map { movieGenre -> GenreVO in
+            let resultData : [GenreVO] = genresMovieList.map { movieGenre -> GenreVO in
                 return movieGenre.convertToGenreVO()
             }
-            resultData?.first?.isSelected = true
+            resultData.first?.isSelected = true
             cell.genreList = resultData
             
             

@@ -39,7 +39,7 @@
         <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovieEntity" inverseName="belongsToType" inverseEntity="MovieEntity"/>
     </entity>
     <entity name="GenreEntity" representedClassName="GenreEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="movies" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovieEntity" inverseName="genres" inverseEntity="MovieEntity"/>
         <uniquenessConstraints>

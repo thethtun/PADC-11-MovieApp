@@ -10,7 +10,7 @@ import CoreData
 
 protocol ContentTypeRepository {
     func save(name : String) -> BelongsToTypeEntity
-    func getMoviesOrSeries(type : MovieSerieGroupType, completion: @escaping ([MovieEntity]) -> Void)
+    func getMoviesOrSeries(type : MovieSerieGroupType, completion: @escaping ([MovieResult]) -> Void)
     func getBelongsToTypeEntity(type : MovieSerieGroupType) -> BelongsToTypeEntity
 }
 
@@ -52,7 +52,7 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
         
     }
     
-    func getMoviesOrSeries(type : MovieSerieGroupType, completion: @escaping ([MovieEntity]) -> Void) {
+    func getMoviesOrSeries(type : MovieSerieGroupType, completion: @escaping ([MovieResult]) -> Void) {
         if let entity = contentTypeMap[type.rawValue],
            let movies = entity.movies,
            let itemSet = movies as? Set<MovieEntity>{
@@ -64,9 +64,9 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
 
                 return firstDate.compare(secondDate) == .orderedDescending
 
-            })))
+            })).map{ MovieEntity.toMovieResult(entity: $0) })
         } else {
-            completion([MovieEntity]())
+            completion([MovieResult]())
         }
     }
     

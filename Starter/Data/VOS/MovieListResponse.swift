@@ -47,7 +47,7 @@ public struct MovieResult: Codable, Hashable {
     public let originalLanguage: String?
     public let originalTitle, originalName, overview: String?
     public let popularity: Double?
-    public let posterPath, releaseDate, title: String?
+    public let posterPath, releaseDate, firstAirDate, title: String?
     public let video: Bool?
     public let voteAverage: Double?
     public let voteCount: Int?
@@ -63,27 +63,10 @@ public struct MovieResult: Codable, Hashable {
         case overview, popularity
         case posterPath = "poster_path"
         case releaseDate = "release_date"
+        case firstAirDate = "first_air_date"
         case title, video
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
-    }
-
-    public init(adult: Bool?, backdropPath: String?, genreIDS: [Int]?, id: Int?, originalLanguage: String?,  originalName: String?, originalTitle: String?, overview: String?, popularity: Double?, posterPath: String?, releaseDate: String?, title: String?, video: Bool?, voteAverage: Double?, voteCount: Int?) {
-        self.adult = adult
-        self.backdropPath = backdropPath
-        self.genreIDS = genreIDS
-        self.id = id
-        self.originalLanguage = originalLanguage
-        self.originalName = originalName
-        self.originalTitle = originalTitle
-        self.overview = overview
-        self.popularity = popularity
-        self.posterPath = posterPath
-        self.releaseDate = releaseDate
-        self.title = title
-        self.video = video
-        self.voteAverage = voteAverage
-        self.voteCount = voteCount
     }
     
     func getVideoType() -> VideoType {
@@ -110,7 +93,7 @@ public struct MovieResult: Codable, Hashable {
         entity.overview = overview
         entity.popularity = popularity ?? 0
         entity.posterPath = posterPath
-        entity.releaseDate = releaseDate
+        entity.releaseDate = releaseDate ?? firstAirDate ?? ""
         entity.title = title
         entity.video = video ?? false
         entity.voteAverage = voteAverage ?? 0

@@ -10,6 +10,10 @@ import CoreData
 
 class BaseRepository: NSObject {
     
+    override init() {
+        super.init()
+    }
+    
     var coreData = CoreDataStack.shared
     
     /// Source @ https://stackoverflow.com/questions/2262704/iphone-core-data-production-error-handling

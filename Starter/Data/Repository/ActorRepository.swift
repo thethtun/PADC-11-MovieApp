@@ -75,7 +75,8 @@ class ActorRepositoryImpl: BaseRepository, ActorRepository {
     func getTotalPageActorList(completion: @escaping (Int) -> Void) {
         let fetchRequest : NSFetchRequest<ActorEntity> = ActorEntity.fetchRequest()
         let totalItems = (try? coreData.context.count(for: fetchRequest)) ?? 1
-        let totalPages = totalItems/pageSize
+        var totalPages = totalItems/pageSize
+        if totalItems % pageSize > 0 { totalPages += 1 }
         completion(totalPages)
     }
     

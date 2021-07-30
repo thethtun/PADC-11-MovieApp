@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-enum MDBEndpoint : URLConvertible {
+enum MDBEndpoint : URLConvertible, URLRequestConvertible {
    
     /// 1 - enum case with associated value
     case searchMovie(_ page : String, _ query : String)
@@ -29,6 +29,12 @@ enum MDBEndpoint : URLConvertible {
     
     private var baseURL : String {
         return AppConstants.BaseURL
+    }
+    
+    func asURLRequest() throws -> URLRequest {
+        var request = URLRequest(url: try asURL())
+        request.cachePolicy = .reloadIgnoringCacheData
+        return request
     }
     
     func asURL() throws -> URL {

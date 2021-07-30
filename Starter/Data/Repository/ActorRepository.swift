@@ -48,8 +48,9 @@ class ActorRepositoryImpl: BaseRepository, ActorRepository {
         
         let fetchRequest : NSFetchRequest<ActorEntity> = ActorEntity.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "name", ascending: true),
+            NSSortDescriptor(key: "insertedAt", ascending: false),
             NSSortDescriptor(key: "popularity", ascending: false),
+            NSSortDescriptor(key: "name", ascending: true),
         ]
         fetchRequest.fetchLimit = pageSize
         fetchRequest.fetchOffset = (pageSize * page) - pageSize

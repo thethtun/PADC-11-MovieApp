@@ -59,22 +59,18 @@ class ActorModelImpl: BaseModel, ActorModel {
         networkAgent.getPopularPeople(page: page) { (result) in
             switch result {
             case .success(let data):
-                if let results = data.results {
-                    networkResult = data.results ?? [ActorInfoResponse]()
-                    self.actorRepository.save(list: results)
-                    self.totalPageActorList = data.totalPages ?? 1
-                    completion(.success(networkResult))
-                }
+                networkResult = data.results ?? [ActorInfoResponse]()
+                self.actorRepository.save(list: data.results ?? [ActorInfoResponse]())
+                self.totalPageActorList = data.totalPages ?? 1
             case .failure(let error):
                 print("\(#function) \(error)")
             }
             
-            /// Only try fetching from db if network has no more data. Otherwise there will be data inconsistency
+            self.actorRepository.getList(page: page, type: .popularActors) {
+                completion(.success($0))
+            }
+            
             if networkResult.isEmpty {
-                self.actorRepository.getList(page: page, type: .popularActors) {
-                    completion(.success($0))
-                }
-                
                 /// Update Total Pages available to fetch
                 self.actorRepository.getTotalPageActorList { self.totalPageActorList = $0 }
             }

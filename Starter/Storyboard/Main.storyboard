@@ -45,7 +45,7 @@
             <objects>
                 <viewController id="K1X-oS-dc3" customClass="MovieViewController" customModule="Starter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Cea-p9-RBh">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nUF-pC-8G7">
@@ -136,14 +136,14 @@
                                                                                 <color key="textColor" name="color_white"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DJt-rB-6U0">
+                                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DJt-rB-6U0">
                                                                                 <rect key="frame" x="278" y="31" width="80" height="66"/>
                                                                                 <subviews>
-                                                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bLz-Im-hwE">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="80" height="100"/>
+                                                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bLz-Im-hwE">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="80" height="66"/>
                                                                                         <subviews>
-                                                                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mpz-Ic-UGD" customClass="RatingControl" customModule="Starter" customModuleProvider="target">
-                                                                                                <rect key="frame" x="0.0" y="0.0" width="80" height="50"/>
+                                                                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mpz-Ic-UGD" customClass="RatingControl" customModule="Starter" customModuleProvider="target">
+                                                                                                <rect key="frame" x="0.0" y="0.0" width="80" height="16"/>
                                                                                                 <userDefinedRuntimeAttributes>
                                                                                                     <userDefinedRuntimeAttribute type="size" keyPath="starSize">
                                                                                                         <size key="value" width="16" height="16"/>
@@ -156,8 +156,8 @@
                                                                                                     </userDefinedRuntimeAttribute>
                                                                                                 </userDefinedRuntimeAttributes>
                                                                                             </stackView>
-                                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gaQ-u2-Zhn">
-                                                                                                <rect key="frame" x="0.0" y="50" width="80" height="50"/>
+                                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gaQ-u2-Zhn">
+                                                                                                <rect key="frame" x="0.0" y="16" width="80" height="50"/>
                                                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                                 <nil key="highlightedColor"/>
@@ -232,7 +232,7 @@
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kPM-z2-OG7">
-                                                                                <rect key="frame" x="86" y="0.0" width="252" height="50"/>
+                                                                                <rect key="frame" x="86" y="0.0" width="280" height="50"/>
                                                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="cS2-3z-qwO">
                                                                                     <size key="itemSize" width="128" height="128"/>
@@ -242,7 +242,7 @@
                                                                                 </collectionViewFlowLayout>
                                                                                 <cells>
                                                                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ii1-os-R1U">
-                                                                                        <rect key="frame" x="62" y="0.0" width="128" height="128"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="wnj-Z0-Gat">
                                                                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
@@ -251,8 +251,8 @@
                                                                                     </collectionViewCell>
                                                                                 </cells>
                                                                             </collectionView>
-                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NH5-JA-gJx">
-                                                                                <rect key="frame" x="346" y="16.5" width="20" height="17.5"/>
+                                                                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bookmark" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NH5-JA-gJx">
+                                                                                <rect key="frame" x="366" y="15" width="20" height="20"/>
                                                                                 <color key="tintColor" name="color_white"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="20" id="3f7-TJ-y1R"/>
@@ -705,9 +705,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bookmark" catalog="system" width="112" height="128"/>
         <image name="chevron.backward" catalog="system" width="96" height="128"/>
         <image name="clock" catalog="system" width="128" height="121"/>
-        <image name="heart" catalog="system" width="128" height="109"/>
         <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="play.circle.fill" catalog="system" width="128" height="121"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>

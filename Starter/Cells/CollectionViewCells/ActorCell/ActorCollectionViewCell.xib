@@ -26,7 +26,7 @@
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="yQE-cg-eeb">
-                        <rect key="frame" x="111" y="11.5" width="24" height="21.5"/>
+                        <rect key="frame" x="135" y="11.5" width="0.0" height="21.5"/>
                         <color key="tintColor" name="color_white"/>
                     </imageView>
                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You like 18 Movies." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xGx-yN-ak0">
@@ -37,10 +37,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="TOs-8d-oK3">
-                        <rect key="frame" x="111" y="11.5" width="24" height="21.5"/>
+                        <rect key="frame" x="135" y="11.5" width="0.0" height="21.5"/>
                         <color key="tintColor" name="color_yellow"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="24" id="gfc-po-GZ5"/>
+                            <constraint firstAttribute="width" id="gfc-po-GZ5"/>
                             <constraint firstAttribute="height" constant="24" id="q2n-VN-2iX"/>
                         </constraints>
                     </imageView>

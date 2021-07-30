@@ -27,18 +27,18 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
     }
     
     private func initializeData() {
-        // Process Existing Data
+        /// Process Existing Data
         let fetchRequest : NSFetchRequest<BelongsToTypeEntity> = BelongsToTypeEntity.fetchRequest()
         do {
             let dataSource = try self.coreData.context.fetch(fetchRequest)
             
             if dataSource.isEmpty {
-                //insert initial data
+                /// Insert initial data
                 MovieSerieGroupType.allCases.forEach {
                     save(name: $0.rawValue)
                 }
             } else {
-                //map existing data
+                /// Map existing data
                 dataSource.forEach {
                     if let key = $0.name {
                         contentTypeMap[key] = $0
@@ -55,7 +55,7 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
     func getMoviesOrSeries(type : MovieSerieGroupType, completion: @escaping ([MovieResult]) -> Void) {
         if let entity = contentTypeMap[type.rawValue],
            let movies = entity.movies,
-           let itemSet = movies as? Set<MovieEntity>{
+           let itemSet = movies as? Set<MovieEntity> {
             completion(Array(itemSet.sorted(by: { (first, second) -> Bool in
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -64,7 +64,7 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
 
                 return firstDate.compare(secondDate) == .orderedDescending
 
-            })).map{ MovieEntity.toMovieResult(entity: $0) })
+            })).map { MovieEntity.toMovieResult(entity: $0) })
         } else {
             completion([MovieResult]())
         }

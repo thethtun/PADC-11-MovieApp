@@ -26,15 +26,18 @@ class MovieModelImpl: BaseModel, MovieModel {
     private let genreRepository : GenreRepository = GenreRepositoryImpl.shared
     
     func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
+        
+        let contentType : MovieSerieGroupType = .topRatedMovies
+        
         networkAgent.getTopRatedMovieList(page: page) { (result) in
             switch result {
             case .success(let data):
-                self.movieRepository.saveList(type: .topRatedMovies, data: data)
+                self.movieRepository.saveList(type: contentType, data: data)
             case .failure(let error):
                 print("\(#function) \(error)")
             }
             
-            self.contentTypeRepository.getMoviesOrSeries(type: .topRatedMovies) {
+            self.contentTypeRepository.getMoviesOrSeries(type: contentType) {
                 completion(.success($0))
             }
         }
@@ -71,14 +74,20 @@ class MovieModelImpl: BaseModel, MovieModel {
     }
     
     func getGenreList(completion: @escaping (MDBResult<[MovieGenre]>) -> Void) {
+        
+        /// [1] - Fetch from Network
         networkAgent.getGenreList { (result) in
             switch result {
             case .success(let data):
+                
+                /// [2] - Save to Database
                 self.genreRepository.save(data: data)
+                
             case .failure(let error):
                 print("\(#function) \(error)")
             }
             
+            /// [3] - Fetch inserted data from Database
             self.genreRepository.get { completion(.success($0)) }
         }
     }

@@ -33,6 +33,8 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var containerSimilarContentList : UIView!
     @IBOutlet weak var containerProductionCompanyList : UIView!
     
+    private var bookmarkButton : UIBarButtonItem!
+    
     //MARK: - Properties
     
     private let movieDetailModel : MovieDetailModel = MovieDetailModelImpl.shared
@@ -47,6 +49,15 @@ class MovieDetailViewController: UIViewController {
     private var similarMovies: [MovieResult] = []
     private var movieTrailers: [MovieTrailer] = []
     
+    private var isBookmarked: Bool = false {
+        didSet {
+            if isBookmarked {
+                bookmarkButton.image = UIImage(systemName: "bookmark.fill")
+            } else {
+                bookmarkButton.image = UIImage(systemName: "bookmark")
+            }
+        }
+    }
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -69,6 +80,9 @@ class MovieDetailViewController: UIViewController {
         btnRateMovie.layer.cornerRadius = 20
         
         self.buttonPlayTrailer.isHidden = true
+        
+        bookmarkButton = UIBarButtonItem(image: UIImage(systemName: "bookmark"), style: .plain, target: self, action: #selector(onSelectBookmark))
+        self.navigationItem.rightBarButtonItem = bookmarkButton
     }
     
     private func registerCollectionViewCells(){
@@ -95,6 +109,10 @@ class MovieDetailViewController: UIViewController {
         let tapGestureForBack = UITapGestureRecognizer(target: self, action: #selector(onTapBack))
         ivBack.isUserInteractionEnabled = true
         ivBack.addGestureRecognizer(tapGestureForBack)
+    }
+    
+    @objc func onSelectBookmark(_ sender : Any) {
+        isBookmarked.toggle()
     }
     
     //MARK: - Network Call

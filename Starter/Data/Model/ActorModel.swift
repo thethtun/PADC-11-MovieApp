@@ -55,6 +55,13 @@ class ActorModelImpl: BaseModel, ActorModel {
     }
     
     func getPopularPeople(page : Int, completion: @escaping (MDBResult<[ActorInfoResponse]>) -> Void) {
+        
+        /**
+         Which Total Page
+         - Network Source - 100 pages
+         - DB Source - 10 pages
+         */
+        
         var networkResult = [ActorInfoResponse]()
         networkAgent.getPopularPeople(page: page) { (result) in
             switch result {

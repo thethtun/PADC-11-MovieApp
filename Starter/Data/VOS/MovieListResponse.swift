@@ -98,8 +98,6 @@ public struct MovieResult: Codable, Hashable {
         entity.video = video ?? false
         entity.voteAverage = voteAverage ?? 0
         entity.voteCount = Int64(voteCount ?? 0)
-//        entity.groupStr = groupType.rawValue
-//        entity.belongsToType
         entity.addToBelongsToType(groupType)
         return entity
     }

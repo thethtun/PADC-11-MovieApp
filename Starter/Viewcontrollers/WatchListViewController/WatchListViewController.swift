@@ -45,18 +45,30 @@ class WatchListViewController: UIViewController {
     }
 
     private func initData() {
-        watchListModel.getWatchListItems { [unowned self] (results) in
-            switch results {
-            case .success(let items):
-                self.dataSource = items
-                self.collectionViewWatchList.reloadData()
-            case .failure(let msg):
-                print(msg)
-            }
-        }
+//        watchListModel.getWatchListItems { [unowned self] (results) in
+//            switch results {
+//            case .success(let items):
+//                self.dataSource = items
+//                self.collectionViewWatchList.reloadData()
+//            case .failure(let msg):
+//                print(msg)
+//            }
+//        }
+     
+        watchListModel.initFetchResultController(subscription: self)
+    }
+    
+    deinit {
+        watchListModel.deinitFetchResultController()
     }
 }
 
+extension WatchListViewController: WatchListRepoSubscription {
+    func onFetchResultDidChange(didChange objects: [MovieResult]) {
+        self.dataSource = objects
+        self.collectionViewWatchList.reloadData()
+    }
+}
 
 
 //MARK: - UICollectionViewDelegate,UICollectionViewDataSource

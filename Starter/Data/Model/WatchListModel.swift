@@ -8,6 +8,8 @@
 import Foundation
 
 protocol WatchListModel {
+    func initFetchResultController(subscription : WatchListRepoSubscription)
+    func deinitFetchResultController()
     func checkIfItemInWatchList(id: Int, completion: @escaping (Bool) -> Void)
     func getWatchListItems(completion: @escaping (MDBResult<[MovieResult]>) -> Void)
     func saveWatchList(id: Int, completion: ((MDBResult<String>) -> Void)?)
@@ -21,6 +23,14 @@ class WatchListModelImpl: BaseModel, WatchListModel {
     private override init() { }
     
     private let watchListRepository : WatchListRepository = WatchListRepositoryImpl.shared
+    
+    func initFetchResultController(subscription : WatchListRepoSubscription) {
+        watchListRepository.initFetchResultController(subscription: subscription)
+    }
+    
+    func deinitFetchResultController() {
+        watchListRepository.deinitFetchResultController()
+    }
     
     func checkIfItemInWatchList(id: Int, completion: @escaping (Bool) -> Void) {
         watchListRepository.getWatchListEntity(id) { (item) in

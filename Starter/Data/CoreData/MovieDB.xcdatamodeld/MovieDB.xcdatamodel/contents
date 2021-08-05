@@ -114,10 +114,19 @@
         <attribute name="englishName" optional="YES" attributeType="String"/>
         <attribute name="iso639_1" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <relationship name="movies" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovieEntity" inverseName="spokenLanguage" inverseEntity="MovieEntity"/>
+        <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovieEntity" inverseName="spokenLanguage" inverseEntity="MovieEntity"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="WatchListEntity" representedClassName="WatchListEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="insertedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="movieId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="movieId"/>
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
@@ -126,9 +135,10 @@
         <element name="BelongsToCollectionEntity" positionX="-354.7196655273438" positionY="132.45556640625" width="128" height="118"/>
         <element name="BelongsToTypeEntity" positionX="-763.6422119140625" positionY="288.8788146972656" width="128" height="73"/>
         <element name="GenreEntity" positionX="-746.200927734375" positionY="457.4105682373047" width="128" height="88"/>
-        <element name="MovieEntity" positionX="-540.17333984375" positionY="-9.34332275390625" width="122.6492919921875" height="523"/>
+        <element name="MovieEntity" positionX="-513" positionY="153" width="128" height="523"/>
         <element name="ProductionCompanyEntity" positionX="-185.6002807617188" positionY="198.5765380859375" width="128" height="118"/>
         <element name="ProductionCountryEntity" positionX="-120.4094848632812" positionY="354.1179809570312" width="128" height="88"/>
         <element name="SpokenLanguageEntity" positionX="-217.003173828125" positionY="454.6313323974609" width="128" height="103"/>
+        <element name="WatchListEntity" positionX="-707.0049438476562" positionY="156.1856536865234" width="128" height="73"/>
     </elements>
 </model>

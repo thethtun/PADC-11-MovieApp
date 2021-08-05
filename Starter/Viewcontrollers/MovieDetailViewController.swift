@@ -38,6 +38,7 @@ class MovieDetailViewController: UIViewController {
     //MARK: - Properties
     
     private let movieDetailModel : MovieDetailModel = MovieDetailModelImpl.shared
+    private let watchListModel : WatchListModel = WatchListModelImpl.shared
     
     var itemId : Int = -1
     var contentType : VideoType = .movie
@@ -49,9 +50,9 @@ class MovieDetailViewController: UIViewController {
     private var similarMovies: [MovieResult] = []
     private var movieTrailers: [MovieTrailer] = []
     
-    private var isBookmarked: Bool = false {
+    private var isWatchList: Bool = false {
         didSet {
-            if isBookmarked {
+            if isWatchList {
                 bookmarkButton.image = UIImage(systemName: "bookmark.fill")
             } else {
                 bookmarkButton.image = UIImage(systemName: "bookmark")
@@ -111,9 +112,6 @@ class MovieDetailViewController: UIViewController {
         ivBack.addGestureRecognizer(tapGestureForBack)
     }
     
-    @objc func onSelectBookmark(_ sender : Any) {
-        isBookmarked.toggle()
-    }
     
     //MARK: - Network Call
     private func fetchContentDetail(id : Int) {
@@ -127,7 +125,15 @@ class MovieDetailViewController: UIViewController {
         getMovieCreditsById(id : id)
         fetchSimilarMovies(id: id)
         fetchMovieTrailer(id : id)
+        
+//        MovieRepositoryImpl.shared.testDummy()
+        
+        watchListModel.checkIfItemInWatchList(id: id) { (isWatchList) in
+            self.isWatchList = isWatchList
+        }
     }
+    
+    
     
     private func fetchMovieDetails(id : Int) {
         movieDetailModel.getMovieDetailById(id: id) { [weak self](result) in
@@ -199,6 +205,16 @@ class MovieDetailViewController: UIViewController {
     
     
     //MARK: - UI Logic Handlers
+    @objc func onSelectBookmark(_ sender : Any) {
+        if isWatchList {
+            watchListModel.removeWatchList(id: itemId, completion: nil)
+        } else {
+            watchListModel.saveWatchList(id: itemId, completion: nil)
+        }
+        
+        isWatchList.toggle()
+    }
+    
     @IBAction func onClickPlayTrailer(_ sender : UIButton) {
         let item = movieTrailers.first
         let youtubeId = item?.key
@@ -234,6 +250,8 @@ class MovieDetailViewController: UIViewController {
         viewRatingCount.rating = Int((data.voteAverage ?? 0.0) * 0.5)
         labelVoteCount.text = "\(data.voteCount ?? 0) votes"
         labelAboutMovieTitle.text = data.originalTitle ?? data.name
+        
+//        isWatchList = data.isWatchList ?? false
     }
     
     private func bindDataAppendixInfo(_ data: MovieDetailResponse) {

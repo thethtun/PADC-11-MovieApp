@@ -81,7 +81,10 @@ public struct MovieResult: Codable, Hashable {
     }
     
     @discardableResult
-    func toMovieEntity(context : NSManagedObjectContext, groupType : BelongsToTypeEntity) -> MovieEntity {
+    func toMovieEntity(
+        context : NSManagedObjectContext,
+        groupType : BelongsToTypeEntity) -> MovieEntity {
+        
         let entity = MovieEntity(context: context)
         entity.id = Int32(id!)
         entity.adult = adult ?? false
@@ -99,6 +102,7 @@ public struct MovieResult: Codable, Hashable {
         entity.voteAverage = voteAverage ?? 0
         entity.voteCount = Int64(voteCount ?? 0)
         entity.addToBelongsToType(groupType)
+        
         return entity
     }
 }

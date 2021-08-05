@@ -47,7 +47,6 @@ class MovieDetailModelImpl: BaseModel, MovieDetailModel {
             switch result {
             case .success(let data):
                 self.movieRepository.saveCasts(id: id, data: data.cast ?? [MovieCast]())
-                print(data)
             case .failure(let error):
                 print("\(#function) \(error)")
             }

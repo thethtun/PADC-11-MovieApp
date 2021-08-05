@@ -10,19 +10,22 @@ import CoreData
 
 protocol MovieRepository {
     func getDetail(id : Int, completion: @escaping (MovieDetailResponse?) -> Void)
+    func getMovieResult(id : Int, completion: @escaping (MovieResult?) -> Void)
     func saveDetail(data: MovieDetailResponse)
     func saveList(type: MovieSerieGroupType, data : MovieListResponse)
     func saveSimilarContent(id: Int, data: [MovieResult])
     func getSimilarContent(id: Int, completion: @escaping ([MovieResult]) -> Void)
     func saveCasts(id : Int, data: [MovieCast])
     func getCasts(id: Int, completion: @escaping ([MovieCast]) -> Void)
+    func getMovieFetchRequestById(_ id : Int) -> NSFetchRequest<MovieEntity>
 }
 
 class MovieRepositoryImpl: BaseRepository, MovieRepository {
     
     static let shared : MovieRepository = MovieRepositoryImpl()
     
-    private override init() { }
+    private override init() {
+    }
     
     private var contentTypeMap = [String: BelongsToTypeEntity]()
     let contentTypeRepo : ContentTypeRepository = ContentTypeRepositoryImpl.shared
@@ -46,7 +49,7 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
         let fetchRequest : NSFetchRequest<MovieEntity> = getMovieFetchRequestById(id)
         if let items = try? coreData.context.fetch(fetchRequest),
            let firstItem = items.first,
-            let actorEntites = (firstItem.casts as? Set<ActorEntity>) {
+           let actorEntites = (firstItem.casts as? Set<ActorEntity>) {
             completion(
                 actorEntites.map {
                     ActorEntity.toMovieCast(entity: $0)
@@ -87,6 +90,7 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
     
     func saveDetail(data: MovieDetailResponse) {
         let _ = data.toMovieEntity(context: coreData.context)
+              
         coreData.saveContext()
     }
     
@@ -96,6 +100,17 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
         if let items = try? coreData.context.fetch(fetchRequest),
            let firstItem = items.first {
             completion(MovieEntity.toMovieDetailResponse(entity: firstItem))
+        } else {
+            completion(nil)
+        }
+    }
+    
+    func getMovieResult(id : Int, completion: @escaping (MovieResult?) -> Void) {
+        let fetchRequest : NSFetchRequest<MovieEntity> = getMovieFetchRequestById(id)
+        
+        if let items = try? coreData.context.fetch(fetchRequest),
+           let firstItem = items.first {
+            completion(MovieEntity.toMovieResult(entity: firstItem))
         } else {
             completion(nil)
         }
@@ -111,13 +126,62 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
         self.coreData.saveContext()
     }
     
-    private func getMovieFetchRequestById(_ id : Int) -> NSFetchRequest<MovieEntity> {
+    func getMovieFetchRequestById(_ id : Int) -> NSFetchRequest<MovieEntity> {
         let fetchRequest : NSFetchRequest<MovieEntity> = MovieEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "%K = %@", "id", "\(id)")
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "popularity", ascending: false)
         ]
         return fetchRequest
+    }
+    
+    
+    func testDummy() {
+        /// This code shouldn't block the UI.
+//        DispatchQueue.global(qos: .utility).async {
+//            self.coreData.persistentContainer.performBackgroundTask { (context) in
+//                context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+//
+//                var dummyLanguages = [SpokenLanguage]()
+//                for i in 1...5000 {
+//                    dummyLanguages.append(SpokenLanguage(englishName: nil, iso639_1: nil, name: "test_\(i)"))
+//                }
+//
+//                // insert a bunch of objects - backgroundContext
+//                dummyLanguages.forEach {
+//                    let entity = SpokenLanguageEntity(context: context)
+//                    entity.englishName = $0.englishName
+//                    entity.iso639_1 = $0.iso639_1
+//                    entity.name = $0.name
+//                }
+//
+//
+//                context.perform {
+//                    try! context.save()
+//                }
+//            }
+//        }
+        
+//        let context = self.coreData.context
+//
+//        var dummyLanguages = [SpokenLanguage]()
+//        for i in 1...5000 {
+//            dummyLanguages.append(SpokenLanguage(englishName: nil, iso639_1: nil, name: "test_\(i)"))
+//        }
+//
+//        // insert a bunch of objects - backgroundContext
+//        dummyLanguages.forEach {
+//            let entity = SpokenLanguageEntity(context: context)
+//            entity.englishName = $0.englishName
+//            entity.iso639_1 = $0.iso639_1
+//            entity.name = $0.name
+//        }
+//
+//
+//        context.perform {
+//            try! context.save()
+//        }
+        
     }
     
 }
@@ -129,52 +193,3 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
 
 
 
-
-
-//func testDummy() {
-//    let viewContext = coreData.persistentContainer.viewContext
-//
-//    let backgroundContext = self.coreData.persistentContainer.newBackgroundContext()
-//
-//    var dummyLanguages = [SpokenLanguage]()
-//    for i in 1..<5 {
-//        dummyLanguages.append(SpokenLanguage(englishName: nil, iso639_1: nil, name: "mm_\(i)"))
-//    }
-//
-//    // insert a bunch of objects - backgroundContext
-//    dummyLanguages.forEach {
-//        let entity = SpokenLanguageEntity(context: viewContext)
-//        entity.englishName = $0.englishName
-//        entity.iso639_1 = $0.iso639_1
-//        entity.name = $0.name
-//    }
-//
-//    viewContext.perform {
-//        try! viewContext.save()
-//    }
-//
-//    DispatchQueue.global(qos: .userInitiated).async {
-//
-//
-////
-//
-//
-////            let fetchRequest : NSFetchRequest<SpokenLanguageEntity> = SpokenLanguageEntity.fetchRequest()
-//
-//
-//        // fetch objects using bg context - viewContext
-////            let results = try? viewContext.fetch(fetchRequest)
-////            print("lang items count => \(results?.count ?? 0)")
-//
-//
-//        // delete inserted objects - backgroundContext
-////            let items = try? backgroundContext.fetch(fetchRequest)
-////            items?.forEach {
-////                backgroundContext.delete($0)
-////            }
-////
-////            backgroundContext.perform {
-////                try! backgroundContext.save()
-////            }
-//    }
-//

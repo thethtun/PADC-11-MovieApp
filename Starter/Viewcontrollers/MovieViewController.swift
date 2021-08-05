@@ -83,13 +83,14 @@ class MovieViewController: UIViewController {
     
     //MARK: - API Methods
     func fetchData() {
+       
         fetchUpcomingMovieList()
         fetchPopularMovieList()
         fetchPopularTVSerieList()
         fetchMovieGenreList()
         fetchTopRatedMovieList()
         fetchPopularPeople()
-        
+
         listenDispatchGroupEvents()
     }
     

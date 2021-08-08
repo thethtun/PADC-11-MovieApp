@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import RealmSwift
 
 protocol MovieRepository {
     func getDetail(id : Int, completion: @escaping (MovieDetailResponse?) -> Void)
@@ -18,6 +19,8 @@ protocol MovieRepository {
     func saveCasts(id : Int, data: [MovieCast])
     func getCasts(id: Int, completion: @escaping ([MovieCast]) -> Void)
     func getMovieFetchRequestById(_ id : Int) -> NSFetchRequest<MovieEntity>
+    
+    func testDummy()
 }
 
 class MovieRepositoryImpl: BaseRepository, MovieRepository {
@@ -27,103 +30,103 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
     private override init() {
     }
     
-    private var contentTypeMap = [String: BelongsToTypeEntity]()
     let contentTypeRepo : ContentTypeRepository = ContentTypeRepositoryImpl.shared
     
     func saveCasts(id : Int, data: [MovieCast]) {
-        let fetchRequest : NSFetchRequest<MovieEntity> = getMovieFetchRequestById(id)
-        if let items = try? coreData.context.fetch(fetchRequest),
-           let firstItem = items.first {
-            data.map {
-                $0.convertToActorInfoResponse()
-            }.map {
-                $0.toActorEntity(context: coreData.context, contentTypeRepo: contentTypeRepo)
-            }.forEach {
-                firstItem.addToCasts($0)
+        if let movieObject = realmInstance.db.object(ofType: MovieObject.self, forPrimaryKey: id) {
+           
+            try! realmInstance.db.write {
+                let newMovieObject = realmInstance.db.create(MovieObject.self, value: movieObject, update: .modified)
+                
+                data.map {
+                    $0.convertToActorInfoResponse()
+                }.map { (source) -> ActorObject in 
+                    let actorObject = source.toActorObject(contentTypeRepo: contentTypeRepo)
+                    let newActorObject = realmInstance.db.create(ActorObject.self, value: actorObject, update: .modified)
+                    return newActorObject
+                }.appendItems(to: newMovieObject.actors)
+                
+                realmInstance.db.add(newMovieObject)
             }
-            coreData.saveContext()
+            
         }
     }
     
     func getCasts(id: Int, completion: @escaping ([MovieCast]) -> Void) {
-        let fetchRequest : NSFetchRequest<MovieEntity> = getMovieFetchRequestById(id)
-        if let items = try? coreData.context.fetch(fetchRequest),
-           let firstItem = items.first,
-           let actorEntites = (firstItem.casts as? Set<ActorEntity>) {
-            completion(
-                actorEntites.map {
-                    ActorEntity.toMovieCast(entity: $0)
-                }
-            )
+        if let movieObject = realmInstance.db.object(ofType: MovieObject.self, forPrimaryKey: id) {
+            completion(movieObject.actors.map { $0.toMovieCast() })
+        } else {
+            completion([MovieCast]())
         }
     }
     
     
     func saveSimilarContent(id: Int, data: [MovieResult]) {
-        let fetchRequest : NSFetchRequest<MovieEntity> = getMovieFetchRequestById(id)
-        if let items = try? coreData.context.fetch(fetchRequest),
-           let firstItem = items.first {
-            data.map {
-                $0.toMovieEntity(
-                    context: coreData.context,
-                    groupType: contentTypeRepo.getBelongsToTypeEntity(type: .actorCredits)
-                )
-            }.forEach {
-                firstItem.addToSimilarMovies($0)
+        if let movieObject = realmInstance.db.object(ofType: MovieObject.self, forPrimaryKey: id) {
+            
+            try! realmInstance.db.write {
+                let newMovieObject = realmInstance.db.create(MovieObject.self, value: movieObject, update: .modified)
+                data.map {
+                    
+                    realmInstance.db.create(
+                        MovieObject.self,
+                        value: $0.toMovieObject(groupType: contentTypeRepo.getBelongsToTypeObject(type: .actorCredits)),
+                        update: .modified)
+                    
+                }.appendItems(to: newMovieObject.similarMovies)
+                
+                realmInstance.db.add(newMovieObject, update: .modified)
             }
-            coreData.saveContext()
+            
         }
     }
     
     func getSimilarContent(id: Int, completion: @escaping ([MovieResult]) -> Void) {
-        let fetchRequest : NSFetchRequest<MovieEntity> = getMovieFetchRequestById(id)
-        if let items = try? coreData.context.fetch(fetchRequest),
-           let firstItem = items.first {
-            completion(
-                (firstItem.similarMovies as? Set<MovieEntity>)?.map {
-                    MovieEntity.toMovieResult(entity: $0)
-                } ?? [MovieResult]()
-            )
+        if let movieObject = realmInstance.db.object(ofType: MovieObject.self, forPrimaryKey: id) {
+            completion(movieObject.similarMovies.map { $0.toMovieResult() })
+        } else {
+            completion([MovieResult]())
         }
     }
     
     
     func saveDetail(data: MovieDetailResponse) {
-        let _ = data.toMovieEntity(context: coreData.context)
-              
-        coreData.saveContext()
+        let object = data.toMovieObject()
+   
+        try! realmInstance.db.write {
+            realmInstance.db.add(object, update: .modified)
+        }
     }
     
     func getDetail(id : Int, completion: @escaping (MovieDetailResponse?) -> Void) {
-        let fetchRequest : NSFetchRequest<MovieEntity> = getMovieFetchRequestById(id)
-        
-        if let items = try? coreData.context.fetch(fetchRequest),
-           let firstItem = items.first {
-            completion(MovieEntity.toMovieDetailResponse(entity: firstItem))
-        } else {
+        guard let movieObject = realmInstance.db.object(ofType: MovieObject.self, forPrimaryKey: id) else {
             completion(nil)
+            return
         }
+        completion(movieObject.toMovieDetailResponse())
     }
     
     func getMovieResult(id : Int, completion: @escaping (MovieResult?) -> Void) {
-        let fetchRequest : NSFetchRequest<MovieEntity> = getMovieFetchRequestById(id)
-        
-        if let items = try? coreData.context.fetch(fetchRequest),
-           let firstItem = items.first {
-            completion(MovieEntity.toMovieResult(entity: firstItem))
-        } else {
+        guard let movieObject = realmInstance.db.object(ofType: MovieObject.self, forPrimaryKey: id) else {
             completion(nil)
+            return
         }
+        completion(movieObject.toMovieResult())
     }
     
     func saveList(type: MovieSerieGroupType, data : MovieListResponse) {
-        data.results?.forEach {
-            $0.toMovieEntity(
-                context: self.coreData.context,
-                groupType: contentTypeRepo.getBelongsToTypeEntity(type: type)
-            )
+        let objects = List<MovieObject>()
+        data.results?.map {
+            $0.toMovieObject(groupType: contentTypeRepo.getBelongsToTypeObject(type: type))
+        }.forEach {
+            objects.append($0)
         }
-        self.coreData.saveContext()
+        
+        
+        try! realmInstance.db.write {
+            realmInstance.db.add(objects, update: .modified)
+        }
+        
     }
     
     func getMovieFetchRequestById(_ id : Int) -> NSFetchRequest<MovieEntity> {
@@ -137,53 +140,58 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
     
     
     func testDummy() {
+//        testBackgroundProcess()
+//        testViewContext()
+    }
+    
+    
+    func testBackgroundProcess() {
         /// This code shouldn't block the UI.
-//        DispatchQueue.global(qos: .utility).async {
-//            self.coreData.persistentContainer.performBackgroundTask { (context) in
-//                context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-//
-//                var dummyLanguages = [SpokenLanguage]()
-//                for i in 1...5000 {
-//                    dummyLanguages.append(SpokenLanguage(englishName: nil, iso639_1: nil, name: "test_\(i)"))
-//                }
-//
-//                // insert a bunch of objects - backgroundContext
-//                dummyLanguages.forEach {
-//                    let entity = SpokenLanguageEntity(context: context)
-//                    entity.englishName = $0.englishName
-//                    entity.iso639_1 = $0.iso639_1
-//                    entity.name = $0.name
-//                }
-//
-//
-//                context.perform {
-//                    try! context.save()
-//                }
-//            }
-//        }
-        
-//        let context = self.coreData.context
-//
-//        var dummyLanguages = [SpokenLanguage]()
-//        for i in 1...5000 {
-//            dummyLanguages.append(SpokenLanguage(englishName: nil, iso639_1: nil, name: "test_\(i)"))
-//        }
-//
-//        // insert a bunch of objects - backgroundContext
-//        dummyLanguages.forEach {
-//            let entity = SpokenLanguageEntity(context: context)
-//            entity.englishName = $0.englishName
-//            entity.iso639_1 = $0.iso639_1
-//            entity.name = $0.name
-//        }
-//
-//
-//        context.perform {
-//            try! context.save()
-//        }
+        self.coreData.persistentContainer.performBackgroundTask { (context) in
+            context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+            
+            var dummyLanguages = [SpokenLanguage]()
+            for i in 1...5000 {
+                dummyLanguages.append(SpokenLanguage(englishName: nil, iso639_1: nil, name: "test_\(i)"))
+            }
+            
+            // insert a bunch of objects - backgroundContext
+            dummyLanguages.forEach {
+                let entity = SpokenLanguageEntity(context: context)
+                entity.englishName = $0.englishName
+                entity.iso639_1 = $0.iso639_1
+                entity.name = $0.name
+            }
+            
+            context.perform {
+                try! context.save()
+            }
+        }
         
     }
     
+    
+    func testViewContext() {
+        let context = self.coreData.context
+
+        var dummyLanguages = [SpokenLanguage]()
+        for i in 1...5000 {
+            dummyLanguages.append(SpokenLanguage(englishName: nil, iso639_1: nil, name: "test_\(i)"))
+        }
+
+        // insert a bunch of objects - backgroundContext
+        dummyLanguages.forEach {
+            let entity = SpokenLanguageEntity(context: context)
+            entity.englishName = $0.englishName
+            entity.iso639_1 = $0.iso639_1
+            entity.name = $0.name
+        }
+
+
+        context.perform {
+            try! context.save()
+        }
+    }
 }
 
 

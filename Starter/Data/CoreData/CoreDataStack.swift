@@ -16,6 +16,7 @@ class CoreDataStack {
     
     var context : NSManagedObjectContext {
         get {
+//            try! persistentContainer.viewContext.setQueryGenerationFrom(.current)
             persistentContainer.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
             return persistentContainer.viewContext
         }

@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import RealmSwift
 
 protocol ActorRepository {
     func getList(page: Int, type: ActorGroupType, completion: @escaping ([ActorInfoResponse]) -> Void)
@@ -27,58 +28,53 @@ class ActorRepositoryImpl: BaseRepository, ActorRepository {
     private let pageSize : Int = 20
     
     func getDetails(id: Int, completion: @escaping (ActorDetailInfo?) -> Void) {
-        let fetchRequest : NSFetchRequest<ActorEntity> = ActorEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "%K = %@", "id", "\(id)")
-        
-        let results = try? coreData.context.fetch(fetchRequest)
-        if let detailEntity = results?.first {
-            completion(ActorEntity.toActorInfoDetail(entity: detailEntity))
-        } else {
-            completion(nil)
-        }
-
+        completion(
+            realmInstance.db.object(ofType: ActorObject.self, forPrimaryKey: id)?.toActorInfoDetail()
+        )
     }
     
     func saveDetails(data : ActorDetailInfo) {
-        let _ = data.toActorEntity(context: coreData.context)
-        coreData.saveContext()
+        let object = data.toActorObject()
+        
+        try! realmInstance.db.write {
+            realmInstance.db.add(object, update: .modified)
+        }
     }
     
     func getList(page: Int, type: ActorGroupType, completion: @escaping ([ActorInfoResponse]) -> Void) {
+        let items : [ActorInfoResponse] = realmInstance.db.objects(ActorObject.self)
+            .sorted(byKeyPath: "insertedAt", 
+                    ascending: false)
+            .sorted(byKeyPath: "popularity", ascending: false)
+            .sorted(byKeyPath: "name", ascending: true)
+            .map { $0.toActorInfoResponse() }
         
-        let fetchRequest : NSFetchRequest<ActorEntity> = ActorEntity.fetchRequest()
-        fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "insertedAt", ascending: false),
-            NSSortDescriptor(key: "popularity", ascending: false),
-            NSSortDescriptor(key: "name", ascending: true),
-        ]
-        fetchRequest.fetchLimit = pageSize
-        fetchRequest.fetchOffset = (pageSize * page) - pageSize
+        completion(items)
         
-        do {
-            let items = try coreData.context.fetch(fetchRequest)
-            completion(items.map { ActorEntity.toActorInfoResponse(entity: $0) })
-        } catch {
-            print("\(#function) \(error.localizedDescription)")
-            completion([ActorInfoResponse]())
-        }
         
     }
     
     func save(list : [ActorInfoResponse]) {
-        list.forEach {
-            let _ = $0.toActorEntity(context: coreData.context, contentTypeRepo: contentTypeRepository)
-        }
         
-        coreData.saveContext()
+        let objects = List<ActorObject>()
+        list.map { $0.toActorObject(contentTypeRepo: contentTypeRepository) }
+            .forEach {
+                objects.append($0)
+            }
+    
+        try! realmInstance.db.write {
+            realmInstance.db.add(objects, update: .modified)
+        }
     }
     
     func getTotalPageActorList(completion: @escaping (Int) -> Void) {
-        let fetchRequest : NSFetchRequest<ActorEntity> = ActorEntity.fetchRequest()
-        let totalItems = (try? coreData.context.count(for: fetchRequest)) ?? 1
-        var totalPages = totalItems/pageSize
-        if totalItems % pageSize > 0 { totalPages += 1 }
-        completion(totalPages)
+//        let fetchRequest : NSFetchRequest<ActorEntity> = ActorEntity.fetchRequest()
+//        let totalItems = (try? coreData.context.count(for: fetchRequest)) ?? 1
+//        var totalPages = totalItems/pageSize
+//        if totalItems % pageSize > 0 { totalPages += 1 }
+//        completion(totalPages)
+        
+        completion(1) // Fetching all data for now.
     }
     
 }

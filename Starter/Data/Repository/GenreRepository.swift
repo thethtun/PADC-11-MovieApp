@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import RealmSwift
 
 protocol GenreRepository {
     func get(completion: @escaping ([MovieGenre]) -> Void)
@@ -20,32 +21,28 @@ class GenreRepositoryImpl: BaseRepository, GenreRepository {
     private override init() { }
     
     func get(completion: @escaping ([MovieGenre]) -> Void) {
-        let fetchRequest : NSFetchRequest<GenreEntity> = GenreEntity.fetchRequest()
-        fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "name", ascending: true)
-        ]
         
-        do {
-            let results : [GenreEntity] = try coreData.context.fetch(fetchRequest)
-            let items = results.map {
-                GenreEntity.toMovieGenre(entity: $0)
-            }
-            completion(items)
-        } catch {
-            completion([MovieGenre]())
-            print("\(#function) \(error.localizedDescription)")
-        }
+        let items : [MovieGenre] = realmInstance.db.objects(GenreObject.self)
+            .sorted(byKeyPath: "name", ascending: true)
+            .map { $0.toMovieGenre() }
+        
+        completion(items)
+        
     }
     
     func save(data : MovieGenreList) {
-        let _ = data.genres.map {
-            let entity = GenreEntity(context: coreData.context)
-            entity.id = String($0.id)
-            entity.name = $0.name
-            return
+    
+        let objects = List<GenreObject>()
+        data.genres.map {
+            $0.toGenreObject()
+        }.forEach {
+            objects.append($0)
         }
         
-        coreData.saveContext()
+        try! realmInstance.db.write {
+            realmInstance.db.add(objects, update: .modified)
+        }
+        
     }
     
     

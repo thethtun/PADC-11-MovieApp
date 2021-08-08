@@ -32,6 +32,23 @@ public struct ActorDetailInfo: Codable {
         case profilePath = "profile_path"
     }
     
+    func toActorObject() -> ActorObject {
+        let object = ActorObject()
+        object.adult = self.adult ?? false
+        object.alsoKnownAs = self.alsoKnownAs?.map { String($0) }.joined(separator: ",") ?? ""
+        object.biography = self.biography
+        object.birthday = self.birthday
+        object.deathday = self.deathday
+        object.gender = self.gender ?? 0
+        object.id = self.id!
+        object.imdbID = self.imdbID
+        object.name = self.name
+        object.placeOfBirth = self.placeOfBirth
+        object.popularity = self.popularity ?? 0
+        object.profilePath = self.profilePath
+        return object
+    }
+    
     func toActorEntity(context: NSManagedObjectContext) -> ActorEntity {
         let entity = ActorEntity(context: context)
         entity.adult = self.adult ?? false

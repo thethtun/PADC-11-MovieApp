@@ -160,9 +160,12 @@ extension WatchListRepositoryImpl: NSFetchedResultsControllerDelegate {
         for type: NSFetchedResultsChangeType,
         newIndexPath: IndexPath?) {
         
-        notifyChangesToSubscriber()
+//        notifyChangesToSubscriber()
         
     }
     
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        notifyChangesToSubscriber()
+    }
     
 }

@@ -80,6 +80,29 @@ public struct MovieResult: Codable, Hashable {
         return self.originalName != nil ? .serie : .movie
     }
     
+    func toMovieObject(groupType : BelongsToTypeObject) -> MovieObject {
+        
+        let object = MovieObject()
+        object.id = id!
+        object.adult = adult ?? false
+        object.backdropPath = backdropPath
+        object.genreIDS = genreIDS?.map { String($0) }.joined(separator: ",") ?? ""
+        object.originalLanguage = originalLanguage
+        object.originalName = originalName
+        object.originalTitle = originalTitle
+        object.overview = overview
+        object.popularity = popularity ?? 0
+        object.posterPath = posterPath
+        object.releaseDate = releaseDate ?? firstAirDate ?? ""
+        object.title = title
+        object.video = video ?? false
+        object.voteAverage = voteAverage ?? 0
+        object.voteCount = voteCount
+        object.belongsToType.append(groupType)
+        return object
+        
+    }
+    
     @discardableResult
     func toMovieEntity(
         context : NSManagedObjectContext,

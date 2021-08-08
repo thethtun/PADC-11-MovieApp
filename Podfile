@@ -8,7 +8,7 @@ target 'Starter' do
   pod 'SDWebImage', '~> 5.0'
   pod 'Wormholy', :configurations => ['Debug']
   pod 'YouTubePlayer'
-
+  pod 'RealmSwift', '~>10'
   # Pods for Starter
 
 end

@@ -74,6 +74,13 @@ public struct MovieGenre : Codable {
         return vo
     }
     
+    func toGenreObject() -> GenreObject {
+        let object = GenreObject()
+        object.id = self.id
+        object.name = self.name
+        return object
+    }
+    
     func toGenreEntity(context: NSManagedObjectContext) -> GenreEntity {
         let entity = GenreEntity(context: context)
         entity.id = String(self.id)

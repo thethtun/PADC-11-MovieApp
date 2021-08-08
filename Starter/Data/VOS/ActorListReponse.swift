@@ -43,6 +43,22 @@ public struct ActorInfoResponse : Codable {
         case profilePath = "profile_path"
     }
     
+    func toActorObject(contentTypeRepo : ContentTypeRepository) -> ActorObject {
+        let object = ActorObject()
+        object.adult = self.adult ?? false
+        object.gender = self.gender ?? 0
+        object.id = self.id!
+        
+        knownFor?.map {
+            $0.toMovieObject(groupType: contentTypeRepo.getBelongsToTypeObject(type: .actorCredits))
+        }.appendItems(to: object.knownFor)
+        
+        object.name = self.name
+        object.popularity = self.popularity ?? 0
+        object.profilePath = self.profilePath
+        return object
+    }
+    
     func toActorEntity(context : NSManagedObjectContext, contentTypeRepo : ContentTypeRepository) -> ActorEntity {
         let entity = ActorEntity(context: context)
         entity.adult = self.adult ?? false

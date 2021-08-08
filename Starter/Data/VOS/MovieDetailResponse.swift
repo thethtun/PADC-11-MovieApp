@@ -6,6 +6,7 @@
 
 import Foundation
 import CoreData
+import RealmSwift
 
 // MARK: - MovieDetailResponse
 public struct MovieDetailResponse: Codable {
@@ -53,6 +54,32 @@ public struct MovieDetailResponse: Codable {
         case name
         case lastAirDate = "last_air_date"
         case firstAirDate = "first_air_date"
+    }
+    
+    func toMovieObject() -> MovieObject {
+        let object = MovieObject()
+        object.id = self.id!
+        object.adult = self.adult
+        object.backdropPath = self.backdropPath
+        object.genreIDS = self.genres?.map { $0.name }.joined(separator: ",")
+        object.originalLanguage = self.originalLanguage
+        object.originalTitle = self.originalTitle
+        object.originalName  = self.originalTitle
+        object.overview = self.overview
+        object.popularity = self.popularity
+        object.posterPath = self.posterPath
+        object.releaseDate = self.releaseDate
+        object.firstAirDate = self.firstAirDate
+        object.title = self.title
+        object.video = self.video
+        object.voteAverage = self.voteAverage
+        object.voteCount = self.voteCount
+        self.genres?.map { $0.toGenreObject() }.appendItems(to: object.genres)
+        object.belongsToCollection = self.belongsToCollection?.toBelongsToCollectionObject()
+        self.spokenLanguages?.map { $0.toSpokenLanguageObject() }.appendItems(to: object.spokenLanguages)
+        self.productionCompanies?.map { $0.toProductionCompanyObject() }.appendItems(to: object.productionCompanies)
+        self.productionCountries?.map { $0.toProductionCountryObject() }.appendItems(to: object.productionCountries)
+        return object
     }
 
     func toMovieEntity(context: NSManagedObjectContext) -> MovieEntity {
@@ -105,113 +132,4 @@ public struct MovieDetailResponse: Codable {
     }
 }
 
-// MARK: - Belongs To Collection
-public struct BelongsToCollection : Codable {
-    public let backdropPath : String?
-    public let id : Int?
-    public let name : String?
-    public let posterPath : String?
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case posterPath = "poster_path"
-        case backdropPath = "backdrop_path"
-    }
-    
-    func toBelongsToCollectionEntity(context: NSManagedObjectContext) -> BelongsToCollectionEntity {
-        let entity = BelongsToCollectionEntity(context: context)
-        entity.backdropPath = self.backdropPath
-        entity.id = Int32(self.id!)
-        entity.name = self.name
-        entity.posterPath = self.posterPath
-        return entity
-    }
-}
 
-// MARK: - ProductionCompany
-public struct ProductionCompany: Codable {
-    public let id: Int?
-    public let logoPath: String?
-    public let name, originCountry: String?
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case logoPath = "logo_path"
-        case name
-        case originCountry = "origin_country"
-    }
-
-    func toProductionCompanyEntity(context: NSManagedObjectContext) -> ProductionCompanyEntity {
-        let entity = ProductionCompanyEntity(context: context)
-        entity.id = Int32(self.id!)
-        entity.logoPath = self.logoPath
-        entity.name = self.name
-        entity.originCountry = self.originCountry
-        return entity
-    }
-}
-
-// MARK: - ProductionCountry
-public struct ProductionCountry: Codable {
-    public let iso3166_1, name: String?
-
-    enum CodingKeys: String, CodingKey {
-        case iso3166_1 = "iso_3166_1"
-        case name
-    }
-    
-    func toProductionCountryEntity(context: NSManagedObjectContext) -> ProductionCountryEntity {
-        let entity = ProductionCountryEntity(context: context)
-        entity.iso3166_1 = self.iso3166_1
-        entity.name = self.name
-        return entity
-    }
-    
-}
-
-// MARK: - SpokenLanguage
-public struct SpokenLanguage: Codable {
-    public let englishName, iso639_1, name: String?
-
-    enum CodingKeys: String, CodingKey {
-        case englishName = "english_name"
-        case iso639_1 = "iso_639_1"
-        case name
-    }
-
-    func toSpokenLanguageEntity(context: NSManagedObjectContext) -> SpokenLanguageEntity {
-        let entity = SpokenLanguageEntity(context: context)
-        entity.englishName = self.englishName
-        entity.iso639_1 = self.iso639_1
-        entity.name = self.name
-        return entity
-    }
-}
-
-// MARK: - Encode/decode helpers
-
-public class JSONNull: Codable, Hashable {
-
-    public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
-        return true
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        
-    }
-    
-    public init() {}
-
-    public required init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if !container.decodeNil() {
-            throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
-        }
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encodeNil()
-    }
-}

@@ -92,7 +92,7 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
     
     func saveDetail(data: MovieDetailResponse) {
         let object = data.toMovieObject()
-   
+        testObjects()
         try! realmInstance.db.write {
             realmInstance.db.add(object, update: .modified)
         }
@@ -140,8 +140,7 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
     
     
     func testDummy() {
-//        testBackgroundProcess()
-//        testViewContext()
+        
     }
     
     
@@ -198,6 +197,69 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
 
 
 
+class Department : Object {
+    @Persisted(primaryKey: true)
+    var name : String
+    
+    @Persisted
+    var employees: List<Employee>
 
+    convenience init(name : String, employees: List<Employee>) {
+        self.init()
+        self.name = name
+        self.employees = employees
+    }
+}
 
+class Employee : Object {
+    @Persisted(primaryKey: true)
+    var name : String
+    
+    @Persisted
+    var workHours : Int
+    
+    convenience init(name : String, workHours: Int) {
+        self.init()
+        self.name = name
+        self.workHours = workHours
+    }
+}
 
+func testObjects() {
+    
+    let data : List<Department> = [
+        Department(name: "HR Department", employees: [
+                    Employee(name: "A", workHours: 30),
+                    Employee(name: "B", workHours: 28),
+                   ].toRealmList()),
+        Department(name: "Business Department", employees: [
+                    Employee(name: "C", workHours: 12),
+                    Employee(name: "D", workHours: 10),
+                    Employee(name: "E", workHours: 8),
+                    Employee(name: "F", workHours: 12),
+                    Employee(name: "G", workHours: 9),
+                   ].toRealmList()),
+        Department(name: "Tech Department", employees: [
+                    Employee(name: "H", workHours: 83),
+                    Employee(name: "I", workHours: 85),
+                   ].toRealmList()),
+        Department(name: "Customer Service Department",employees: [
+                    Employee(name: "J", workHours: 31),
+                    Employee(name: "K", workHours: 45),
+                    Employee(name: "L", workHours: 34),
+                   ].toRealmList()),
+        Department(name: "Marketing Department", employees: [
+                    Employee(name: "M", workHours: 23),
+                    Employee(name: "N", workHours: 20),
+                   ].toRealmList()),
+    ].toRealmList()
+    
+    let realm = try! Realm()
+    try! realm.write {
+        realm.add(data, update: .modified)
+    }
+    
+    
+    realm.objects(Department.self).filter("employees.@sum.workHours > 100").forEach{ print($0.name) }
+    
+}

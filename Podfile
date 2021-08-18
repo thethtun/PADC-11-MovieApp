@@ -10,5 +10,7 @@ target 'Starter' do
   pod 'YouTubePlayer'
   pod 'RealmSwift', '~>10'
   # Pods for Starter
+  pod 'RxSwift', '6.2.0'
+  pod 'RxCocoa', '6.2.0'
 
 end

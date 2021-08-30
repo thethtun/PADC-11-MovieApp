@@ -26,6 +26,10 @@ public struct MovieListResponse: Codable {
         self.totalPages = totalPages
         self.totalResults = totalResults
     }
+    
+    static func empty() -> MovieListResponse {
+        MovieListResponse(dates: nil, page: nil, results: nil, totalPages: nil, totalResults: nil)
+    }
 }
 
 // MARK: - Dates

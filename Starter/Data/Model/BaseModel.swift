@@ -9,6 +9,5 @@ import Foundation
 
 open class BaseModel: NSObject {
     
-    var networkAgent : MovieDBNetworkAgentProtocol = MovieDBNetworkAgent.shared
-    
+    let networkAgent : MovieDBNetworkAgentProtocol = MovieDBNetworkAgent.shared
 }

@@ -7,6 +7,9 @@
 
 import Foundation
 import CoreData
+import RxSwift
+import RealmSwift
+import RxRealm
 
 protocol ContentTypeRepository {
     func save(name : String) -> BelongsToTypeEntity
@@ -18,7 +21,7 @@ protocol ContentTypeRepository {
 
 class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
     
-    static let shared : ContentTypeRepository = ContentTypeRepositoryImpl()
+    static let shared : ContentTypeRepositoryImpl = ContentTypeRepositoryImpl()
     
     private var contentTypeMap = [String: BelongsToTypeObject]()
     
@@ -43,6 +46,8 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
             dataSource.forEach {
                 contentTypeMap[$0.name] = $0
             }
+            
+            
         }
     }
     
@@ -64,15 +69,79 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
         }
     }
     
+    
+//    func getMoviesOrSeries(type : MovieSerieGroupType) -> Observable<[MovieResult]> {
+//        return Observable.create { (observer) -> Disposable in
+//            var notificationToken : NotificationToken?
+//
+//            if let object : BelongsToTypeObject = self.contentTypeMap[type.rawValue] {
+//
+//                var movieObjects : [MovieObject] = [MovieObject]()
+//
+//                notificationToken = object.movies.observe( { (change) in
+//                    switch change  {
+//                    case .initial(let objects):
+//                        movieObjects = objects.toArray()
+//                    case .update(let objects, _, _, _):
+//                        movieObjects = objects.toArray()
+//                    case .error(let error):
+//                        observer.onError(error)
+//                    }
+//
+//                    let resultItems = movieObjects
+//                        .sorted(by: self.sortMoviesByDate)
+//                        .map {
+//                            $0.toMovieResult()
+//                        }
+//                    observer.onNext(resultItems)
+//                })
+//
+//            } else {
+//                observer.onError(MDBError.withMessage("Failed to get \(type.rawValue) from database"))
+//            }
+//
+//            return Disposables.create {
+//                notificationToken?.invalidate()
+//            }
+//        }
+//
+//    }
+    
+    
+        func getMoviesOrSeries(type : MovieSerieGroupType) -> Observable<[MovieResult]> {
+            if let object : BelongsToTypeObject = self.contentTypeMap[type.rawValue] {
+                return Observable.collection(from: object.movies)
+                    .flatMap { movies -> Observable<[MovieResult]> in
+                        return Observable.create { (observer) -> Disposable in
+                            let items : [MovieResult] = movies.sorted(by: self.sortMoviesByDate)
+                                .map { $0.toMovieResult() }
+                            observer.onNext(items)
+                            return Disposables.create()
+                        }
+                    }
+            }
+
+            return Observable.empty()
+        }
+//
+    private func sortMoviesByDate(first: MovieObject, second: MovieObject) -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let firstDate = dateFormatter.date(from: first.releaseDate ?? "") ?? Date()
+        let secondDate = dateFormatter.date(from: second.releaseDate ?? "") ?? Date()
+        
+        return firstDate.compare(secondDate) == .orderedDescending
+    }
+    
     @discardableResult
     func save(name : String) -> BelongsToTypeEntity {
         let entity = BelongsToTypeEntity(context: coreData.context)
-//        entity.name = name
-//
-//        contentTypeMap[name] = entity
-//
-//        coreData.saveContext()
-//
+        //        entity.name = name
+        //
+        //        contentTypeMap[name] = entity
+        //
+        //        coreData.saveContext()
+        //
         return entity
     }
     
@@ -90,10 +159,10 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
     }
     
     func getBelongsToTypeEntity(type : MovieSerieGroupType) -> BelongsToTypeEntity {
-//        if let entity = contentTypeMap[type.rawValue] {
-//            return entity
-//        }
-//
+        //        if let entity = contentTypeMap[type.rawValue] {
+        //            return entity
+        //        }
+        //
         return save(name: type.rawValue)
     }
     

@@ -1,15 +1,17 @@
 //
-//  SearchContentViewController.swift
+//  SearchContentViewController2.swift
 //  Starter
 //
 //  Created by Thet Htun on 6/28/21.
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
-class SearchContentViewController: UIViewController, UITextFieldDelegate {
+class SearchContentViewController2: UIViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var collectionViewResult : UICollectionView!
+    weak var collectionViewResult : UICollectionView!
 //    @IBOutlet weak var textFieldSearch : UITextField!
     private let searchBar = UISearchBar()
     
@@ -23,8 +25,6 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
     
     private let networkAgent = MovieDBNetworkAgent.shared
     
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,28 +33,14 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func initView() {
-//        textFieldSearch.backgroundColor = UIColor(named: "color_primary")
-//        textFieldSearch.attributedPlaceholder = NSAttributedString.init(
-//            string: "Search...",
-//            attributes: [
-//                NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16)
-//            ])
-//
-//        textFieldSearch.font = UIFont.systemFont(ofSize: 16)
-//
-//        textFieldSearch.delegate = self
-    
         searchBar.placeholder = "Search..."
         searchBar.delegate = self
         searchBar.searchTextField.textColor = .white
         
         navigationItem.titleView = searchBar
         
-        navigationItem.titleView = searchBar
-        
         setupCollectionView()
     }
-    
     
     func setupCollectionView() {
         collectionViewResult.dataSource = self
@@ -69,6 +55,7 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
         collectionViewResult.register(UINib(nibName: String(describing: PopularFilmCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: PopularFilmCollectionViewCell.self))
     }
     
+    // MARK: TODO - 1 - Reactive UITextField
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         
@@ -85,6 +72,7 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    //MARK: - TODO - 2 - Observable Network Response
     func searchContent(keyword : String, page : Int) {
         networkAgent.searchMovieByKeyword(query: keyword, page: "\(page)") { (result) in
             switch result {
@@ -98,34 +86,30 @@ class SearchContentViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
-    
 }
 
 
 
-//MARK: - UICollectionViewDelegate,UICollectionViewDataSource
-extension SearchContentViewController:UICollectionViewDelegate,UICollectionViewDataSource {
-    
+//MARK: - UICollectionViewDataSource
+extension SearchContentViewController2: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return searchedResult.count
     }
-    
+
+    //MARK: - TODO - 3 - Refactor Data Binding
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PopularFilmCollectionViewCell.self), for: indexPath) as? PopularFilmCollectionViewCell else { return UICollectionViewCell() }
         cell.data = searchedResult[indexPath.row]
+        //MARK: - TODO - 5 - Item selection
         cell.onTapItem = { id, _ in
             self.navigateToMovieDetailViewController(movieId: id)
         }
         return cell
-        
     }
-    
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
-extension SearchContentViewController:UICollectionViewDelegateFlowLayout {
+extension SearchContentViewController2:UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return itemSpacing
@@ -142,6 +126,7 @@ extension SearchContentViewController:UICollectionViewDelegateFlowLayout {
         return itemSpacing
     }
     
+    //MARK: - TODO - 4 - Refactor Pagination using RxCocoa
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let isAtLastRow = indexPath.row == self.searchedResult.count - 1
         let hasMorePages = self.currentPage < self.totalPage
@@ -153,7 +138,7 @@ extension SearchContentViewController:UICollectionViewDelegateFlowLayout {
     
 }
 
-extension SearchContentViewController: UISearchBarDelegate {
+extension SearchContentViewController2: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
         if let data = searchBar.text {

@@ -38,9 +38,9 @@ class PopularFilmCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        let tapGestureForContainer = UITapGestureRecognizer(target: self, action: #selector(didTapItem))
-        containerView.isUserInteractionEnabled = true
-        containerView.addGestureRecognizer(tapGestureForContainer)
+//        let tapGestureForContainer = UITapGestureRecognizer(target: self, action: #selector(didTapItem))
+//        containerView.isUserInteractionEnabled = true
+//        containerView.addGestureRecognizer(tapGestureForContainer)
     }
 
     @objc func didTapItem(){

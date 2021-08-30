@@ -9,9 +9,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchContentViewController" customModule="Starter" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RxSearchContentVC" customModule="Starter" customModuleProvider="target">
             <connections>
-                <outlet property="collectionViewResult" destination="KSu-7F-dfy" id="c3L-eA-aOs"/>
+                <outlet property="collectionViewResult" destination="KSu-7F-dfy" id="o3M-Ze-gMK"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -56,7 +56,7 @@
     </objects>
     <resources>
         <namedColor name="color_primary">
-            <color red="0.086000002920627594" green="0.10999999940395355" blue="0.14100000262260437" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.082352941176470587" green="0.10980392156862745" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

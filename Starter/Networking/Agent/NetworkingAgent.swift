@@ -7,6 +7,9 @@
 
 import Foundation
 import Alamofire
+import RxSwift
+
+
 
 protocol MovieDBNetworkAgentProtocol {
     func getMovieTrailers(id : Int, completion: @escaping (MDBResult<MovieTrailerResponse>) -> Void)
@@ -30,11 +33,11 @@ protocol MovieDBNetworkAgentProtocol {
     func getTVCredits(id : Int, completion: @escaping (MDBResult<ActorTVCredits>) -> Void)
 }
 
-struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
+class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     
     static let shared = MovieDBNetworkAgent()
     
-    private init() { }
+    private override init() { }
     
     func searchMovieByKeyword(query: String, page: String, completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
         AF.request(MDBEndpoint.searchMovie(page, query))
@@ -43,7 +46,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
                 case .success(let data):
                     completion(.success(data))
                 case .failure(let error):
-                    completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                    completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
                 }
             }
     }
@@ -56,7 +59,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -68,7 +71,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -80,7 +83,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -92,7 +95,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -104,7 +107,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -116,7 +119,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -129,7 +132,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
                 completion(.success(data))
             case .failure(let error):
                
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -141,7 +144,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -153,7 +156,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -165,7 +168,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -181,7 +184,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -193,7 +196,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
             case .success(let data):
                 completion(.success(data))
             case .failure(let error):
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -205,7 +208,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
                 case .success(let upcomingMovieList):
                     completion(.success(upcomingMovieList))
                 case .failure(let error):
-                    completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                    completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
                 }
             }
     }
@@ -221,7 +224,7 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
                 completion(.success(data))
             case .failure(let error):
                 //Handle Error
-                completion(.failure(handleError(response, error, MDBCommonResponseError.self)))
+                completion(.failure(self.handleError(response, error, MDBCommonResponseError.self)))
             }
         }
     }
@@ -241,80 +244,8 @@ struct MovieDBNetworkAgent : MovieDBNetworkAgentProtocol {
      */
     
     /// 3 - Customized Error Body
-    fileprivate func handleError<T, E: MDBErrorModel>(
-        _ response: DataResponse<T, AFError>,
-        _ error: (AFError),
-        _ errorBodyType : E.Type) -> String {
-        
-        
-        var respBody : String = ""
-        
-        var serverErrorMessage : String?
-        
-        var errorBody : E?
-        if let respData = response.data {
-            respBody = String(data: respData, encoding: .utf8) ?? "empty response body"
-            
-            errorBody = try? JSONDecoder().decode(errorBodyType, from: respData)
-            serverErrorMessage = errorBody?.message
-        }
-        
-        /// 2 - Extract debug info
-        let respCode : Int = response.response?.statusCode ?? 0
-        
-        let sourcePath = response.request?.url?.absoluteString ?? "no url"
-        
-        
-        /// 1 - Essential debug info
-        print(
-            """
-             ======================
-             URL
-             -> \(sourcePath)
-             
-             Status
-             -> \(respCode)
-             
-             Body
-             -> \(respBody)
-
-             Underlying Error
-             -> \(error.underlyingError!)
-             
-             Error Description
-             -> \(error.errorDescription!)
-             ======================
-            """
-        )
-        
-        /// 4 - Client display
-        return serverErrorMessage ?? error.errorDescription ?? "undefined"
-        
-    }
     
-}
-
-protocol MDBErrorModel : Decodable {
-    var message : String { get }
-}
-
-class MDBCommonResponseError : MDBErrorModel {
-    var message: String {
-        return statusMessage
-    }
     
-    let statusMessage : String
-    let statusCode : Int
-    
-    enum CodingKeys: String, CodingKey {
-        case statusMessage = "status_message"
-        case statusCode = "status_code"
-    }
-}
-
-enum MDBResult<T> {
-    case success(T)
-    case failure(String)
 }
 
 

@@ -86,8 +86,6 @@ class MovieDetailModelImpl: BaseModel, MovieDetailModel {
                 print("\(#function) \(error)")
             }
 
-            MovieRepositoryImpl.shared.testDummy()
-            
             self.movieRepository.getDetail(id: id) { (item) in
                 if let item = item {
                     completion(.success(item))

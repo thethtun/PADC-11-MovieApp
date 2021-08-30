@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 protocol MovieModel {
     func getTopRatedMovieList(page : Int, completion: @escaping (MDBResult<[MovieResult]>) -> Void)
@@ -42,6 +44,7 @@ class MovieModelImpl: BaseModel, MovieModel {
             }
         }
     }
+  
     
     func getPopularMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {
         networkAgent.getPopularMovieList { (result) in
@@ -51,11 +54,55 @@ class MovieModelImpl: BaseModel, MovieModel {
             case .failure(let error):
                 print(error)
             }
-              
-            self.contentTypeRepository.getMoviesOrSeries(type: .popularMovies) {
-                completion(.success($0))
-            }
         }
+    }
+    
+    func fetchPopularMovieList() {
+        let observableRemoteMovieList = RxNetworkAgent.shared.getPopularMovieList()
+        observableRemoteMovieList
+            .subscribe(onNext: { data in
+                self.movieRepository.saveList(type: .popularMovies, data: data)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    let disposeBag = DisposeBag()
+    func getPopularMovieList() -> Observable<[MovieResult]> {
+        
+        /**
+         Show from database first
+         
+         Make network request
+         - Success - Update Database -> Notify/Push -> Update UI
+         - Fail - xxx
+         */
+        let observableRemoteMovieList = RxNetworkAgent.shared.getPopularMovieList()
+        observableRemoteMovieList
+            .subscribe(onNext: { data in
+                self.movieRepository.saveList(type: .popularMovies, data: data)
+            })
+            .disposed(by: disposeBag)
+        
+        
+        let observableLocalMovieList = ContentTypeRepositoryImpl.shared.getMoviesOrSeries(type: .popularMovies)
+        return observableLocalMovieList
+
+        
+//        return RxNetworkAgent.shared.getPopularMovieList()
+//            .do(onNext: { data in
+//                self.movieRepository.saveList(type: .popularMovies, data: data)
+//            })
+//            .catchAndReturn(MovieListResponse.empty())
+//            .flatMap { _ -> Observable<[MovieResult]> in
+//                return Observable.create { (observer) -> Disposable in
+//                    self.contentTypeRepository.getMoviesOrSeries(type: .popularMovies) {
+//                        observer.onNext($0)
+//                        observer.onCompleted()
+//                    }
+//                    return Disposables.create()
+//                }
+//            }
+        
     }
     
     func getUpcomingMovieList(completion: @escaping (MDBResult<[MovieResult]>) -> Void) {

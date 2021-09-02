@@ -24,9 +24,8 @@ protocol MovieRepository {
 class MovieRepositoryImpl: BaseRepository, MovieRepository {
     
     static let shared : MovieRepository = MovieRepositoryImpl()
-    
-    private override init() {
-    }
+   
+    private override init() {}
     
     let contentTypeRepo : ContentTypeRepository = ContentTypeRepositoryImpl.shared
     
@@ -35,7 +34,7 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
            
             try! realmInstance.db.write {
                 let newMovieObject = realmInstance.db.create(MovieObject.self, value: movieObject, update: .modified)
-                
+
                 data.map {
                     $0.convertToActorInfoResponse()
                 }.map { (source) -> ActorObject in 

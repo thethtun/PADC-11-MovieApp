@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 protocol RxMovieModel {
-    
     func getTopRatedMovieList(page : Int) -> Observable<[MovieResult]>
     func getPopularMovieList() -> Observable<[MovieResult]>
     func getUpcomingMovieList() -> Observable<[MovieResult]>

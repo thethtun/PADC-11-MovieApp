@@ -14,5 +14,6 @@ target 'Starter' do
   pod 'RxCocoa', '6.2.0'
   pod 'RxAlamofire'
   pod "RxRealm"
+  pod 'RxDataSources'
 
 end

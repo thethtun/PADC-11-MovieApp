@@ -8,6 +8,9 @@
 import Foundation
 import CoreData
 import RealmSwift
+import RxRealm
+import RxCocoa
+import RxSwift
 
 protocol ActorRepository {
     func getList(page: Int, type: ActorGroupType, completion: @escaping ([ActorInfoResponse]) -> Void)
@@ -19,7 +22,7 @@ protocol ActorRepository {
 
 class ActorRepositoryImpl: BaseRepository, ActorRepository {
    
-    static let shared : ActorRepository = ActorRepositoryImpl()
+    static let shared : ActorRepositoryImpl = ActorRepositoryImpl()
     
     private override init() { }
     
@@ -50,8 +53,24 @@ class ActorRepositoryImpl: BaseRepository, ActorRepository {
             .map { $0.toActorInfoResponse() }
         
         completion(items)
+    }
+ 
+    
+    func getList() -> Observable<[ActorInfoResponse]> {
+        let realmObjects = realmInstance.db.objects(ActorObject.self)
+            .sorted(byKeyPath: "insertedAt",
+                    ascending: false)
+            .sorted(byKeyPath: "popularity", ascending: false)
+            .sorted(byKeyPath: "name", ascending: true)
         
-        
+         return Observable.collection(from:realmObjects)
+            .flatMap { (results) -> Observable<[ActorObject]> in
+                .just(results.toArray())
+            }
+            .flatMap { (objects) -> Observable<[ActorInfoResponse]> in
+                .just(objects.map { $0.toActorInfoResponse() })
+            }
+
     }
     
     func save(list : [ActorInfoResponse]) {

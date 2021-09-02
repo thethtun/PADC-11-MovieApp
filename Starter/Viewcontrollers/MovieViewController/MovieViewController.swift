@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import RxDataSources
 
 class MovieViewController: UIViewController {
     
@@ -28,8 +29,9 @@ class MovieViewController: UIViewController {
     private var genresMovieList = [MovieGenre]()
     private var popularPeople : [ActorInfoResponse]?
     
-    
+    let observablePopularMovies = RxMovieModelImpl.shared.getPopularMovieList()
     let observableUpcomingMovies = RxMovieModelImpl.shared.getUpcomingMovieList()
+    let observableActorList = ActorRepositoryImpl.shared.getList()
     
     private let apiDispatchGroup = DispatchGroup()
     
@@ -45,11 +47,64 @@ class MovieViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(handlePullToRefresh), for: .valueChanged)
         refreshControl.tintColor = UIColor.yellow
         
+        let dataSource = initDataSource()
+        
+        Observable.combineLatest(
+            observablePopularMovies,
+            observableUpcomingMovies,
+            observableActorList
+        ).flatMap { (popularMovies, upcomingMovies, actorList) -> Observable<[HomeMovieSectionModel]> in
+            .just(
+                [
+                    HomeMovieSectionModel.movieResult(
+                        items: [.upcomingMoviesSection(items: upcomingMovies)]),
+                    
+                    HomeMovieSectionModel.movieResult(
+                        items: [.popularMoviesSection(items: popularMovies)]),
+                    
+                    HomeMovieSectionModel.actorResult(
+                        items: [.bestActorSection(items: actorList)]),
+                ]
+            )
+        }.bind(to: tableViewMovies.rx.items(dataSource: dataSource))
+        .disposed(by: disposeBag)
+        
+    }
+    
+    private func initDataSource() -> RxTableViewSectionedReloadDataSource<HomeMovieSectionModel> {
+        return RxTableViewSectionedReloadDataSource<HomeMovieSectionModel>.init { (dataSource, tableView, indexPath, item) -> UITableViewCell in
+            switch item {
+            case .popularMoviesSection(let items):
+                let cell = tableView.dequeueCell(identifier: PopularFilmTableViewCell.identifier, indexPath: indexPath) as PopularFilmTableViewCell
+                cell.labelTitle.text = "popular movies".uppercased()
+                cell.delegate = self
+                cell.data = items
+                cell.videoType = .movie
+                return cell
+            case .upcomingMoviesSection(let items):
+                let cell = tableView.dequeueCell(identifier: MovieSliderTableViewCell.identifier, indexPath: indexPath) as MovieSliderTableViewCell
+                cell.delegate = self
+                cell.data = items
+                return cell
+            case .bestActorSection(let items):
+                let cell = tableView.dequeueCell(identifier: BestActorTableViewCell.identifier, indexPath: indexPath) as BestActorTableViewCell
+                cell.data = items
+                cell.onClickActorView = { actorId in
+                    self.navigateToActorDetailViewController(id: actorId)
+                }
+                cell.onClickViewMore = {
+                    self.navigateToViewMoreActorsViewController()
+                }
+                return cell
+            default:
+                return UITableViewCell()
+            }
+        }
     }
     
     //MARK: - InitView
     private func registerTableViewCells(){
-        tableViewMovies.dataSource = self
+//        tableViewMovies.dataSource = self
         tableViewMovies.refreshControl = refreshControl
         
         refreshControl.rx.controlEvent(.valueChanged)
@@ -98,12 +153,12 @@ class MovieViewController: UIViewController {
     //MARK: - API Methods
     func fetchData() {
         
-        fetchUpcomingMovieList()
-        fetchPopularMovieList()
-        fetchPopularTVSerieList()
-        fetchMovieGenreList()
-        fetchTopRatedMovieList()
-        fetchPopularPeople()
+//        fetchUpcomingMovieList()
+//        fetchPopularMovieList()
+//        fetchPopularTVSerieList()
+//        fetchMovieGenreList()
+//        fetchTopRatedMovieList()
+//        fetchPopularPeople()
 
 //        listenDispatchGroupEvents()
     }
@@ -154,58 +209,58 @@ class MovieViewController: UIViewController {
     }
     
     func fetchUpcomingMovieList() {
-//        observableUpcomingMovies
-//            .map { [$0] }
-//            .bind(
-//                to: tableViewMovies.rx.items(
-//                    cellIdentifier: MovieSliderTableViewCell.identifier,
-//                    cellType: MovieSliderTableViewCell.self)
-//            ) { row, element, cell in
-//                cell.delegate = self
-//                cell.data = element
-//            }
-//            .disposed(by: disposeBag)
-        
-        apiDispatchGroup.enter()
-        movieModel.getUpcomingMovieList { [weak self](result) in
-            guard let self = self else { return }
-            defer { self.apiDispatchGroup.leave() }
-            switch result {
-            case .success(let data):
-                self.upcomingMovieList = data
-                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue), with: .automatic)
-            case .failure(let message):
-                print(message.debugDescription)
+        observableUpcomingMovies
+            .map { [$0] }
+            .bind(
+                to: tableViewMovies.rx.items(
+                    cellIdentifier: MovieSliderTableViewCell.identifier,
+                    cellType: MovieSliderTableViewCell.self)
+            ) { row, element, cell in
+                cell.delegate = self
+                cell.data = element
             }
-        }
+            .disposed(by: disposeBag)
+        
+//        apiDispatchGroup.enter()
+//        movieModel.getUpcomingMovieList { [weak self](result) in
+//            guard let self = self else { return }
+//            defer { self.apiDispatchGroup.leave() }
+//            switch result {
+//            case .success(let data):
+//                self.upcomingMovieList = data
+//                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_SLIDER.rawValue), with: .automatic)
+//            case .failure(let message):
+//                print(message.debugDescription)
+//            }
+//        }
     }
     
     
     func fetchPopularMovieList() {
-        let observablePopularMovies = MovieModelImpl.shared.getPopularMovieList()
-
-        observablePopularMovies
-            .subscribe (onNext: { (data) in
-                self.popularMovieList = data
-                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue), with: .automatic)
-            }, onError: { (error) in
-                print(error)
-            }).disposed(by: disposeBag)
+//        let observablePopularMovies = MovieModelImpl.shared.getPopularMovieList()
 //
-//        let observablePopularMovies = RxMovieModelImpl.shared.getPopularMovieList()
 //        observablePopularMovies
-//            .map { [$0] }
-//            .bind(
-//                to: tableViewMovies.rx.items(
-//                    cellIdentifier: PopularFilmTableViewCell.identifier,
-//                    cellType: PopularFilmTableViewCell.self)
-//            ) { row, element, cell in
-//                cell.labelTitle.text = "popular movies".uppercased()
-//                cell.delegate = self
-//                cell.data = element
-//                cell.videoType = .movie
-//            }
-//            .disposed(by: disposeBag)
+//            .subscribe (onNext: { (data) in
+//                self.popularMovieList = data
+//                self.tableViewMovies.reloadSections(IndexSet(integer: MovieType.MOVIE_POPULAR.rawValue), with: .automatic)
+//            }, onError: { (error) in
+//                print(error)
+//            }).disposed(by: disposeBag)
+//
+        let observablePopularMovies = RxMovieModelImpl.shared.getPopularMovieList()
+        observablePopularMovies
+            .map { [$0] }
+            .bind(
+                to: tableViewMovies.rx.items(
+                    cellIdentifier: PopularFilmTableViewCell.identifier,
+                    cellType: PopularFilmTableViewCell.self)
+            ) { row, element, cell in
+                cell.labelTitle.text = "popular movies".uppercased()
+                cell.delegate = self
+                cell.data = element
+                cell.videoType = .movie
+            }
+            .disposed(by: disposeBag)
 
         
         

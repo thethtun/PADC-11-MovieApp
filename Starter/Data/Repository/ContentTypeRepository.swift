@@ -108,21 +108,21 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
 //    }
     
     
-        func getMoviesOrSeries(type : MovieSerieGroupType) -> Observable<[MovieResult]> {
-            if let object : BelongsToTypeObject = self.contentTypeMap[type.rawValue] {
-                return Observable.collection(from: object.movies)
-                    .flatMap { movies -> Observable<[MovieResult]> in
-                        return Observable.create { (observer) -> Disposable in
-                            let items : [MovieResult] = movies.sorted(by: self.sortMoviesByDate)
-                                .map { $0.toMovieResult() }
-                            observer.onNext(items)
-                            return Disposables.create()
-                        }
+    func getMoviesOrSeries(type : MovieSerieGroupType) -> Observable<[MovieResult]> {
+        if let object : BelongsToTypeObject = self.contentTypeMap[type.rawValue] {
+            return Observable.collection(from: object.movies)
+                .flatMap { movies -> Observable<[MovieResult]> in
+                    return Observable.create { (observer) -> Disposable in
+                        let items : [MovieResult] = movies.sorted(by: self.sortMoviesByDate)
+                            .map { $0.toMovieResult() }
+                        observer.onNext(items)
+                        return Disposables.create()
                     }
-            }
-
-            return Observable.empty()
+                }
         }
+        
+        return Observable.empty()
+    }
 //
     private func sortMoviesByDate(first: MovieObject, second: MovieObject) -> Bool {
         let dateFormatter = DateFormatter()

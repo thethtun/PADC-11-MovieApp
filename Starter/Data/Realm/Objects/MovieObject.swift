@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class MovieObject : Object {
+class MovieObject : Object, ObjectKeyIdentifiable {
     
     @Persisted(primaryKey: true)
     var id: Int

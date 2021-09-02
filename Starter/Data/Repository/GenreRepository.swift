@@ -8,8 +8,12 @@
 import Foundation
 import CoreData
 import RealmSwift
+import RxRealm
+import RxSwift
+import RxCocoa
 
 protocol GenreRepository {
+    func get() -> Observable<[MovieGenre]>
     func get(completion: @escaping ([MovieGenre]) -> Void)
     func save(data : MovieGenreList)
 }
@@ -19,6 +23,21 @@ class GenreRepositoryImpl: BaseRepository, GenreRepository {
     static let shared : GenreRepository = GenreRepositoryImpl()
     
     private override init() { }
+    
+    func get() -> Observable<[MovieGenre]> {
+        let realmObject = realmInstance.db.objects(GenreObject.self)
+            .sorted(byKeyPath: "name", ascending: true)
+        
+        let observable = Observable.collection(from: realmObject)
+            .flatMap { (results) -> Observable<[GenreObject]> in
+                .just(results.toArray())
+            }
+            .flatMap { (objects) -> Observable<[MovieGenre]> in
+                .just(objects.map { $0.toMovieGenre() })
+            }
+        
+        return observable
+    }
     
     func get(completion: @escaping ([MovieGenre]) -> Void) {
         

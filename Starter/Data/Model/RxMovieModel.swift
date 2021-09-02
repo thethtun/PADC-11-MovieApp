@@ -66,7 +66,7 @@ class RxMovieModelImpl: BaseModel, RxMovieModel {
             })
             .disposed(by: disposeBag)
             
-        return .empty()
+        return GenreRepositoryImpl.shared.get()
     }
     
     func getPopularSeriesList() -> Observable<[MovieResult]>  {
@@ -76,7 +76,7 @@ class RxMovieModelImpl: BaseModel, RxMovieModel {
             })
             .disposed(by: disposeBag)
             
-        return .empty()
+        return ContentTypeRepositoryImpl.shared.getMoviesOrSeries(type: .upcomingSeries)
     }
     
 }

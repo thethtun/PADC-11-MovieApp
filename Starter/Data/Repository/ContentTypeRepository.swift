@@ -15,7 +15,7 @@ protocol ContentTypeRepository {
     func save(name : String) -> BelongsToTypeEntity
     func save(name: String) -> BelongsToTypeObject
     func getMoviesOrSeries(type : MovieSerieGroupType, completion: @escaping ([MovieResult]) -> Void)
-    func getBelongsToTypeEntity(type : MovieSerieGroupType) -> BelongsToTypeEntity
+//    func getBelongsToTypeEntity(type : MovieSerieGroupType) -> BelongsToTypeEntity
     func getBelongsToTypeObject(type : MovieSerieGroupType) -> BelongsToTypeObject
 }
 
@@ -69,45 +69,6 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
         }
     }
     
-    
-//    func getMoviesOrSeries(type : MovieSerieGroupType) -> Observable<[MovieResult]> {
-//        return Observable.create { (observer) -> Disposable in
-//            var notificationToken : NotificationToken?
-//
-//            if let object : BelongsToTypeObject = self.contentTypeMap[type.rawValue] {
-//
-//                var movieObjects : [MovieObject] = [MovieObject]()
-//
-//                notificationToken = object.movies.observe( { (change) in
-//                    switch change  {
-//                    case .initial(let objects):
-//                        movieObjects = objects.toArray()
-//                    case .update(let objects, _, _, _):
-//                        movieObjects = objects.toArray()
-//                    case .error(let error):
-//                        observer.onError(error)
-//                    }
-//
-//                    let resultItems = movieObjects
-//                        .sorted(by: self.sortMoviesByDate)
-//                        .map {
-//                            $0.toMovieResult()
-//                        }
-//                    observer.onNext(resultItems)
-//                })
-//
-//            } else {
-//                observer.onError(MDBError.withMessage("Failed to get \(type.rawValue) from database"))
-//            }
-//
-//            return Disposables.create {
-//                notificationToken?.invalidate()
-//            }
-//        }
-//
-//    }
-    
-    
     func getMoviesOrSeries(type : MovieSerieGroupType) -> Observable<[MovieResult]> {
         if let object : BelongsToTypeObject = self.contentTypeMap[type.rawValue] {
             return Observable.collection(from: object.movies)
@@ -158,13 +119,13 @@ class ContentTypeRepositoryImpl: BaseRepository, ContentTypeRepository {
         return object
     }
     
-    func getBelongsToTypeEntity(type : MovieSerieGroupType) -> BelongsToTypeEntity {
-        //        if let entity = contentTypeMap[type.rawValue] {
-        //            return entity
-        //        }
-        //
-        return save(name: type.rawValue)
-    }
+//    func getBelongsToTypeEntity(type : MovieSerieGroupType) -> BelongsToTypeEntity {
+//        //        if let entity = contentTypeMap[type.rawValue] {
+//        //            return entity
+//        //        }
+//        //
+//        return save(name: type.rawValue)
+//    }
     
     func getBelongsToTypeObject(type : MovieSerieGroupType) -> BelongsToTypeObject {
         if let object = contentTypeMap[type.rawValue] {

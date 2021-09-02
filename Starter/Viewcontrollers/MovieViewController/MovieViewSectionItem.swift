@@ -13,8 +13,8 @@ enum SectionItem {
     case popularMoviesSection(items: [MovieResult])
     case popularSeriesSection(items: [MovieResult])
     case movieShowTimeSection
-    case movieGenreSection(items: [MovieGenre])
-    case showcaseMoviesSection(items: [MovieGenre])
+    case movieGenreSection(genres: [MovieGenre], movies: [MovieResult])
+    case showcaseMoviesSection(items: [MovieResult])
     case bestActorSection(items: [ActorInfoResponse])
 }
 
@@ -28,6 +28,8 @@ enum HomeMovieSectionModel : SectionModelType {
             self = .actorResult(items: results)
         case .genreResult(let results):
             self = .genreResult(items: results)
+        case .others(let results):
+            self = .others(items: results)
         }
     }
     
@@ -41,10 +43,13 @@ enum HomeMovieSectionModel : SectionModelType {
             return items
         case .genreResult(let items):
             return items
+        case .others(let items):
+            return items
         }
     }
 
     case movieResult(items: [SectionItem])
     case actorResult(items: [SectionItem])
     case genreResult(items: [SectionItem])
+    case others(items: [SectionItem])
 }

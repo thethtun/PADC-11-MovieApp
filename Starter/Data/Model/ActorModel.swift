@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol ActorModel {
     var totalPageActorList : Int { get set }
     
     func getPopularPeople(page : Int, completion: @escaping (MDBResult<[ActorInfoResponse]>) -> Void)
+    func getPopularPeople(page: Int) -> Observable<[ActorInfoResponse]>
     func getActorGallery(id : Int, completion: @escaping (MDBResult<ActorProfileInfo>) -> Void)
     func getActorDetails(id : Int, completion: @escaping (MDBResult<ActorDetailInfo>) -> Void)
     func getTVCredits(id : Int, completion: @escaping (MDBResult<ActorTVCredits>) -> Void)
@@ -52,6 +54,27 @@ class ActorModelImpl: BaseModel, ActorModel {
     
     func getTVCredits(id : Int, completion: @escaping (MDBResult<ActorTVCredits>) -> Void) {
         networkAgent.getTVCredits(id: id, completion: completion)
+    }
+    
+    func getPopularPeople(page: Int) -> Observable<[ActorInfoResponse]> {
+        var networkResult = [ActorInfoResponse]()
+        networkAgent.getPopularPeople(page: page) { (result) in
+            switch result {
+            case .success(let data):
+                networkResult = data.results ?? [ActorInfoResponse]()
+                self.actorRepository.save(list: data.results ?? [ActorInfoResponse]())
+                self.totalPageActorList = data.totalPages ?? 1
+            case .failure(let error):
+                print("\(#function) \(error)")
+            }
+            
+            if networkResult.isEmpty {
+                /// Update Total Pages available to fetch
+                self.actorRepository.getTotalPageActorList { self.totalPageActorList = $0 }
+            }
+        }
+        
+        return self.actorRepository.getList(page: page)
     }
     
     func getPopularPeople(page : Int, completion: @escaping (MDBResult<[ActorInfoResponse]>) -> Void) {

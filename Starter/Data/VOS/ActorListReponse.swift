@@ -65,13 +65,13 @@ public struct ActorInfoResponse : Codable {
         entity.gender = Int32(self.gender ?? 0)
         entity.id = Int32(self.id!)
         
-        knownFor?.forEach {
-            let movie = $0.toMovieEntity(
-                context: context,
-                groupType: contentTypeRepo.getBelongsToTypeEntity(type: .actorCredits)
-            )
-            entity.addToCredits(movie)
-        }
+//        knownFor?.forEach {
+//            let movie = $0.toMovieEntity(
+//                context: context,
+//                groupType: contentTypeRepo.getBelongsToTypeEntity(type: .actorCredits)
+//            )
+//            entity.addToCredits(movie)
+//        }
         
         entity.name = self.name
         entity.popularity = self.popularity ?? 0

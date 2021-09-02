@@ -13,6 +13,7 @@ import RxCocoa
 import RxSwift
 
 protocol ActorRepository {
+    func getList(page: Int) -> Observable<[ActorInfoResponse]>
     func getList(page: Int, type: ActorGroupType, completion: @escaping ([ActorInfoResponse]) -> Void)
     func save(list : [ActorInfoResponse])
     func saveDetails(data : ActorDetailInfo)
@@ -56,7 +57,7 @@ class ActorRepositoryImpl: BaseRepository, ActorRepository {
     }
  
     
-    func getList() -> Observable<[ActorInfoResponse]> {
+    func getList(page: Int) -> Observable<[ActorInfoResponse]> {
         let realmObjects = realmInstance.db.objects(ActorObject.self)
             .sorted(byKeyPath: "insertedAt",
                     ascending: false)

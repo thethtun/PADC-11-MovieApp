@@ -55,7 +55,6 @@ class SearchContentViewController2: UIViewController, UITextFieldDelegate {
         collectionViewResult.register(UINib(nibName: String(describing: PopularFilmCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: PopularFilmCollectionViewCell.self))
     }
     
-    // MARK: TODO - 1 - Reactive UITextField
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         

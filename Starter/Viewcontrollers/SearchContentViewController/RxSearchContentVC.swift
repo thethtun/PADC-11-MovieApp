@@ -14,23 +14,20 @@ class RxSearchContentVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var collectionViewResult : UICollectionView!
     private let searchBar = UISearchBar()
     
-    private let itemSpacing : CGFloat = 10
-    private let numberOfItemsPerRow = 3
-    private var currentPage : Int = 1
-    private var totalPage : Int = 1
-    
-    //MARK: - 3
-    let searchResultItems : BehaviorSubject<[MovieResult]> = BehaviorSubject(value: [])
+    var viewModel: RxSearchContentVCViewModel!
     
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel = RxSearchContentVCViewModel()
         
         // Do any additional setup after loading the view.
         initView()
-        initObservers()
+        
+        bindData()
     }
+    
     // MARK: - Init View
     private func initView() {
         searchBar.placeholder = "Search..."
@@ -44,7 +41,6 @@ class RxSearchContentVC: UIViewController, UITextFieldDelegate {
     }
  
     func setupCollectionView() {
-//        collectionViewResult.dataSource = self
         collectionViewResult.delegate = self
         collectionViewResult.showsHorizontalScrollIndicator = false
         collectionViewResult.showsVerticalScrollIndicator = false
@@ -56,7 +52,7 @@ class RxSearchContentVC: UIViewController, UITextFieldDelegate {
         collectionViewResult.register(UINib(nibName: String(describing: PopularFilmCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: PopularFilmCollectionViewCell.self))
     }
    
-    private func initObservers() {
+    private func bindData() {
         addSearchBarObserver()
         addCollectionViewBindingObserver()
         addItemSelectedObserver()
@@ -67,51 +63,22 @@ class RxSearchContentVC: UIViewController, UITextFieldDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
-    //MARK: - API
-    private func rxMovieSearch(keyword : String, page : Int) {
-        //MARK: - 2
-        RxNetworkAgent.shared.searchMovies(query: keyword, page: "\(page)")
-            .do(onNext: { item in
-                self.totalPage = item.totalPages ?? 1
-            })
-            .compactMap { $0.results }
-            .subscribe(onNext: { item in
-                if self.currentPage == 1 {
-                    self.searchResultItems.onNext(item)
-                } else {
-                    self.searchResultItems.onNext(try! self.searchResultItems.value() + item)
-                }
-            })
-            .disposed(by: disposeBag)
-    }
-    
 }
 
-//MARK: - Observers
 extension RxSearchContentVC {
-    //MARK: - 1
     private func addSearchBarObserver() {
-        // Search Text Field event listener
         searchBar.rx.text.orEmpty
 //            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
             .do(onNext: { print($0)})
             .subscribe(onNext: { value in
-                if value.isEmpty {
-                    self.currentPage = 1
-                    self.totalPage = 1
-                    self.searchResultItems.onNext([])
-                } else {
-                    self.rxMovieSearch(keyword: value, page: self.currentPage)
-                }
+                self.viewModel.handleSearchInputText(text: value)
             })
             .disposed(by: disposeBag)
     }
     
-    //MARK: - 4
     private func addCollectionViewBindingObserver() {
-        // Bind Data to collection view cell
-        searchResultItems
+        viewModel.searchResultItems
             .bind(to: collectionViewResult.rx.items(
                     cellIdentifier: String(describing: PopularFilmCollectionViewCell.self),
                     cellType: PopularFilmCollectionViewCell.self))
@@ -122,11 +89,9 @@ extension RxSearchContentVC {
     }
     
     private func addItemSelectedObserver() {
-        // On Item Selected
-        // MARK: - 6
         collectionViewResult.rx.itemSelected
             .subscribe(onNext: { indexPath in
-                let items = try! self.searchResultItems.value()
+                let items = try! self.viewModel.searchResultItems.value()
                 let item = items[indexPath.row]
                 self.navigateToMovieDetailViewController(movieId: item.id!)
             })
@@ -134,20 +99,11 @@ extension RxSearchContentVC {
     }
     
     private func addPaginationObserver() {
-        /// Pagination
-        // MARK: - 5
         Observable.combineLatest(
             collectionViewResult.rx.willDisplayCell,
             searchBar.rx.text.orEmpty)
             .subscribe(onNext : { (cellTuple, searchText) in
-                let (_, indexPath) = cellTuple
-                let totalItems = try! self.searchResultItems.value().count
-                let isAtLastRow = indexPath.row == totalItems - 1
-                let hasMorePages = self.currentPage < self.totalPage
-                if (isAtLastRow && hasMorePages){
-                    self.currentPage += 1
-                    self.rxMovieSearch(keyword: searchText, page: self.currentPage)
-                }
+                self.viewModel.handlePagination(indexPath: cellTuple.1, searchText: searchText)
             })
             .disposed(by: disposeBag)
     }
@@ -160,18 +116,18 @@ extension RxSearchContentVC {
 extension RxSearchContentVC:UICollectionViewDelegateFlowLayout {
    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return itemSpacing
+        return viewModel.itemSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let totalColumnSpacing : CGFloat = (itemSpacing * CGFloat(numberOfItemsPerRow - 1)) + collectionView.contentInset.left + collectionViewResult.contentInset.right
-        let itemWidth : CGFloat = (collectionView.frame.width / CGFloat(numberOfItemsPerRow)) - (totalColumnSpacing / CGFloat(numberOfItemsPerRow))
+        let totalColumnSpacing : CGFloat = (viewModel.itemSpacing * CGFloat(viewModel.numberOfItemsPerRow - 1)) + collectionView.contentInset.left + collectionViewResult.contentInset.right
+        let itemWidth : CGFloat = (collectionView.frame.width / CGFloat(viewModel.numberOfItemsPerRow)) - (totalColumnSpacing / CGFloat(viewModel.numberOfItemsPerRow))
         let itemHeight : CGFloat = (itemWidth * 1.5) + 80 /* For Text & Rating */
         return CGSize(width: itemWidth, height:  itemHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return itemSpacing
+        return viewModel.itemSpacing
     }
 
 }

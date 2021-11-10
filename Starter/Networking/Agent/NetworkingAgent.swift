@@ -37,10 +37,13 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     
     static let shared = MovieDBNetworkAgent()
     
+    var sessionManager: Session = AF
+    
     private override init() { }
     
     func searchMovieByKeyword(query: String, page: String, completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
-        AF.request(MDBEndpoint.searchMovie(page, query))
+        sessionManager.request(MDBEndpoint.searchMovie(page, query))
+            .validate()
             .responseDecodable(of: MovieListResponse.self) { response in
                 switch response.result {
                 case .success(let data):
@@ -53,7 +56,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
 
     
     func getActorGallery(id : Int, completion : @escaping (MDBResult<ActorProfileInfo>) -> Void) {
-        AF.request(MDBEndpoint.actorImages(id))
+        sessionManager.request(MDBEndpoint.actorImages(id))
             .responseDecodable(of: ActorProfileInfo.self) { response in
             switch response.result {
             case .success(let data):
@@ -65,7 +68,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getTVCredits(id : Int, completion : @escaping (MDBResult<ActorTVCredits>) -> Void) {
-        AF.request(MDBEndpoint.actorTVCredits(id))
+        sessionManager.request(MDBEndpoint.actorTVCredits(id))
             .responseDecodable(of: ActorTVCredits.self) { response in
             switch response.result {
             case .success(let data):
@@ -77,7 +80,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getActorDetails(id : Int, completion : @escaping (MDBResult<ActorDetailInfo>) -> Void) {
-        AF.request(MDBEndpoint.actorDetail(id))
+        sessionManager.request(MDBEndpoint.actorDetail(id))
             .responseDecodable(of: ActorDetailInfo.self) { response in
             switch response.result {
             case .success(let data):
@@ -89,7 +92,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getMovieTrailers(id : Int, completion : @escaping (MDBResult<MovieTrailerResponse>) -> Void) {
-        AF.request(MDBEndpoint.trailerVideo(id))
+        sessionManager.request(MDBEndpoint.trailerVideo(id))
             .responseDecodable(of: MovieTrailerResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -101,7 +104,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getSimilarMovies(id : Int, completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
-        AF.request(MDBEndpoint.similarMovie(id))
+        sessionManager.request(MDBEndpoint.similarMovie(id))
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -113,7 +116,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getMovieCreditById(id: Int, completion : @escaping (MDBResult<MovieCreditResponse>) -> Void) {
-        AF.request(MDBEndpoint.movieActors(id))
+        sessionManager.request(MDBEndpoint.movieActors(id))
             .responseDecodable(of: MovieCreditResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -125,7 +128,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getSerieDetailById(id : Int, completion : @escaping (MDBResult<MovieDetailResponse>) -> Void) {
-        AF.request(MDBEndpoint.seriesDetails(id))
+        sessionManager.request(MDBEndpoint.seriesDetails(id))
             .responseDecodable(of: MovieDetailResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -138,7 +141,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getMovieDetailById(id : Int, completion : @escaping (MDBResult<MovieDetailResponse>) -> Void) {
-        AF.request(MDBEndpoint.movieDetails(id))
+        sessionManager.request(MDBEndpoint.movieDetails(id))
             .responseDecodable(of: MovieDetailResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -150,7 +153,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getPopularPeople(page : Int = 1, completion : @escaping (MDBResult<ActorListResponse>) -> Void) {
-        AF.request(MDBEndpoint.popularActors(page))
+        sessionManager.request(MDBEndpoint.popularActors(page))
             .responseDecodable(of: ActorListResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -162,7 +165,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getTopRatedMovieList(page : Int = 1, completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
-        AF.request(MDBEndpoint.topRatedMovies(page))
+        sessionManager.request(MDBEndpoint.topRatedMovies(page))
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -178,7 +181,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     
     func getPopularSeriesList(completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
         
-        AF.request(MDBEndpoint.popularTVSeries)
+        sessionManager.request(MDBEndpoint.popularTVSeries)
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -190,7 +193,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getPopularMovieList(completion : @escaping (MDBResult<MovieListResponse>) -> Void) {
-        AF.request(MDBEndpoint.popularMovie(1))
+        sessionManager.request(MDBEndpoint.popularMovie(1))
             .responseDecodable(of: MovieListResponse.self) { response in
             switch response.result {
             case .success(let data):
@@ -202,7 +205,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     }
     
     func getUpcomingMovieList(completion: @escaping (MDBResult<MovieListResponse>) -> Void) {
-        AF.request(MDBEndpoint.upcomingMovie(1))
+        sessionManager.request(MDBEndpoint.upcomingMovie(1))
             .responseDecodable(of: MovieListResponse.self) { response in
                 switch response.result {
                 case .success(let upcomingMovieList):
@@ -217,7 +220,7 @@ class MovieDBNetworkAgent : BaseNetworkAgent, MovieDBNetworkAgentProtocol {
     
     func getGenreList(completion : @escaping (MDBResult<MovieGenreList>) -> Void) {
 //        let url = "\(AppConstants.BaseURL)/genre/movie/list?api_key=\(AppConstants.apiKey)"
-        AF.request(MDBEndpoint.movieGenres)
+        sessionManager.request(MDBEndpoint.movieGenres)
             .responseDecodable(of: MovieGenreList.self) { response in
             switch response.result {
             case .success(let data):

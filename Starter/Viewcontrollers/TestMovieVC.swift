@@ -303,14 +303,13 @@ extension TestMovieViewController : UITableViewDataSource{
             movieList.append(contentsOf: upcomingMovieList)
             movieList.append(contentsOf: popularSerieList)
             movieList.append(contentsOf: popularMovieList)
-            cell.allMoviesAndSeries = movieList
             
-            let resultData : [GenreVO] = genresMovieList.map { movieGenre -> GenreVO in
+            let genreData : [GenreVO] = genresMovieList.map { movieGenre -> GenreVO in
                 return movieGenre.toGenreVO()
             }
-            resultData.first?.isSelected = true
-            cell.genreList = resultData
+            genreData.first?.isSelected = true
             
+            cell.data = (genreData, movieList)
             
             cell.onTapGenreMovie = { [weak self] movieId, videoType in
                 guard let self = self else { return }

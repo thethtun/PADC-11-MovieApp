@@ -75,7 +75,7 @@ class BaseNetworkAgent: NSObject {
              -> \(respBody)
 
              Underlying Error
-             -> \(error.underlyingError!)
+             -> \(String(describing: error.underlyingError))
              
              Error Description
              -> \(error.errorDescription!)

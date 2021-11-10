@@ -15,6 +15,12 @@ protocol RxMovieModel {
     func getUpcomingMovieList() -> Observable<[MovieResult]>
     func getGenreList() -> Observable<[MovieGenre]>
     func getPopularSeriesList() -> Observable<[MovieResult]>
+    
+    func setUpDependencies(
+        movieRepository : MovieRepository,
+        contentTypeRepository : ContentTypeRepository,
+        genreRepository : GenreRepository,
+        rxNetworkAgent: RxNetworkAgentProtocol)
 }
 
 class RxMovieModelImpl: BaseModel, RxMovieModel {
@@ -23,14 +29,28 @@ class RxMovieModelImpl: BaseModel, RxMovieModel {
     
     private override init() { }
     
-    private let movieRepository : MovieRepository = MovieRepositoryImpl.shared
-    private let contentTypeRepository : ContentTypeRepository = ContentTypeRepositoryImpl.shared
-    private let genreRepository : GenreRepository = GenreRepositoryImpl.shared
+    private var movieRepository : MovieRepository = MovieRepositoryImpl.shared
+    private var contentTypeRepository : ContentTypeRepository = ContentTypeRepositoryImpl.shared
+    private var genreRepository : GenreRepository = GenreRepositoryImpl.shared
+   
+    private var rxNetworkAgent: RxNetworkAgentProtocol = RxNetworkAgent.shared
     
     let disposeBag = DisposeBag()
     
+    func setUpDependencies(
+        movieRepository : MovieRepository,
+        contentTypeRepository : ContentTypeRepository,
+        genreRepository : GenreRepository,
+        rxNetworkAgent: RxNetworkAgentProtocol) {
+        
+        self.movieRepository = movieRepository
+        self.contentTypeRepository = contentTypeRepository
+        self.genreRepository = genreRepository
+        self.rxNetworkAgent = rxNetworkAgent
+    }
+    
     func getTopRatedMovieList(page : Int) -> Observable<[MovieResult]>  {
-        RxNetworkAgent.shared.getTopRatedMovieList(page: page)
+        rxNetworkAgent.getTopRatedMovieList(page: page)
             .subscribe(onNext: { data in
                 self.movieRepository.saveList(type: .topRatedMovies, data: data)
             })
@@ -40,7 +60,7 @@ class RxMovieModelImpl: BaseModel, RxMovieModel {
     }
     
     func getPopularMovieList() -> Observable<[MovieResult]>  {
-        RxNetworkAgent.shared.getPopularMovieList()
+        rxNetworkAgent.getPopularMovieList()
             .subscribe(onNext: { data in
                 self.movieRepository.saveList(type: .popularMovies, data: data)
             })
@@ -50,7 +70,7 @@ class RxMovieModelImpl: BaseModel, RxMovieModel {
     }
     
     func getUpcomingMovieList() -> Observable<[MovieResult]>  {
-        RxNetworkAgent.shared.getUpcomingMovieList()
+        rxNetworkAgent.getUpcomingMovieList()
             .subscribe(onNext: { data in
                 self.movieRepository.saveList(type: .upcomingMovies, data: data)
             })
@@ -60,7 +80,7 @@ class RxMovieModelImpl: BaseModel, RxMovieModel {
     }
     
     func getGenreList() -> Observable<[MovieGenre]>  {
-        RxNetworkAgent.shared.getGenreList()
+        rxNetworkAgent.getGenreList()
             .subscribe(onNext: { data in
                 self.genreRepository.save(data: data)
             })
@@ -70,9 +90,9 @@ class RxMovieModelImpl: BaseModel, RxMovieModel {
     }
     
     func getPopularSeriesList() -> Observable<[MovieResult]>  {
-        RxNetworkAgent.shared.getPopularSeriesList()
+        rxNetworkAgent.getPopularSeriesList()
             .subscribe(onNext: { data in
-                self.movieRepository.saveList(type: .upcomingMovies, data: data)
+                self.movieRepository.saveList(type: .upcomingSeries, data: data)
             })
             .disposed(by: disposeBag)
             

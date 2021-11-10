@@ -21,13 +21,28 @@ class MovieViewModel {
     private var observableGenreList         = BehaviorRelay<[MovieGenre]>(value:[])
     
     //Models
-    private let movieModel          = RxMovieModelImpl.shared
-    private let actorModel          = ActorModelImpl.shared
+    private var movieModel          = RxMovieModelImpl.shared
+    private var actorModel          = ActorModelImpl.shared
     
     private let disposeBag = DisposeBag()
 
-    init() {
+    init(movieModel: RxMovieModel,
+         actorModel: ActorModel) {
+        
+        self.movieModel = movieModel
+        self.actorModel = actorModel
+        
         initObservers()
+        
+        print("View Model initialized")
+        
+        observablePopularMovies
+            .subscribe ( onNext: { results in
+                print("MovieResult Changes: \(results.count)")
+            }, onError: { error in
+                print(error)
+            }).disposed(by: disposeBag)
+
     }
     
     private func initObservers() {
@@ -74,7 +89,7 @@ class MovieViewModel {
             if !actorList.isEmpty {
                 items.append(HomeMovieSectionModel.actorResult(items: [.bestActorSection(items: actorList)]))
             }
-            
+            print("duh:: \(items.count)")
             self.homeItemList.accept(items)
         }.disposed(by: disposeBag)
 
@@ -95,7 +110,9 @@ class MovieViewModel {
     
     func getPopularMovieList() {
         movieModel.getPopularMovieList()
-            .subscribe(onNext: { self.observablePopularMovies.accept($0) })
+            .subscribe(onNext: {
+                self.observablePopularMovies.accept($0)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -109,13 +126,17 @@ class MovieViewModel {
     
     func getTopRatedMovieList(page: Int) {
         movieModel.getTopRatedMovieList(page: 1)
-            .subscribe(onNext: { self.observableTopRatedMovies.accept($0) })
+            .subscribe(onNext: {
+                self.observableTopRatedMovies.accept($0)
+            })
             .disposed(by: disposeBag)
     }
     
     func getUpcomingMovieList() {
         movieModel.getUpcomingMovieList()
-            .subscribe(onNext: { self.observableUpcomingMovies.accept($0) })
+            .subscribe(onNext: {
+                self.observableUpcomingMovies.accept($0)
+            })
             .disposed(by: disposeBag)
     }
     

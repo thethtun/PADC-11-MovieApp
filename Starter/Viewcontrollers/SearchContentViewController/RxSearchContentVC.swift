@@ -12,15 +12,24 @@ import RxSwift
 class RxSearchContentVC: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var collectionViewResult : UICollectionView!
-    private let searchBar = UISearchBar()
+    let searchBar = UISearchBar()
     
-    var viewModel: RxSearchContentVCViewModel!
+    private var viewModel: RxSearchContentVCViewModelProtocol!
     
     let disposeBag = DisposeBag()
     
+    init(viewModel: RxSearchContentVCViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = RxSearchContentVCViewModel()
+//        viewModel = RxSearchContentVCViewModel()
         
         // Do any additional setup after loading the view.
         initView()

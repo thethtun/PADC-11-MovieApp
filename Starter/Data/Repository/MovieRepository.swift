@@ -88,7 +88,12 @@ class MovieRepositoryImpl: BaseRepository, MovieRepository {
     
     
     func saveDetail(data: MovieDetailResponse) {
-        let object = data.toMovieObject()
+        var existingBelongsToType: List<BelongsToTypeObject> = List<BelongsToTypeObject>()
+        
+        if let existingMovieObject = realmInstance.db.object(ofType: MovieObject.self, forPrimaryKey: data.id ?? -1) {
+            existingBelongsToType = existingMovieObject.belongsToType
+        }
+        let object = data.toMovieObject(belongsToType: existingBelongsToType)
         try! realmInstance.db.write {
             realmInstance.db.add(object, update: .modified)
         }

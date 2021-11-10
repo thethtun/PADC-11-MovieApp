@@ -9,21 +9,33 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class RxSearchContentVCViewModel {
-    
+protocol RxSearchContentVCViewModelProtocol {
+    var itemSpacing : CGFloat { get }
+    var numberOfItemsPerRow: CGFloat { get }
+    var currentPage : Int { get set }
+    var totalPage : Int { get set }
+    var searchResultItems: BehaviorSubject<[MovieResult]> { get }
+
+    func handlePagination(indexPath: IndexPath, searchText: String)
+    func handleSearchInputText(text: String)
+    func searchMovies(keyword : String, page : Int)
+}
+
+class RxSearchContentVCViewModel: RxSearchContentVCViewModelProtocol {
     let itemSpacing : CGFloat = 10
-    let numberOfItemsPerRow = 3
+    let numberOfItemsPerRow: CGFloat = 3
     var currentPage : Int = 1
     var totalPage : Int = 1
     
     let searchResultItems = BehaviorSubject<[MovieResult]>(value: [])
     
-    
     let disposeBag = DisposeBag()
     
-    let networkAgent : RxNetworkAgentProtocol = RxNetworkAgent.shared
+    private var networkAgent : RxNetworkAgentProtocol!
     
-    init() { }
+    init(networkAgent: RxNetworkAgentProtocol = RxNetworkAgent.shared) {
+        self.networkAgent = networkAgent
+    }
     
     func handlePagination(indexPath: IndexPath, searchText: String) {
         let totalItems = try! self.searchResultItems.value().count

@@ -69,7 +69,7 @@ class MovieDetailViewController: UIViewController {
         
         fetchContentDetail(id : itemId)
 //        similarMovies.popL
-        similarMovies.elementsEqual(similarMovies)
+//        similarMovies.elementsEqual(similarMovies)
 //        similarMovies.append(contentsOf: [MovieResult]())
     }
     

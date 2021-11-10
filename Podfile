@@ -16,4 +16,14 @@ target 'Starter' do
   pod "RxRealm"
   pod 'RxDataSources'
 
+  target 'MovieAppTests' do
+    inherit! :search_paths
+    pod 'Mocker', '~> 2.5.4'
+    pod 'RxBlocking', '6.2.0'
+    pod 'RxTest', '6.2.0'
+  end
+
 end
+
+
+

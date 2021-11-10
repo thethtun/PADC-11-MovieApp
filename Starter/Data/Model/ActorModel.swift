@@ -20,7 +20,7 @@ protocol ActorModel {
 
 class ActorModelImpl: BaseModel, ActorModel {
     
-    static let shared : ActorModelImpl = ActorModelImpl()
+    static let shared : ActorModel = ActorModelImpl()
     
     private override init() { }
     

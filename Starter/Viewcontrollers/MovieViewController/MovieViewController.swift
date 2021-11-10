@@ -28,10 +28,12 @@ class MovieViewController: UIViewController {
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = MovieViewModel()
+        viewModel = MovieViewModel(movieModel: RxMovieModelImpl.shared, actorModel: ActorModelImpl.shared)
         
         initView()
         bindData()
+        
+        navigationController?.navigationBar.barStyle = .black
         
         viewModel.fetchAllData()
     }

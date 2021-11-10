@@ -53,14 +53,11 @@ extension MovieViewController {
                 return cell
             case .movieGenreSection(let genres, let movies):
                 let cell = tableView.dequeueCell(identifier: GenreTableViewCell.identifier, indexPath: indexPath) as GenreTableViewCell
-                cell.allMoviesAndSeries = movies
                 
-                let resultData : [GenreVO] = genres.map { movieGenre -> GenreVO in
-                    return movieGenre.toGenreVO()
-                }
-                resultData.first?.isSelected = true
-                cell.genreList = resultData
+                let genreList : [GenreVO] = genres.map { $0.toGenreVO() }
+                genreList.first?.isSelected = true
                 
+                cell.data = (genreList, movies)
                 
                 cell.onTapGenreMovie = { [weak self] movieId, videoType in
                     guard let self = self else { return }

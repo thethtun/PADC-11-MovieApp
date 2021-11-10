@@ -132,6 +132,26 @@ public struct MovieResult: Codable, Hashable {
         
         return entity
     }
+    
+    static func dummy() -> MovieResult {
+        MovieResult(
+            adult: true,
+            backdropPath: "",
+            genreIDS: [1,2,3],
+            id: 12349123,
+            originalLanguage: "en",
+            originalTitle: "test title",
+            originalName: "test original name",
+            overview: "test overview",
+            popularity: 4,
+            posterPath: "",
+            releaseDate: nil,
+            firstAirDate: nil,
+            title: "test title",
+            video: true,
+            voteAverage: 4,
+            voteCount: 123949)
+    }
 }
 
 public enum OriginalLanguage: String, Codable {

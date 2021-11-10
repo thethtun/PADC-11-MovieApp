@@ -1,6 +1,7 @@
 PODS:
   - Alamofire (5.4.3)
   - Differentiator (5.0.0)
+  - Mocker (2.5.4)
   - Realm (10.12.0):
     - Realm/Headers (= 10.12.0)
   - Realm/Headers (10.12.0)
@@ -11,6 +12,8 @@ PODS:
   - RxAlamofire/Core (6.1.1):
     - Alamofire (~> 5.4)
     - RxSwift (~> 6.0)
+  - RxBlocking (6.2.0):
+    - RxSwift (= 6.2.0)
   - RxCocoa (6.2.0):
     - RxRelay (= 6.2.0)
     - RxSwift (= 6.2.0)
@@ -26,6 +29,8 @@ PODS:
   - RxRelay (6.2.0):
     - RxSwift (= 6.2.0)
   - RxSwift (6.2.0)
+  - RxTest (6.2.0):
+    - RxSwift (= 6.2.0)
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -34,12 +39,15 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.2)
+  - Mocker (~> 2.5.4)
   - RealmSwift (~> 10)
   - RxAlamofire
+  - RxBlocking (= 6.2.0)
   - RxCocoa (= 6.2.0)
   - RxDataSources
   - RxRealm
   - RxSwift (= 6.2.0)
+  - RxTest (= 6.2.0)
   - SDWebImage (~> 5.0)
   - Wormholy
   - YouTubePlayer
@@ -48,14 +56,17 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - Differentiator
+    - Mocker
     - Realm
     - RealmSwift
     - RxAlamofire
+    - RxBlocking
     - RxCocoa
     - RxDataSources
     - RxRealm
     - RxRelay
     - RxSwift
+    - RxTest
     - SDWebImage
     - Wormholy
     - YouTubePlayer
@@ -63,18 +74,21 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
+  Mocker: a507909031ef5d1014fe18f383c1d0f96c182b99
   Realm: 32488213acb44660539c619d620cec1bac046166
   RealmSwift: 0abdca6231d5ff8a4f84cef9c1121ef95a483faf
   RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
+  RxBlocking: 0b29f7d2079109a8de49c411381bed7c33ef1eeb
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRealm: bd7c601e78cfebe48c24d4550db83c31e1ab2c33
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
+  RxTest: 0c692fa672b694373ba86d2b00033595297a2831
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   Wormholy: 2e70f64227e010d363f8d33268369f77faf12471
   YouTubePlayer: 2b5f2830d8f9b2cde942083211291e382c9e6bd5
 
-PODFILE CHECKSUM: 1cab785da580c950ac2e1348f0e56922e40bfe6b
+PODFILE CHECKSUM: de83ef708bf1b6fd28b548f5a3c288254924608d
 
 COCOAPODS: 1.11.2

@@ -56,7 +56,7 @@ public struct MovieDetailResponse: Codable {
         case firstAirDate = "first_air_date"
     }
     
-    func toMovieObject() -> MovieObject {
+    func toMovieObject(belongsToType: List<BelongsToTypeObject> = List<BelongsToTypeObject>()) -> MovieObject {
         let object = MovieObject()
         object.id = self.id!
         object.adult = self.adult
@@ -76,6 +76,8 @@ public struct MovieDetailResponse: Codable {
         object.voteCount = self.voteCount
         self.genres?.map { $0.toGenreObject() }.appendItems(to: object.genres)
         object.belongsToCollection = self.belongsToCollection?.toBelongsToCollectionObject()
+        
+        object.belongsToType = belongsToType
         self.spokenLanguages?.map { $0.toSpokenLanguageObject() }.appendItems(to: object.spokenLanguages)
         self.productionCompanies?.map { $0.toProductionCompanyObject() }.appendItems(to: object.productionCompanies)
         self.productionCountries?.map { $0.toProductionCountryObject() }.appendItems(to: object.productionCountries)

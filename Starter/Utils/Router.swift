@@ -24,7 +24,7 @@ extension UIStoryboard{
 extension UIViewController {
     
     func navigateToSearchContentViewController() {
-        let vc = RxSearchContentVC()
+        let vc = RxSearchContentVC(viewModel: RxSearchContentVCViewModel(networkAgent: RxNetworkAgent.shared))
         self.navigationController?.pushViewController(vc, animated: true)
 //        present(vc, animated: true, completion: nil)
     }

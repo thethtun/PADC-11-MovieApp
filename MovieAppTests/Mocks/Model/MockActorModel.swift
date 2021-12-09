@@ -13,13 +13,12 @@ class MockActorModel: ActorModel {
     
     var totalPageActorList: Int = 1
     
-    private var popularPeopleList: [ActorInfoResponse] = []
+    var popularPeopleList: [ActorInfoResponse] = []
     
     init() {
         let actorDataJson = try! Data(contentsOf: MovieMockData.ActorList.popularPeopleListJSONUrl)
         let actorResponseData = try! JSONDecoder().decode(ActorListResponse.self, from: actorDataJson)
         popularPeopleList = actorResponseData.results!
-
     }
     
     func getPopularPeople(page: Int, completion: @escaping (MDBResult<[ActorInfoResponse]>) -> Void) {

@@ -35,6 +35,8 @@ class MovieViewController: UIViewController {
         
         navigationController?.navigationBar.barStyle = .black
         
+        self.navigationItem.rightBarButtonItem?.accessibilityIdentifier = "search_button"
+        
         viewModel.fetchAllData()
     }
     

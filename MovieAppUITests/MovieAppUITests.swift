@@ -22,17 +22,33 @@ class MovieAppUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func test_homeView_clickMovieItem_goToMovieDetailView() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        app.tables.children(matching: .any).element(boundBy: 0).tap()
+        
+        let navBarTitle = app.navigationBars.buttons.element(boundBy: 1)
+        XCTAssert(navBarTitle.waitForExistence(timeout: 5))
+        
+        XCTAssertTrue(!navBarTitle.label.isEmpty)
     }
     
-    func test_movieAppHomeScreen_itemClickEvent_shouldNavigateToNewScreen() {
+    func test_search_withValidInput_returnsRelatedSearchResults() {
+        let app = XCUIApplication()
+        app.launch()
         
+        app.buttons["search_button"].tap()
+        
+        let searchField = app.navigationBars.searchFields.element
+        XCTAssert(searchField.waitForExistence(timeout: 5))
+        
+        app.searchFields.element.tap()
+        app.typeText("Movie")
+        
+        let firstCell = app.collectionViews.children(matching: .any).element(boundBy: 0)
+        XCTAssert(firstCell.waitForExistence(timeout: 5))
     }
 
 }

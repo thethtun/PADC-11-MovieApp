@@ -33,16 +33,6 @@ class MovieViewModel {
         self.actorModel = actorModel
         
         initObservers()
-        
-        print("View Model initialized")
-        
-        observablePopularMovies
-            .subscribe ( onNext: { results in
-                print("MovieResult Changes: \(results.count)")
-            }, onError: { error in
-                print(error)
-            }).disposed(by: disposeBag)
-
     }
     
     private func initObservers() {
@@ -89,7 +79,6 @@ class MovieViewModel {
             if !actorList.isEmpty {
                 items.append(HomeMovieSectionModel.actorResult(items: [.bestActorSection(items: actorList)]))
             }
-            print("duh:: \(items.count)")
             self.homeItemList.accept(items)
         }.disposed(by: disposeBag)
 

@@ -33,6 +33,7 @@ class SearchContentViewModelTest: XCTestCase {
     }
 
     func test_viewModelInitState_withInitialization_returnsCorrectState() throws {
+        XCTAssertNotNil(viewModel)
         XCTAssertEqual(viewModel.itemSpacing, 10)
         XCTAssertEqual(viewModel.numberOfItemsPerRow, 3)
         XCTAssertEqual(viewModel.currentPage, 1)
@@ -42,12 +43,15 @@ class SearchContentViewModelTest: XCTestCase {
     func test_handlePagination_withIndexPathAndSearchText_currentPageShouldIncrement() throws {
         let indexPath = IndexPath(row: 0, section: 0)
         
+        //Prepare Data
         viewModel.searchResultItems.onNext([MovieResult.dummy()])
         viewModel.currentPage = 1
         viewModel.totalPage = 2
         
+        //Trigger target method
         viewModel.handlePagination(indexPath: indexPath, searchText: "abc")
         
+        //Assertion
         XCTAssertEqual(viewModel.currentPage, 2)
     }
     
@@ -86,9 +90,4 @@ class SearchContentViewModelTest: XCTestCase {
         wait(for: [waitExpectation], timeout: 5)
     }
     
-    
-    func test_searchMovies_withPagination_shouldCombinedItems() throws {
-        
-    }
-
 }
